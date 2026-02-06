@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="app-container">
       {/* 0. Navbar */}
-      <Navbar name={profile.personal.name} />
+      <Navbar />
 
       {/* Hero Section */}
       <section className="hero" id="home">
@@ -46,7 +46,7 @@ function App() {
             <span className="stat-divider" aria-hidden="true" />
             <div className="stat-block">
               <span className="stat-num">2</span>
-              <span className="stat-txt">Researches</span>
+              <span className="stat-txt">Research Roles</span>
             </div>
           </div>
 
@@ -219,9 +219,10 @@ function App() {
             <span className="social-text">Email</span>
           </a>
         </div>
-        <p className="micro-context">
-          Currently in Madison, WI, USA • Originally from Noida, UP, India
-        </p>
+        <div className="micro-context" aria-label="Location details">
+          <span className="social-link micro-badge">Currently in Madison, WI, USA</span>
+          <span className="social-link micro-badge">Originally from Noida, India</span>
+        </div>
       </footer>
 
       <Chatbot />

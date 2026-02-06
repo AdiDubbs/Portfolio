@@ -166,3 +166,81 @@
     font-size: 0.9rem;
   }
 }
+
+@media (max-width: 768px) {
+  .skills-bento-grid {
+    gap: 10px;
+  }
+
+  .bento-card {
+    padding: 18px;
+    border-radius: 14px;
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(15, 23, 42, 0.26);
+  }
+
+  .bento-header {
+    margin-bottom: 12px;
+  }
+
+  .bento-category {
+    font-size: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .bento-decoration {
+    display: none;
+  }
+
+  .bento-tags {
+    column-gap: 8px;
+    row-gap: 8px;
+  }
+
+  .bento-tag {
+    font-size: 0.8rem;
+    line-height: 1.25;
+    padding: 4px 9px;
+    border-radius: 999px;
+    border: 1px solid rgba(56, 189, 248, 0.26);
+    background: rgba(15, 23, 42, 0.5);
+  }
+
+  .bento-tag:not(:last-child)::after {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .skills-bento-grid {
+    gap: 8px;
+  }
+
+  .bento-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .bento-header {
+    margin-bottom: 10px;
+  }
+
+  .bento-icon-wrap {
+    width: 24px;
+    height: 24px;
+  }
+
+  .bento-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .bento-category {
+    font-size: 0.92rem;
+  }
+
+  .bento-tag {
+    font-size: 0.74rem;
+    padding: 4px 8px;
+  }
+}

@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -13,6 +13,8 @@
   -moz-osx-font-smoothing: grayscale;
 
   --bg-primary: #1e293b;
+  --font-heading: "Manrope", sans-serif;
+  --font-body: "Inter", sans-serif;
 }
 
 body {
@@ -20,6 +22,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--bg-primary);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 #root {

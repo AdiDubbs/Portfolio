@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 
-const Navbar = ({ name }) => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const faviconHref = `${import.meta.env.BASE_URL}favicon.svg`;
 
   const handleToggle = () => setIsOpen((open) => !open);
   const handleLinkClick = () => setIsOpen(false);
@@ -9,8 +10,8 @@ const Navbar = ({ name }) => {
   return (
     <header className="navbar">
       <div className="nav-inner">
-        <a className="nav-logo" href="#home">
-          {name}
+        <a className="nav-logo" href="#home" aria-label="Go to home">
+          <img src={faviconHref} alt="" className="nav-logo-mark" aria-hidden="true" />
         </a>
         <button
           className="nav-toggle"

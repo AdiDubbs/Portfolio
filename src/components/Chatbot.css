@@ -16,6 +16,11 @@
   --chat-surface-sheen: inset 0 1px 0 rgba(255, 255, 255, 0.12);
   --chat-focus-ring: 0 0 0 2px rgba(255, 255, 255, 0.08);
   --chat-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --chat-mobile-radius: 18px;
+  --chat-mobile-blur: 18px;
+  --chat-mobile-border: rgba(255, 255, 255, 0.16);
+  --chat-mobile-label-size: 0.68rem;
+  --chat-mobile-meta-size: 0.84rem;
 }
 
 /* Command Interface - Fixed Position */
@@ -32,10 +37,27 @@
   align-items: stretch;
   transition: transform 0.2s ease, opacity 0.2s ease;
   font-family: var(--chat-font);
+  box-sizing: border-box;
 }
 
 .command-interface.is-collapsed {
   align-items: flex-end;
+}
+
+.sheet-handle {
+  display: none;
+  width: 42px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.45);
+  margin: 2px auto 10px;
+}
+
+.chatbot-scroll-region {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
 }
 
 .chatbot-launcher {
@@ -109,6 +131,11 @@
     var(--chat-surface-shadow) !important;
   max-height: 50vh;
   overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.response-card.has-overflow::after {
+  display: none;
 }
 
 .response-card::before {
@@ -173,8 +200,8 @@
 }
 
 .collapse-button {
-  width: 26px;
-  height: 26px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.08);
@@ -211,6 +238,8 @@
   font-size: 14px;
   line-height: 1.7;
   color: var(--chat-text-soft);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .typewriter-cursor {
@@ -263,6 +292,8 @@
 .response-section-text {
   color: var(--chat-text-soft);
   font-size: 13px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .response-list {
@@ -270,6 +301,7 @@
   padding-left: 18px;
   color: var(--chat-text-soft);
   font-size: 13px;
+  overflow-wrap: anywhere;
 }
 
 .response-list li {
@@ -314,6 +346,12 @@
   margin-bottom: 18px;
 }
 
+.suggestion-more {
+  border-style: dashed;
+  justify-content: center;
+  color: var(--chat-text-soft);
+}
+
 .suggestions-header {
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -344,7 +382,10 @@
     var(--chat-surface-sheen),
     0 8px 18px rgba(2, 6, 23, 0.26);
   position: relative;
-  min-height: 44px;
+  min-height: 48px;
+  white-space: normal;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .suggestion-pill.top-match {
@@ -458,8 +499,8 @@
   display: flex;
   align-items: center;
   background: rgba(24, 34, 52, 0.64);
-  backdrop-filter: blur(42px) saturate(165%);
-  -webkit-backdrop-filter: blur(42px) saturate(165%);
+  backdrop-filter: blur(24px) saturate(165%);
+  -webkit-backdrop-filter: blur(24px) saturate(165%);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: var(--chat-radius-lg);
   padding: 8px 8px 8px 16px;
@@ -488,14 +529,14 @@
     rgba(56, 189, 248, 0.016)
   );
   background-color: rgba(24, 34, 52, 0.7);
-  backdrop-filter: blur(44px) saturate(170%);
-  -webkit-backdrop-filter: blur(44px) saturate(170%);
-  border: 1px solid rgba(56, 189, 248, 0.34);
+  backdrop-filter: blur(26px) saturate(170%);
+  -webkit-backdrop-filter: blur(26px) saturate(170%);
+  border: 1px solid rgba(56, 189, 248, 0.44);
   box-shadow:
-    0 0 10px rgba(56, 189, 248, 0.12),
-    0 0 1px rgba(56, 189, 248, 0.16),
-    inset 0 0 10px rgba(56, 189, 248, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 12px rgba(56, 189, 248, 0.18),
+    0 0 2px rgba(56, 189, 248, 0.24),
+    inset 0 0 10px rgba(56, 189, 248, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
     var(--chat-surface-shadow);
 }
 
@@ -589,14 +630,141 @@
   }
 }
 
+@media (max-width: 768px) {
+  .command-interface {
+    width: min(92vw, 400px);
+    right: 24px;
+    bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .response-card {
+    padding: 14px 16px;
+    border-radius: 22px;
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(21, 31, 49, 0.75);
+    backdrop-filter: blur(32px) saturate(140%);
+    -webkit-backdrop-filter: blur(32px) saturate(140%);
+  }
+
+  .suggestions-container {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .suggestion-pill {
+    padding: 10px 13px;
+    border-radius: 14px;
+    font-size: 0.84rem;
+    min-height: 48px;
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(18, 28, 45, 0.7);
+    backdrop-filter: blur(28px) saturate(145%);
+    -webkit-backdrop-filter: blur(28px) saturate(145%);
+  }
+
+  .chatbot-state-card {
+    border-radius: 14px;
+    border-color: rgba(244, 114, 182, 0.34);
+  }
+
+  .chatbot-state-title {
+    font-size: 0.78rem;
+  }
+
+  .chatbot-state-text {
+    font-size: 0.76rem;
+  }
+
+  .chatbot-state-action {
+    min-height: 38px;
+    font-size: 0.72rem;
+    border-radius: 10px;
+  }
+
+  .command-bar {
+    border-radius: 22px;
+    padding: 7px 7px 7px 12px;
+    border-color: rgba(255, 255, 255, 0.16);
+    background: rgba(24, 34, 52, 0.7);
+    backdrop-filter: blur(34px) saturate(158%);
+    -webkit-backdrop-filter: blur(34px) saturate(158%);
+  }
+
+  .command-input {
+    font-size: 0.92rem;
+    padding: 8px 0;
+  }
+
+  .command-submit {
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
+  }
+}
+
 /* Mobile */
 @media (max-width: 640px) {
+  .command-interface {
+    --chat-mobile-radius: 16px;
+    --chat-mobile-blur: 18px;
+    --chat-mobile-border: rgba(255, 255, 255, 0.15);
+    --chat-mobile-label-size: 0.66rem;
+    --chat-mobile-meta-size: 0.8rem;
+    --chat-mobile-accent: #6af7dc;
+  }
+
   .command-interface {
     right: 16px;
     left: 16px;
     width: auto;
     max-width: none;
-    bottom: calc(20px + env(safe-area-inset-bottom));
+    bottom: calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .command-interface.is-mobile.is-collapsed {
+    left: auto;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    width: auto;
+  }
+
+  .command-interface.is-mobile:not(.is-collapsed) {
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    width: auto;
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sheet-handle {
+    display: none;
+  }
+
+  .chatbot-scroll-region.is-mobile {
+    flex: 0 1 auto;
+    max-height: min(60vh, 500px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 0 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Sticky response card at top when scrolling suggestions */
+  .command-interface.is-mobile:not(.is-collapsed) .response-card {
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
 
   .command-interface.is-collapsed {
@@ -604,11 +772,184 @@
   }
 
   .chatbot-launcher {
+    padding: 10px 14px;
+    border-radius: 999px;
+    border-color: var(--chat-mobile-border);
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(var(--chat-mobile-blur));
+    -webkit-backdrop-filter: blur(var(--chat-mobile-blur));
+    font-size: var(--chat-mobile-label-size);
     width: fit-content;
+  }
+
+  .launcher-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .response-card {
+    margin-bottom: 12px;
+    max-height: none;
+    border-radius: var(--chat-mobile-radius);
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(32px) saturate(140%);
+    -webkit-backdrop-filter: blur(32px) saturate(140%);
+    padding: 12px 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .response-card::before {
+    display: none;
+  }
+
+  .response-header {
+    margin-bottom: 8px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .response-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(241, 245, 249, 0.92);
+  }
+
+  .response-text {
+    font-size: clamp(0.84rem, 3.5vw, 0.94rem);
+    line-height: 1.6;
+  }
+
+  .clear-button {
+    width: 56px;
+    min-height: 28px;
+    padding: 0 10px;
+    border-radius: 999px;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .suggestion-pill {
+    border-radius: 14px;
+    font-size: clamp(0.8rem, 3.5vw, 0.88rem);
+    padding: 12px 14px;
+    min-height: 48px;
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(12, 20, 35, 0.75);
+    backdrop-filter: blur(28px) saturate(145%);
+    -webkit-backdrop-filter: blur(28px) saturate(145%);
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .suggestions-container.is-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: visible;
+    padding-bottom: 0;
+    margin-bottom: 12px;
+  }
+
+  .suggestions-container.is-mobile::-webkit-scrollbar {
+    display: none;
+  }
+
+  .suggestions-container.is-mobile .suggestion-pill {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 14px;
+    padding: 12px 14px;
+    justify-content: flex-start;
+  }
+
+  .suggestions-container.is-mobile .suggestion-pill.top-match::after {
+    display: none;
+  }
+
+  .suggestions-container.is-mobile .suggestion-pill:hover,
+  .suggestions-container.is-mobile .suggestion-pill.active {
+    transform: none;
+  }
+
+  .suggestion-pill.top-match::after {
+    font-size: 8px;
+    top: -7px;
+    right: 12px;
+  }
+
+  .command-bar {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    border-radius: 16px;
+    border-color: rgba(106, 247, 220, 0.45);
+    padding: 4px 5px 4px 10px;
+    margin-top: 0;
+    background: rgba(12, 20, 35, 0.85);
+    backdrop-filter: blur(32px) saturate(150%);
+    -webkit-backdrop-filter: blur(32px) saturate(150%);
+    box-shadow: 0 10px 32px rgba(2, 6, 23, 0.4);
+  }
+
+  /* Keyboard open state adjustments */
+  .command-interface.keyboard-open {
+    transition: bottom 0.2s ease-out;
+  }
+
+  .command-interface.keyboard-open .chatbot-scroll-region.is-mobile {
+    max-height: min(40vh, 320px);
+  }
+
+  .command-icon {
+    margin-right: 8px;
+  }
+
+  .command-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .command-input {
+    font-size: 16px;
+    padding: 6px 0;
+  }
+
+  .command-input::placeholder {
+    font-size: 16px;
+  }
+
+  .command-submit {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    border-color: rgba(106, 247, 220, 0.38);
+    color: var(--chat-mobile-accent);
+  }
+
+  .command-submit svg {
+    width: 14px;
+    height: 14px;
   }
 
   .command-interface.is-collapsed .chatbot-launcher {
     animation: launcherPulse 3.6s ease-in-out infinite;
+  }
+
+  /* Improve collapse button hit area */
+  .collapse-button {
+    width: 44px;
+    height: 44px;
+    margin-left: auto;
+  }
+
+  .response-header.with-collapse {
+    gap: 8px;
   }
 }
 

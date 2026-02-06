@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { profile } from '../data/profile';
 import concierge1 from '../assets/concierge_1.png';
@@ -41,8 +41,7 @@ const ProjectBentoGrid = ({ images, imageMap, title, onImageClick }) => {
 
 const ProjectAccordion = ({ items = profile.projects }) => {
 
-  const [expandedIdx, setExpandedIdx] = useState(0);
-
+  const [expandedItems, setExpandedItems] = useState(new Set([0]));
   const [activeImage, setActiveImage] = useState(null);
 
   const imageMap = {
@@ -69,6 +68,18 @@ const ProjectAccordion = ({ items = profile.projects }) => {
     }
   };
 
+  const handleAccordionClick = (idx) => {
+    setExpandedItems((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(idx)) {
+        newSet.delete(idx);
+      } else {
+        newSet.add(idx);
+      }
+      return newSet;
+    });
+  };
+
   return (
     <div className="project-accordion-list">
       {activeImage && (
@@ -86,21 +97,21 @@ const ProjectAccordion = ({ items = profile.projects }) => {
         </div>
       )}
       {items.map((project, idx) => {
-        const isExpanded = expandedIdx === idx;
+        const isExpanded = expandedItems.has(idx);
         const isExperience = Boolean(project.company || project.role);
         const title = project.title || project.company || project.role;
         const subtitle = isExperience ? (project.role || project.company) : null;
         const period = project.period;
         const tags = project.technologies || project.skills || [];
-        
+
         return (
-          <div 
-            key={idx} 
+          <div
+            key={idx}
             className={`accordion-item ${isExpanded ? 'active' : ''}`}
           >
-            <button 
+            <button
               className="accordion-header"
-              onClick={() => setExpandedIdx(isExpanded ? null : idx)}
+              onClick={() => handleAccordionClick(idx)}
             >
               <div className="header-left">
                 <span className="project-index">0{idx + 1}</span>
@@ -122,12 +133,12 @@ const ProjectAccordion = ({ items = profile.projects }) => {
 
             <AnimatePresence>
               {isExpanded && (
-                <motion.div 
+                <motion.div
                   className="accordion-content"
-                  initial={{ height: 0, opacity: 0, y: -8 }}
-                  animate={{ height: 'auto', opacity: 1, y: 0 }}
-                  exit={{ height: 0, opacity: 0, y: -8 }}
-                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ height: 0, y: -8 }}
+                  animate={{ height: 'auto', y: 0 }}
+                  exit={{ height: 0, y: -8 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <div className="content-inner-grid">
                     <div className="project-details">

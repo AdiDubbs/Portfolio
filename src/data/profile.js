@@ -3,7 +3,7 @@ const GRADUATION_DATE = "May 2026";
 export const profile = {
   personal: {
     name: "Aditya Dubey",
-    title: `Computer Science Student (AI/ML & CV) | Graduating ${GRADUATION_DATE}`,
+    title: `AI/ML and Full-Stack | Graduating in May 2026`,
     tagline: `AI and Full-Stack | Graduating ${GRADUATION_DATE}`,
     summary:
       "Computer Science student focused on applied AI and computer vision. I build multi-model perception pipelines, uncertainty-aware ML services, and scalable backend systems, while shipping clean user-facing applications.",

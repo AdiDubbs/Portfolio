@@ -186,7 +186,9 @@ export const chatData = {
     options: [
       { label: "Tell me about the grading research", nextId: "research_grading" },
       { label: "What ML skills does he have?", nextId: "skills_overview" },
+      { label: "What projects has he built?", nextId: "projects_overview" },
       { label: "Back to research overview", nextId: "research_overview" },
+      { label: "Back to start", nextId: "start" },
     ],
   },
 
@@ -278,7 +280,9 @@ export const chatData = {
     options: [
       { label: "Tell me about conformal prediction", nextId: "drift_conformal" },
       { label: "How is the model deployed?", nextId: "drift_deploy" },
+      { label: "What's the tech stack?", nextId: "drift_stack" },
       { label: "Back to Drift Shield", nextId: "drift_shield" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -306,7 +310,9 @@ export const chatData = {
     options: [
       { label: "How is drift detected?", nextId: "drift_detection" },
       { label: "What's the deployment strategy?", nextId: "drift_deploy" },
+      { label: "What's the tech stack?", nextId: "drift_stack" },
       { label: "Back to Drift Shield", nextId: "drift_shield" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -432,7 +438,9 @@ export const chatData = {
     options: [
       { label: "How does Bayesian reasoning work?", nextId: "vitalis_bayesian" },
       { label: "Tell me about the NLP pipeline", nextId: "vitalis_nlp" },
+      { label: "What's the tech stack?", nextId: "vitalis_stack" },
       { label: "Back to Vitalis", nextId: "vitalis" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -460,7 +468,9 @@ export const chatData = {
     options: [
       { label: "Tell me about vision models", nextId: "vitalis_vision" },
       { label: "How does NLP work?", nextId: "vitalis_nlp" },
+      { label: "What's the tech stack?", nextId: "vitalis_stack" },
       { label: "Back to Vitalis", nextId: "vitalis" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -488,7 +498,9 @@ export const chatData = {
     options: [
       { label: "Tell me about vision models", nextId: "vitalis_vision" },
       { label: "How does Bayesian reasoning work?", nextId: "vitalis_bayesian" },
+      { label: "What's the tech stack?", nextId: "vitalis_stack" },
       { label: "Back to Vitalis", nextId: "vitalis" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -580,6 +592,7 @@ export const chatData = {
       { label: "How are security guardrails implemented?", nextId: "concierge_security" },
       { label: "What's the tech stack?", nextId: "concierge_stack" },
       { label: "Back to Concierge", nextId: "concierge" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -609,6 +622,7 @@ export const chatData = {
       { label: "How does LLM reasoning work?", nextId: "concierge_llm" },
       { label: "What's the tech stack?", nextId: "concierge_stack" },
       { label: "Back to Concierge", nextId: "concierge" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -699,7 +713,9 @@ export const chatData = {
     options: [
       { label: "How does depth estimation work?", nextId: "intellivision_depth" },
       { label: "Tell me about face authentication", nextId: "intellivision_face" },
+      { label: "What was the architecture?", nextId: "intellivision_architecture" },
       { label: "Back to IntelliVision", nextId: "intellivision" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -727,7 +743,9 @@ export const chatData = {
     options: [
       { label: "How does tracking work?", nextId: "intellivision_tracking" },
       { label: "Tell me about face authentication", nextId: "intellivision_face" },
+      { label: "What was the architecture?", nextId: "intellivision_architecture" },
       { label: "Back to IntelliVision", nextId: "intellivision" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -754,8 +772,10 @@ export const chatData = {
     ],
     options: [
       { label: "How does tracking work?", nextId: "intellivision_tracking" },
+      { label: "How does depth estimation work?", nextId: "intellivision_depth" },
       { label: "What was the architecture?", nextId: "intellivision_architecture" },
       { label: "Back to IntelliVision", nextId: "intellivision" },
+      { label: "Show me other projects", nextId: "projects_overview" },
     ],
   },
 
@@ -792,8 +812,167 @@ export const chatData = {
     ],
     options: [
       { label: "How does tracking work?", nextId: "intellivision_tracking" },
+      { label: "Tell me about depth estimation", nextId: "intellivision_depth" },
       { label: "Back to IntelliVision", nextId: "intellivision" },
-      { label: "Tell me about other work", nextId: "experience_overview" },
+      { label: "Show me other projects", nextId: "projects_overview" },
+      { label: "Back to start", nextId: "start" },
+    ],
+  },
+
+  skills_fullstack: {
+    id: "skills_fullstack",
+    text: "Aditya has production full-stack experience building React frontends with FastAPI/Django backends for ML applications.",
+    sections: [
+      {
+        title: "Frontend",
+        bullets: [
+          "React with modern hooks and TypeScript",
+          "Vite for fast development and builds",
+          "Mantine, Tailwind for styling",
+          "Real-time dashboards with WebSocket",
+        ],
+      },
+      {
+        title: "Backend",
+        bullets: [
+          "FastAPI for high-performance APIs",
+          "Django REST Framework for data models",
+          "Celery + Redis for async processing",
+        ],
+      },
+      {
+        title: "Production Apps",
+        bullets: [
+          "IntelliVision: React + Django platform",
+          "Vitalis: React 19 + Flask diagnostic tool",
+          "Concierge: React + FastAPI automation dashboard",
+        ],
+      },
+    ],
+    options: [
+      { label: "Show me full-stack projects", nextId: "projects_overview" },
+      { label: "What about Python skills?", nextId: "skills_python" },
+      { label: "Tell me about computer vision", nextId: "skills_computer_vision" },
+      { label: "Back to skills overview", nextId: "skills_overview" },
+      { label: "Back to start", nextId: "start" },
+    ],
+  },
+
+  leadership_pil: {
+    id: "leadership_pil",
+    text: "Aditya filed a Public Interest Litigation (PIL) in the Supreme Court of India addressing severe air pollution, which contributed to the creation of the Commission for Air Quality Management (CAQM).",
+    sections: [
+      {
+        title: "Air Pollution PIL",
+        bullets: [
+          "Supreme Court of India filing on air quality crisis",
+          "Catalyzed creation of Commission for Air Quality Management",
+          "Focused on enforcement and accountability measures",
+        ],
+      },
+      {
+        title: "E-commerce Plastic Petition",
+        bullets: [
+          "National Green Tribunal petition against excessive packaging",
+          "Targeted e-commerce giants' single-use plastic practices",
+          "Contributed to Extended Producer Responsibility (EPR) enforcement",
+        ],
+      },
+    ],
+    options: [
+      { label: "What about tree-plantation?", nextId: "leadership_trees" },
+      { label: "Tell me about social work", nextId: "leadership_social" },
+      { label: "Back to advocacy", nextId: "leadership" },
+      { label: "Back to start", nextId: "start" },
+    ],
+  },
+
+  leadership_trees: {
+    id: "leadership_trees",
+    text: "Tree-plantation initiatives led by Aditya resulted in 100,000+ trees planted through community engagement and innovative seed-orb distribution.",
+    sections: [
+      {
+        title: "Plantation Drives",
+        bullets: [
+          "100,000+ trees planted through organized campaigns",
+          "Seed-orb distribution for scalable urban greening",
+          "Community engagement in climate action",
+        ],
+      },
+      {
+        title: "Impact",
+        bullets: [
+          "Large-scale environmental impact across regions",
+          "Local community participation and education",
+          "Sustainable approach with seed-orb methodology",
+        ],
+      },
+    ],
+    options: [
+      { label: "What about the PIL?", nextId: "leadership_pil" },
+      { label: "Tell me about social work", nextId: "leadership_social" },
+      { label: "What recognition has he received?", nextId: "leadership_recognition" },
+      { label: "Back to advocacy", nextId: "leadership" },
+      { label: "Back to start", nextId: "start" },
+    ],
+  },
+
+  leadership_social: {
+    id: "leadership_social",
+    text: "Grassroots social initiatives focused on supporting street children and underprivileged communities through education access and resource drives.",
+    sections: [
+      {
+        title: "Community Support",
+        bullets: [
+          "Education access programs for street children",
+          "Resource drives: essentials and supplies distribution",
+          "Local outreach with community partnerships",
+        ],
+      },
+      {
+        title: "Approach",
+        bullets: [
+          "Grassroots initiatives with direct community impact",
+          "Focus on education as pathway to opportunity",
+          "Sustainable support through local partnerships",
+        ],
+      },
+    ],
+    options: [
+      { label: "What about environmental work?", nextId: "leadership_trees" },
+      { label: "Tell me about the PIL", nextId: "leadership_pil" },
+      { label: "What recognition has he received?", nextId: "leadership_recognition" },
+      { label: "Back to advocacy", nextId: "leadership" },
+      { label: "Back to start", nextId: "start" },
+    ],
+  },
+
+  leadership_recognition: {
+    id: "leadership_recognition",
+    text: "Aditya has been recognized by The Diana Award and featured in major media outlets for his environmental and social advocacy work.",
+    sections: [
+      {
+        title: "Recognition",
+        bullets: [
+          "The Diana Award for social impact and advocacy",
+          "Wikipedia article documenting advocacy work",
+        ],
+      },
+      {
+        title: "Media Coverage",
+        bullets: [
+          "Vice: Feature on e-commerce packaging petition",
+          "The Earth Day Network: 'My Future My Voice' campaign",
+          "Verve Magazine: 'Rebels with a Cause' feature",
+        ],
+      },
+    ],
+    options: [
+      { label: "Tell me about the PIL", nextId: "leadership_pil" },
+      { label: "What about social work?", nextId: "leadership_social" },
+      { label: "What about tree-plantation?", nextId: "leadership_trees" },
+      { label: "Back to advocacy", nextId: "leadership" },
+      { label: "Back to start", nextId: "start" },
     ],
   },
 
@@ -821,8 +1000,9 @@ export const chatData = {
       },
     ],
     options: [
-      { label: "Show me other projects", nextId: "projects_overview" },
-      { label: "What are his mobile dev skills?", nextId: "skills_overview" },
+      { label: "How does he approach mobile development?", nextId: "skills_overview" },
+      { label: "What other projects has he built?", nextId: "projects_overview" },
+      { label: "Tell me about his advocacy work", nextId: "leadership" },
       { label: "Back to start", nextId: "start" },
     ],
   },
@@ -865,8 +1045,9 @@ export const chatData = {
     ],
     options: [
       { label: "Tell me about IntelliVision", nextId: "intellivision" },
-      { label: "What research did you do?", nextId: "research_overview" },
+      { label: "What research have you done?", nextId: "research_overview" },
       { label: "What projects have you built?", nextId: "projects_overview" },
+      { label: "What are your technical skills?", nextId: "skills_overview" },
       { label: "Back to start", nextId: "start" },
     ],
   },
@@ -993,43 +1174,6 @@ export const chatData = {
     ],
   },
 
-  skills_fullstack: {
-    id: "skills_fullstack",
-    text: "Aditya has production full-stack experience building React frontends with FastAPI/Django backends for ML applications.",
-    sections: [
-      {
-        title: "Frontend",
-        bullets: [
-          "React with modern hooks and TypeScript",
-          "Vite for fast development and builds",
-          "Mantine, Tailwind for styling",
-          "Real-time dashboards with WebSocket",
-        ],
-      },
-      {
-        title: "Backend",
-        bullets: [
-          "FastAPI for high-performance APIs",
-          "Django REST Framework for data models",
-          "Celery + Redis for async processing",
-        ],
-      },
-      {
-        title: "Production Apps",
-        bullets: [
-          "IntelliVision: React + Django platform",
-          "Vitalis: React 19 + Flask diagnostic tool",
-          "Concierge: React + FastAPI automation dashboard",
-        ],
-      },
-    ],
-    options: [
-      { label: "Show me full-stack projects", nextId: "projects_overview" },
-      { label: "What other skills?", nextId: "skills_overview" },
-      { label: "Back to start", nextId: "start" },
-    ],
-  },
-
   leadership: {
     id: "leadership",
     text: "Aditya has significant environmental and social advocacy experience, including legal action on pollution, community campaigns, and recognition from The Diana Award.",
@@ -1064,118 +1208,7 @@ export const chatData = {
       { label: "What about tree-plantation?", nextId: "leadership_trees" },
       { label: "Social work details?", nextId: "leadership_social" },
       { label: "What recognition?", nextId: "leadership_recognition" },
-      { label: "Back to start", nextId: "start" },
-    ],
-  },
-
-  leadership_pil: {
-    id: "leadership_pil",
-    text: "Aditya filed a Public Interest Litigation (PIL) in the Supreme Court of India addressing severe air pollution, which contributed to the creation of the Commission for Air Quality Management (CAQM).",
-    sections: [
-      {
-        title: "Air Pollution PIL",
-        bullets: [
-          "Supreme Court of India filing on air quality crisis",
-          "Catalyzed creation of Commission for Air Quality Management",
-          "Focused on enforcement and accountability measures",
-        ],
-      },
-      {
-        title: "E-commerce Plastic Petition",
-        bullets: [
-          "National Green Tribunal petition against excessive packaging",
-          "Targeted e-commerce giants' single-use plastic practices",
-          "Contributed to Extended Producer Responsibility (EPR) enforcement",
-        ],
-      },
-    ],
-    options: [
-      { label: "What about tree-plantation?", nextId: "leadership_trees" },
-      { label: "Tell me about social work", nextId: "leadership_social" },
-      { label: "Back to advocacy", nextId: "leadership" },
-    ],
-  },
-
-  leadership_trees: {
-    id: "leadership_trees",
-    text: "Tree-plantation initiatives led by Aditya resulted in 100,000+ trees planted through community engagement and innovative seed-orb distribution.",
-    sections: [
-      {
-        title: "Plantation Drives",
-        bullets: [
-          "100,000+ trees planted through organized campaigns",
-          "Seed-orb distribution for scalable urban greening",
-          "Community engagement in climate action",
-        ],
-      },
-      {
-        title: "Impact",
-        bullets: [
-          "Large-scale environmental impact across regions",
-          "Local community participation and education",
-          "Sustainable approach with seed-orb methodology",
-        ],
-      },
-    ],
-    options: [
-      { label: "What about the PIL?", nextId: "leadership_pil" },
-      { label: "Tell me about social work", nextId: "leadership_social" },
-      { label: "Back to advocacy", nextId: "leadership" },
-    ],
-  },
-
-  leadership_social: {
-    id: "leadership_social",
-    text: "Grassroots social initiatives focused on supporting street children and underprivileged communities through education access and resource drives.",
-    sections: [
-      {
-        title: "Community Support",
-        bullets: [
-          "Education access programs for street children",
-          "Resource drives: essentials and supplies distribution",
-          "Local outreach with community partnerships",
-        ],
-      },
-      {
-        title: "Approach",
-        bullets: [
-          "Grassroots initiatives with direct community impact",
-          "Focus on education as pathway to opportunity",
-          "Sustainable support through local partnerships",
-        ],
-      },
-    ],
-    options: [
-      { label: "What about environmental work?", nextId: "leadership_trees" },
-      { label: "What recognition has he received?", nextId: "leadership_recognition" },
-      { label: "Back to advocacy", nextId: "leadership" },
-    ],
-  },
-
-  leadership_recognition: {
-    id: "leadership_recognition",
-    text: "Aditya has been recognized by The Diana Award and featured in major media outlets for his environmental and social advocacy work.",
-    sections: [
-      {
-        title: "Recognition",
-        bullets: [
-          "The Diana Award for social impact and advocacy",
-          "Wikipedia article documenting advocacy work",
-        ],
-      },
-      {
-        title: "Media Coverage",
-        bullets: [
-          "Vice: Feature on e-commerce packaging petition",
-          "The Earth Day Network: 'My Future My Voice' campaign",
-          "Verve Magazine: 'Rebels with a Cause' feature",
-        ],
-      },
-    ],
-    options: [
-      { label: "Tell me about the PIL", nextId: "leadership_pil" },
-      { label: "What about social work?", nextId: "leadership_social" },
-      { label: "Back to advocacy", nextId: "leadership" },
+      { label: "Tell me about his technical work", nextId: "projects_overview" },
       { label: "Back to start", nextId: "start" },
     ],
   },

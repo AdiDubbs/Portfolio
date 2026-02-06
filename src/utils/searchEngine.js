@@ -68,13 +68,6 @@ export const searchIndex = [
     keywords: ['drift', 'deployment', 'pointer', 'active', 'shadow', 'rollback', 'versioning', 'cicd'],
     description: 'Deployment strategy with pointer-based versioning'
   },
-  {
-    id: 'drift_monitoring',
-    category: 'projects',
-    title: 'Drift Shield Monitoring',
-    keywords: ['drift', 'monitoring', 'observability', 'metrics', 'prometheus', 'grafana', 'alerts'],
-    description: 'Monitoring and observability setup'
-  },
 
   // Vitalis Project
   {
@@ -136,17 +129,10 @@ export const searchIndex = [
     description: 'Security features and guardrails'
   },
   {
-    id: 'concierge_architecture',
-    category: 'projects',
-    title: 'Concierge Architecture',
-    keywords: ['concierge', 'architecture', 'fastapi', 'react', 'websocket', 'state', 'machine'],
-    description: 'System architecture and design'
-  },
-  {
     id: 'concierge_stack',
     category: 'projects',
     title: 'Concierge Tech Stack',
-    keywords: ['concierge', 'stack', 'fastapi', 'playwright', 'llama', 'react', 'technology'],
+    keywords: ['concierge', 'stack', 'fastapi', 'playwright', 'llama', 'react', 'technology', 'groq', 'vite'],
     description: 'Technical stack for Concierge'
   },
 
@@ -180,18 +166,11 @@ export const searchIndex = [
     description: 'Face authentication and verification'
   },
   {
-    id: 'intellivision_role',
+    id: 'intellivision_architecture',
     category: 'projects',
-    title: 'IntelliVision Role & Impact',
-    keywords: ['intellivision', 'role', 'responsibilities', 'internship', 'impact', 'contribution', 'aionos'],
-    description: 'Internship role and contributions'
-  },
-  {
-    id: 'intellivision_stack',
-    category: 'projects',
-    title: 'IntelliVision Tech Stack',
-    keywords: ['intellivision', 'stack', 'django', 'celery', 'pytorch', 'react', 'technology'],
-    description: 'Technical stack for IntelliVision'
+    title: 'IntelliVision Architecture',
+    keywords: ['intellivision', 'architecture', 'django', 'celery', 'redis', 'postgresql', 'react', 'typescript', 'backend', 'system', 'design'],
+    description: 'System architecture and backend infrastructure'
   },
 
   // Carbon Project
@@ -199,22 +178,8 @@ export const searchIndex = [
     id: 'carbon',
     category: 'projects',
     title: 'Carbon Footprint Tracker',
-    keywords: ['carbon', 'footprint', 'android', 'mobile', 'environmental', 'sustainability', 'app'],
+    keywords: ['carbon', 'footprint', 'android', 'mobile', 'environmental', 'sustainability', 'app', 'java', 'firebase'],
     description: 'Android carbon footprint tracking app'
-  },
-  {
-    id: 'carbon_calculation',
-    category: 'projects',
-    title: 'Carbon Calculation Method',
-    keywords: ['carbon', 'calculation', 'emission', 'factors', 'epa', 'ipcc', 'co2'],
-    description: 'How carbon footprint is calculated'
-  },
-  {
-    id: 'carbon_stack',
-    category: 'projects',
-    title: 'Carbon Tech Stack',
-    keywords: ['carbon', 'stack', 'android', 'firebase', 'java', 'technology'],
-    description: 'Technical stack for Carbon app'
   },
 
   // Skills
@@ -236,36 +201,15 @@ export const searchIndex = [
     id: 'skills_python',
     category: 'skills',
     title: 'Python Expertise',
-    keywords: ['python', 'programming', 'coding', 'language', 'pytorch', 'scikit', 'pandas', 'numpy'],
+    keywords: ['python', 'programming', 'coding', 'language', 'pytorch', 'scikit', 'pandas', 'numpy', 'fastapi', 'django', 'flask'],
     description: 'Python programming expertise'
   },
   {
-    id: 'react_skill',
+    id: 'skills_fullstack',
     category: 'skills',
-    title: 'React & Frontend',
-    keywords: ['react', 'frontend', 'ui', 'ux', 'javascript', 'typescript', 'vite', 'web', 'hooks'],
-    description: 'React and frontend development'
-  },
-  {
-    id: 'mlops',
-    category: 'skills',
-    title: 'MLOps Philosophy',
-    keywords: ['mlops', 'deployment', 'docker', 'prometheus', 'grafana', 'monitoring', 'cicd', 'infrastructure', 'devops', 'production'],
-    description: 'MLOps practices and philosophy'
-  },
-  {
-    id: 'mlops_monitoring',
-    category: 'skills',
-    title: 'MLOps Monitoring',
-    keywords: ['mlops', 'monitoring', 'observability', 'prometheus', 'grafana', 'metrics', 'logging'],
-    description: 'Monitoring strategies for ML systems'
-  },
-  {
-    id: 'mlops_deployment',
-    category: 'skills',
-    title: 'MLOps Deployment',
-    keywords: ['mlops', 'deployment', 'cicd', 'rollback', 'canary', 'shadow', 'production'],
-    description: 'Deployment strategies for ML models'
+    title: 'Full-Stack Development',
+    keywords: ['fullstack', 'full', 'stack', 'react', 'frontend', 'backend', 'ui', 'ux', 'javascript', 'typescript', 'vite', 'web', 'fastapi', 'django'],
+    description: 'Full-stack development with React and Python backends'
   },
 
   // Experience
@@ -305,14 +249,14 @@ export const searchIndex = [
     id: 'research_grading',
     category: 'research',
     title: 'Automated Grading Research',
-    keywords: ['research', 'grading', 'automated', 'llm', 'feedback', 'jupyter', 'cs220', 'madcse', 'education'],
+    keywords: ['research', 'grading', 'automated', 'llm', 'feedback', 'jupyter', 'cs220', 'madcse', 'education', 'azure', 'openai'],
     description: 'LLM-based automated grading system'
   },
   {
     id: 'research_neuroscience',
     category: 'research',
     title: 'Neuroscience Research',
-    keywords: ['research', 'neuroscience', 'span', 'seeg', 'brain', 'neural', 'svm', 'speech', 'eeg'],
+    keywords: ['research', 'neuroscience', 'span', 'seeg', 'brain', 'neural', 'svm', 'speech', 'eeg', 'matlab', 'signal', 'processing'],
     description: 'Computational neuroscience research'
   },
 
@@ -321,29 +265,36 @@ export const searchIndex = [
     id: 'leadership',
     category: 'leadership',
     title: 'Leadership & Impact',
-    keywords: ['leadership', 'volunteer', 'activism', 'environmental', 'social', 'impact', 'community', 'advocacy'],
+    keywords: ['leadership', 'volunteer', 'activism', 'environmental', 'social', 'impact', 'community', 'advocacy', 'diana', 'award'],
     description: 'Leadership and community impact'
   },
   {
-    id: 'tree_drives',
+    id: 'leadership_pil',
+    category: 'leadership',
+    title: 'Public Interest Litigation',
+    keywords: ['pil', 'litigation', 'supreme', 'court', 'legal', 'petition', 'pollution', 'air', 'quality', 'caqm', 'ngt', 'green', 'tribunal', 'plastic', 'epr'],
+    description: 'Legal advocacy through PIL and petitions'
+  },
+  {
+    id: 'leadership_trees',
     category: 'leadership',
     title: 'Tree Plantation Drives',
-    keywords: ['tree', 'plantation', 'environmental', 'green', 'climate', 'sustainability', 'planting', 'forest'],
-    description: 'Environmental tree-plantation initiatives'
+    keywords: ['tree', 'plantation', 'environmental', 'green', 'climate', 'sustainability', 'planting', 'forest', 'seed', 'orb', '100000'],
+    description: '100,000+ trees planted through community campaigns'
   },
   {
-    id: 'social_work',
+    id: 'leadership_social',
     category: 'leadership',
     title: 'Social Work',
-    keywords: ['social', 'work', 'community', 'volunteer', 'children', 'education', 'outreach', 'support'],
-    description: 'Social impact and community work'
+    keywords: ['social', 'work', 'community', 'volunteer', 'children', 'education', 'outreach', 'support', 'grassroots', 'street'],
+    description: 'Grassroots social initiatives and community support'
   },
   {
-    id: 'petition_work',
+    id: 'leadership_recognition',
     category: 'leadership',
-    title: 'Petition Campaigns',
-    keywords: ['petition', 'campaign', 'activism', 'policy', 'advocacy', 'environmental', 'pollution', 'legal'],
-    description: 'Environmental petition campaigns'
+    title: 'Recognition & Media',
+    keywords: ['recognition', 'award', 'diana', 'media', 'vice', 'earth', 'day', 'verve', 'wikipedia', 'press', 'coverage'],
+    description: 'Awards and media recognition for advocacy work'
   }
 ];
 
@@ -368,11 +319,6 @@ const calculateScore = (query, entry) => {
   if (words.length === 0) return 0;
 
   let score = 0;
-  const allSearchableText = [
-    entry.title,
-    entry.description,
-    ...entry.keywords
-  ].join(' ').toLowerCase();
 
   // Exact title match - highest priority
   if (normalizeText(entry.title).includes(normalizedQuery)) {
