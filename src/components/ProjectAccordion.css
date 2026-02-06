@@ -1,0 +1,552 @@
+.project-accordion-list {
+  width: 100%;
+  max-width: 1200px; /* Wider container for the accordion */
+  margin: 0 auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.accordion-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.accordion-item.active {
+  background: transparent;
+  box-shadow: none;
+}
+
+
+.accordion-item.active::before {
+  content: none;
+}
+
+.accordion-header {
+  width: 100%;
+  display: flex;
+  padding: 32px 32px; /* Panel padding */
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #f8fafc; /* Pure white/off-white text */
+  text-align: left;
+  position: relative;
+  z-index: 1;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.accordion-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.project-index {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.1em;
+}
+
+.project-title {
+  margin: 0;
+  font-size: clamp(1.5rem, 4vw, 2.5rem); /* Responsive, bold titles */
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #f8fafc;
+  transition: transform 0.3s ease;
+}
+
+.project-subtitle {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.accordion-item:hover .project-title {
+    transform: translateX(10px);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.project-year {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.05em;
+}
+
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  color: #38bdf8;
+  opacity: 0.6;
+}
+
+.toggle-icon.open {
+  transform: rotate(45deg);
+  opacity: 1;
+}
+
+.accordion-content {
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.content-inner-grid {
+  padding: 0 32px 36px 88px; /* Aligned with title after larger index gap */
+  max-width: 980px;
+}
+
+.project-bento-grid {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0 32px 0;
+  width: 100%;
+}
+
+.project-bento-grid.count-3 {
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 420px;
+}
+
+.project-bento-grid.count-2 {
+  grid-template-columns: 1fr 1fr;
+  height: 300px;
+}
+
+.project-bento-grid.count-1 {
+  grid-template-columns: 1fr;
+  height: auto;
+}
+
+.bento-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
+  padding: 0;
+  cursor: zoom-in;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.count-3 .item-0 {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+
+/* Concierge Variant: Feature the 3rd image on the right */
+.project-bento-grid.variant-reverse.count-3 {
+  grid-template-columns: 1fr 1.6fr; /* Smaller left column, larger right */
+}
+
+.variant-reverse.count-3 .item-0 {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.variant-reverse.count-3 .item-1 {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.variant-reverse.count-3 .item-2 {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.bento-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.bento-hover-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.view-label {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #f8fafc;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+  transform: translateY(10px);
+  transition: transform 0.3s ease;
+}
+
+.bento-item:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.bento-item:hover img {
+  transform: scale(1.05);
+}
+
+.bento-item:hover .bento-hover-overlay {
+  opacity: 1;
+}
+
+.bento-item:hover .view-label {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .project-bento-grid.count-3,
+  .project-bento-grid.count-2 {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+  }
+  
+  .count-3 .item-0 {
+    grid-row: span 1;
+  }
+  
+  .bento-item {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 1024px) {
+  .carousel-control {
+    opacity: 0.8;
+  }
+  
+  .carousel-control.prev {
+    left: 10px;
+  }
+
+  .carousel-control.next {
+    right: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-media-track {
+    gap: 12px;
+  }
+  
+  .project-media-item {
+    aspect-ratio: 4 / 3;
+  }
+  
+  .carousel-control {
+    display: none; /* Use touch scroll on mobile */
+  }
+  
+  .carousel-footer {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+}
+
+.project-links {
+  margin: 0 0 32px 0;
+  display: flex;
+  gap: 16px;
+}
+
+.project-github-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 100px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.github-icon {
+  color: #f8fafc;
+  transition: transform 0.3s ease;
+}
+
+.pill-text {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #f8fafc;
+}
+
+.pill-repo {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: #64748b;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding-left: 12px;
+  margin-left: 4px;
+  transition: color 0.3s ease;
+}
+
+.project-github-pill:hover {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.project-github-pill:hover .github-icon {
+  transform: scale(1.1);
+  color: #38bdf8;
+}
+
+.project-github-pill:hover .pill-repo {
+  color: #94a3b8;
+}
+
+.media-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 40px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.media-modal-inner {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  transform: scale(0.95);
+  animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes zoomIn {
+  to { transform: scale(1); }
+}
+
+.media-modal-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.media-modal-close {
+  position: absolute;
+  top: -48px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-family: 'Sora', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s ease;
+}
+
+.media-modal-close:hover {
+  color: #f8fafc;
+}
+
+.accordion-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+
+.accordion-bullets li {
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #94a3b8; /* Soft grey for body text */
+  margin-bottom: 16px;
+  position: relative;
+  padding-left: 14px;
+}
+
+.accordion-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.7em;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #38bdf8;
+  box-shadow:
+    0 0 6px rgba(56, 189, 248, 0.55),
+    0 0 0 1px rgba(56, 189, 248, 0.2);
+}
+
+.accordion-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.simple-tag {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 6px 14px;
+  border-radius: 100px; /* Pill style */
+  transition: all 0.2s ease;
+}
+
+.simple-tag:hover {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: #38bdf8;
+}
+
+@media (max-width: 768px) {
+  .accordion-header {
+    padding: 24px 20px;
+  }
+  
+  .header-left {
+    gap: 20px;
+  }
+  
+  .content-inner-grid {
+    padding: 8px 20px 28px;
+  }
+
+  .project-media {
+    margin-bottom: 24px;
+  }
+
+  .project-media-track {
+    gap: 12px;
+    padding: 4px 6px 10px;
+  }
+
+  .project-media-item {
+    flex-basis: clamp(220px, 86%, 520px);
+    height: clamp(200px, 50vw, 280px);
+  }
+
+  .media-modal {
+    padding: 16px;
+  }
+  
+  .accordion-bullets li {
+    font-size: 1rem;
+  }
+
+  .project-github-pill {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 16px;
+  }
+
+  .pill-repo {
+    display: none; /* Hide repo name on small screens to keep it simple */
+  }
+}
+
+@media (max-width: 640px) {
+  .accordion-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 20px 16px;
+  }
+
+  .header-left {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .project-year {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(56, 189, 248, 0.12);
+    color: #38bdf8;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  .toggle-icon {
+    margin-left: auto;
+  }
+
+  .content-inner-grid {
+    padding: 6px 16px 24px;
+  }
+
+  .project-bento-grid {
+    gap: 10px;
+  }
+
+  .bento-item {
+    aspect-ratio: 16 / 10;
+  }
+}
