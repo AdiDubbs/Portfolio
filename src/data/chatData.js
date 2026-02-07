@@ -54,14 +54,13 @@ export const chatData = {
 
   education_overview: {
     id: "education_overview",
-    text: "Aditya is completing his Bachelor of Science in Computer Science at the University of Wisconsin-Madison (graduating May 2026), with a focus on Machine Learning, Big Data, and Systems.",
+    text: "Aditya is completing his Bachelor of Science in Computer Science at the University of Wisconsin-Madison (graduating May 2026), with coursework spanning machine learning, systems, and software development.",
     sections: [
       {
         title: "University of Wisconsin-Madison",
         bullets: [
           "B.S. in Computer Science (May 2026)",
-          "Focus Areas: Machine Learning, Big Data, Systems",
-          "Coursework: Machine Learning, Big Data Systems, Operating Systems, Distributed Systems, Database Systems, Computer Vision, Algorithms",
+          "Coursework: Machine Learning, Big Data Systems, Data Structures and Algorithms, Object-Oriented Programming, Web Development, Android Development, Computer Graphics",
           "Wisconsin AI Safety Initiative: Technical deep dives on reward specification, generalization, and interpretability",
         ],
       },
@@ -83,17 +82,17 @@ export const chatData = {
         title: "Core Courses",
         bullets: [
           "Machine Learning: Supervised/unsupervised learning, model evaluation",
-          "Computer Vision: Image processing, object detection, neural networks",
-          "Algorithms: Complexity analysis, graph algorithms, optimization",
+          "Data Structures and Algorithms: Complexity analysis and optimization",
+          "Object-Oriented Programming: Software design and modular implementation",
+          "Computer Graphics: Interactive rendering and visualization fundamentals",
         ],
       },
       {
         title: "Systems & Infrastructure",
         bullets: [
           "Big Data Systems: Distributed processing frameworks",
-          "Distributed Systems: Consensus, fault tolerance, scalability",
-          "Database Systems: SQL optimization, transactions, indexing",
-          "Operating Systems: Process management, memory, concurrency",
+          "Web Development: Full-stack application architecture",
+          "Android Development: Native mobile application workflows",
         ],
       },
     ],
@@ -506,17 +505,17 @@ export const chatData = {
 
   vitalis_stack: {
     id: "vitalis_stack",
-    text: "Vitalis uses a full-stack architecture with Flask backend orchestration and React 19 for the clinician interface.",
+    text: "Vitalis uses a full-stack architecture with Flask backend orchestration and React for the clinician interface.",
     sections: [
       {
         title: "Technologies",
         bullets: [
           "PyTorch: Computer vision model inference",
           "Flask: Backend API and pipeline orchestration",
-          "React 19: Modern frontend framework",
-          "Mantine: UI component library",
+          "React: Frontend interface",
           "Bayesian Inference: Diagnostic reasoning engine",
-          "NLP: Clinical text processing",
+          "Natural Language Processing: Clinical text processing",
+          "Neural Networks: Vision and signal models",
         ],
       },
     ],
@@ -635,7 +634,7 @@ export const chatData = {
         bullets: [
           "Playwright: Cross-browser automation framework",
           "FastAPI: Python backend for orchestration",
-          "LLM Agents: Llama 3.1 via Groq for reasoning",
+          "Llama via Groq: Semantic reasoning for dynamic flows",
           "React: Real-time dashboard and controls",
           "Vite: Fast frontend build tooling",
         ],
@@ -698,7 +697,7 @@ export const chatData = {
         bullets: [
           "BoTSORT: Motion prediction with appearance matching",
           "ByteTrack: Low-threshold detections for occlusion handling",
-          "DeepOCSort: Observation-centric tracking",
+          "Zone-aware multi-object tracking for crowded scenes",
         ],
       },
       {
@@ -828,15 +827,15 @@ export const chatData = {
         bullets: [
           "React with modern hooks and TypeScript",
           "Vite for fast development and builds",
-          "Mantine, Tailwind for styling",
-          "Real-time dashboards with WebSocket",
+          "Tailwind for styling and UI consistency",
+          "Interactive dashboards for ML and automation workflows",
         ],
       },
       {
         title: "Backend",
         bullets: [
           "FastAPI for high-performance APIs",
-          "Django REST Framework for data models",
+          "Django and Flask for application backends",
           "Celery + Redis for async processing",
         ],
       },
@@ -844,7 +843,7 @@ export const chatData = {
         title: "Production Apps",
         bullets: [
           "IntelliVision: React + Django platform",
-          "Vitalis: React 19 + Flask diagnostic tool",
+          "Vitalis: React + Flask diagnostic tool",
           "Concierge: React + FastAPI automation dashboard",
         ],
       },
@@ -949,21 +948,21 @@ export const chatData = {
 
   leadership_recognition: {
     id: "leadership_recognition",
-    text: "Aditya has been recognized by The Diana Award and featured in major media outlets for his environmental and social advocacy work.",
+    text: "Aditya has received major youth and social-impact recognition and has been featured in national and international media for environmental advocacy.",
     sections: [
       {
         title: "Recognition",
         bullets: [
-          "The Diana Award for social impact and advocacy",
+          "Diana Legacy Award 2021, The Pramerica Award, and NDTV Behtar India Award",
           "Wikipedia article documenting advocacy work",
         ],
       },
       {
         title: "Media Coverage",
         bullets: [
-          "Vice: Feature on e-commerce packaging petition",
-          "The Earth Day Network: 'My Future My Voice' campaign",
-          "Verve Magazine: 'Rebels with a Cause' feature",
+          "Featured in Vice, CNN, National Geographic, BBC India, and NDTV",
+          "Also covered by Channel News Asia, Outlook India, and Verve Magazine",
+          "Served as Earth Day Network's My Future My Voice Youth Ambassador",
         ],
       },
     ],
@@ -978,7 +977,7 @@ export const chatData = {
 
   carbon: {
     id: "carbon",
-    text: "Carbon (2021) is an Android application with emissions calculations and history tracking to estimate individual carbon footprints. It has garnered 500+ downloads across more than 8 countries.",
+    text: "Carbon (2021) is an Android application with emissions calculations and history tracking to estimate individual carbon footprints. It achieved 500+ downloads across more than 8 countries.",
     sections: [
       {
         title: "Features",
@@ -1031,12 +1030,12 @@ export const chatData = {
       {
         title: "MadCSE Research - Research Assistant (Sep 2025 - Present)",
         bullets: [
-          "Optimizing Python grading infrastructure for university courses",
-          "LLM integration via Azure OpenAI with focus on latency and cost",
+          "Optimizing Python grading infrastructure for a university course with 100+ students",
+          "LLM integration via Azure OpenAI with focus on latency, token usage, and cost",
         ],
       },
       {
-        title: "SPAN Lab - Research Assistant (Oct 2023 - May 2024)",
+        title: "SPAN Lab - Student Researcher (Oct 2023 - May 2024)",
         bullets: [
           "MATLAB pipelines for SEEG neural signal preprocessing",
           "SVM classification for speech perception decoding",
@@ -1063,33 +1062,40 @@ export const chatData = {
       {
         title: "AI and Machine Learning",
         bullets: [
-          "PyTorch, TensorFlow, XGBoost, Scikit-Learn, spaCy",
-          "Bayesian Inference, Conformal Prediction",
-          "DenseNet121, ResNet18, EfficientNet, MobileNetV2",
+          "PyTorch, TensorFlow, Keras, XGBoost, Scikit-Learn, spaCy",
+          "Bayesian Inference, Conformal Prediction, MLOps, Agentic Workflows",
+          "Llama, Groq, Logistic Regression, Support Vector Machine",
         ],
       },
       {
         title: "Computer Vision",
         bullets: [
           "OpenCV, YOLO, RT-DETR",
-          "BoTSORT, ByteTrack, DeepOCSort",
-          "OSNet, InsightFace, MiDaS, DPT",
+          "BoTSORT, OSNet, InsightFace, MiDaS",
+          "Depth estimation and face authentication workflows",
         ],
       },
       {
         title: "Full-Stack Development",
         bullets: [
-          "Backend: FastAPI, Django, Flask, Celery, WebSocket",
-          "Frontend: React, Mantine, Vite, Three.js, HTML Canvas",
-          "Automation: Playwright, Selenium",
+          "Backend: FastAPI, Django, Flask, Celery",
+          "Frontend: React, Vite, Tailwind, Three.js, HTML Canvas",
+          "API development and production dashboard engineering",
+        ],
+      },
+      {
+        title: "Automation and Testing",
+        bullets: [
+          "Playwright, Selenium, Postman, JUnit",
+          "Browser automation and API testing workflows",
         ],
       },
       {
         title: "Data and Infrastructure",
         bullets: [
-          "Databases: PostgreSQL, MongoDB, Firebase, Qdrant, Redis",
-          "MLOps: Docker, Prometheus, Grafana, Kafka, Spark",
-          "Cloud: Cloudinary for media storage",
+          "Databases: PostgreSQL, Firebase, Qdrant, Redis",
+          "MLOps and infra: Docker, Prometheus, Grafana, Kafka, Spark, Hadoop",
+          "Cloud and platform tooling: Cloudinary, big data systems",
         ],
       },
     ],
@@ -1110,14 +1116,14 @@ export const chatData = {
         title: "Detection & Tracking",
         bullets: [
           "YOLO (Ultralytics), RT-DETR for object detection",
-          "BoTSORT, ByteTrack, DeepOCSort for multi-object tracking",
+          "BoTSORT and ByteTrack for multi-object tracking",
           "OSNet Re-ID for appearance-based matching",
         ],
       },
       {
         title: "Specialized CV",
         bullets: [
-          "MiDaS, DPT for monocular depth estimation",
+          "MiDaS for monocular depth estimation",
           "InsightFace for face recognition and embedding",
           "Medical imaging: DenseNet121, EfficientNet for diagnostics",
         ],
@@ -1155,7 +1161,7 @@ export const chatData = {
         bullets: [
           "FastAPI, Django, Flask for API development",
           "Celery for distributed task processing",
-          "WebSocket for real-time communication",
+          "Production backend patterns for ML applications",
         ],
       },
       {
@@ -1176,7 +1182,7 @@ export const chatData = {
 
   leadership: {
     id: "leadership",
-    text: "Aditya has significant environmental and social advocacy experience, including legal action on pollution, community campaigns, and recognition from The Diana Award.",
+    text: "Aditya has significant environmental and social advocacy experience, including legal action on pollution, community campaigns, and national/international recognition.",
     sections: [
       {
         title: "Policy & Litigation",
@@ -1197,8 +1203,8 @@ export const chatData = {
       {
         title: "Recognition & Media",
         bullets: [
-          "The Diana Award recognition for social impact",
-          "Featured in Vice, The Earth Day Network, Verve Magazine",
+          "Diana Legacy Award 2021, Pramerica Award, NDTV Behtar India Award",
+          "Featured in Vice, CNN, National Geographic, BBC India, NDTV, and more",
           "Wikipedia article documenting advocacy work",
         ],
       },

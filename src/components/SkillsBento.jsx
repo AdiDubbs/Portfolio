@@ -8,11 +8,13 @@ const SkillsBento = () => {
     "AI and ML": "bento-ai",
     "Computer Vision": "bento-cv",
     "Full-Stack Development": "bento-backend",
+    "Automation and Testing": "bento-automation",
     "Data and Infrastructure": "bento-infra",
   };
 
   const categorySizeClasses = {
     "AI and ML": "bento-span-2",
+    "Automation and Testing": "bento-span-2",
   };
 
   const categoryIcons = {
@@ -42,6 +44,11 @@ const SkillsBento = () => {
         <circle cx="8" cy="17" r="1" fill="currentColor" />
       </svg>
     ),
+    "Automation and Testing": (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className="bento-icon">
+        <path d="M5 7h14M7 11h10M9 15h6M4 4h16v16H4z" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
     "Data and Infrastructure": (
       <svg viewBox="0 0 24 24" aria-hidden="true" className="bento-icon">
         <ellipse cx="12" cy="6" rx="7" ry="3" stroke="currentColor" strokeWidth="2" fill="none" />
@@ -56,6 +63,7 @@ const SkillsBento = () => {
     "Computer Vision",
     "Full-Stack Development",
     "Data and Infrastructure",
+    "Automation and Testing",
   ];
 
   const orderIndex = new Map(categoryOrder.map((category, index) => [category, index]));

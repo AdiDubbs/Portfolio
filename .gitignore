@@ -25,5 +25,4 @@ dist-ssr
 
 # Optional project files not needed for runtime
 src/components/vintage/
-README.md
 eslint.config.js

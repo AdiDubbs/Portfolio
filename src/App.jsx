@@ -29,7 +29,9 @@ function App() {
               <span className="name-first">{firstName}</span>
               <span className="name-last">{lastName}</span>
             </h1>
-            <span className="hero-title">{profile.personal.title}</span>
+            <span className="hero-title">
+              {profile.personal.tagline || profile.personal.title}
+            </span>
           </div>
 
           {/* Stats Row */}
@@ -79,6 +81,19 @@ function App() {
               >
                 LinkedIn
               </a>
+              {profile.personal.wikipedia && (
+                <>
+                  <span className="contact-sep">•</span>
+                  <a
+                    className="contact-link"
+                    href={profile.personal.wikipedia}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Wikipedia
+                  </a>
+                </>
+              )}
             </div>
           </div>
         </div>
