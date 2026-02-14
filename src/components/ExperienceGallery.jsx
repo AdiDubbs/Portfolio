@@ -1,4 +1,3 @@
-import React from "react";
 import "./ExperienceGallery.css";
 import aionosLogo from "../assets/aionos_watermark.png";
 import rsystemsLogo from "../assets/r_systems_watermark.jpeg";
@@ -20,16 +19,15 @@ const ExperienceGallery = ({ items }) => {
       const parsed = new URL(url);
       const path = parsed.pathname.replace(/\/$/, "");
       return `${parsed.host}${path}`;
-    } catch (err) {
+    } catch {
       return url.replace(/^https?:\/\//, "");
     }
   };
 
   return (
-    <div className="projects-grid">
+    <div className="experience-gallery-grid">
       {items.map((item, idx) => {
         const title = item.title || item.role;
-        const subtitle = item.company || item.period;
         const tags = item.technologies || item.skills || [];
         
         return (

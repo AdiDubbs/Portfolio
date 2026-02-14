@@ -1,15 +1,16 @@
 /* Projects Grid - Stacked Layout like Experience */
-.projects-grid {
+.experience-gallery-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 80px;
-  max-width: 1100px;
+  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0;
   position: relative;
 }
 
-.projects-grid::after {
+.experience-gallery-grid::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -76,7 +77,7 @@
 .exp-type-tag {
   display: inline-block;
   margin-bottom: 15px;
-  font-family: 'Sora', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -108,7 +109,7 @@
 }
 
 .exp-link-label {
-  font-family: 'Sora', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.6rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -156,7 +157,7 @@
 }
 
 .exp-company-name {
-  font-family: 'Sora', sans-serif;
+  font-family: var(--font-body);
   font-size: 1.1rem;
   font-weight: 700;
   color: #38bdf8;
@@ -165,14 +166,14 @@
 }
 
 .exp-location-label {
-  font-family: 'Sora', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.75rem;
   color: #94a3b8;
   font-weight: 500;
 }
 
 .exp-type-label {
-  font-family: 'Sora', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -281,7 +282,7 @@
 }
 
 @media (max-width: 768px) {
-  .projects-grid::after {
+  .experience-gallery-grid::after {
     left: 20px;
     background: rgba(255, 255, 255, 0.1);
   }
@@ -290,8 +291,9 @@
     left: 20px;
   }
 
-  .projects-grid {
+  .experience-gallery-grid {
     gap: 60px;
+    padding: 0;
   }
   
   .project-card {
@@ -313,12 +315,12 @@
 }
 
 @media (max-width: 640px) {
-  .projects-grid {
-    padding: 0 16px 0 36px;
+  .experience-gallery-grid {
+    padding: 0 0 0 22px;
     gap: 48px;
   }
 
-  .projects-grid::after {
+  .experience-gallery-grid::after {
     left: 16px;
   }
 
@@ -341,9 +343,9 @@
 }
 
 @media (max-width: 768px) {
-  .projects-grid {
+  .experience-gallery-grid {
     gap: 46px;
-    padding: 0 16px 0 32px;
+    padding: 0 0 0 18px;
   }
 
   .project-card {
@@ -397,12 +399,12 @@
 }
 
 @media (max-width: 640px) {
-  .projects-grid {
-    padding: 0 14px 0 30px;
+  .experience-gallery-grid {
+    padding: 0 0 0 16px;
     gap: 38px;
   }
 
-  .projects-grid::after {
+  .experience-gallery-grid::after {
     left: 14px;
   }
 

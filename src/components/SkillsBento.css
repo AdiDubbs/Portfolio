@@ -83,7 +83,7 @@
 .bento-tag {
   display: inline-flex;
   align-items: center;
-  font-family: 'Sora', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.9rem;
   font-weight: 600;
   color: #b8c6d8;
@@ -118,7 +118,7 @@
   pointer-events: none;
   z-index: 1;
   text-transform: uppercase;
-  font-family: 'Sora', sans-serif;
+  font-family: var(--font-body);
   white-space: nowrap;
 }
 

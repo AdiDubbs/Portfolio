@@ -17,6 +17,7 @@ html, body {
   --text-dark: #0f172a;
   --text-muted-dark: #475569;
   --border-dark: rgba(15, 23, 42, 0.12);
+  --content-max: 1100px;
   --page-pad: 20px;
   --section-pad: 80px;
   --mobile-page-pad: 18px;
@@ -49,7 +50,7 @@ body {
   z-index: 1000; /* Ensure it stays on top */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  background: rgba(15, 23, 42, 0.4); /* Darker, more transparent */
+  background: var(--glass-bg); /* Darker, more transparent */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   padding: 8px 12px;
@@ -179,13 +180,13 @@ body {
 }
 
 .nav-links a:hover {
-  color: #38bdf8;
+  color: var(--accent);
 }
 
 /* --- Section Containers --- */
 section {
   padding: var(--section-pad) var(--page-pad);
-  max-width: 1100px;
+  max-width: var(--content-max);
   margin: 0 auto;
   scroll-margin-top: 120px;
 }
@@ -213,13 +214,14 @@ section.education {
 
 section.education .section-title,
 section.education .education-grid {
-  max-width: 1100px;
+  max-width: var(--content-max);
   margin-left: auto;
   margin-right: auto;
 }
 
 .projects-inner {
-  max-width: 1200px;
+  max-width: var(--content-max);
+  width: 100%;
   padding: 0 var(--page-pad);
   margin: 0 auto;
 }
@@ -283,9 +285,9 @@ section.education .education-grid {
 .hero-name .name-last {
   font-size: clamp(5rem, 13vw, 12rem);
   font-weight: 900;
-  color: #38bdf8;
+  color: var(--accent);
   margin-top: 0.08em;
-  -webkit-text-stroke: 1px #38bdf8;
+  -webkit-text-stroke: 1px var(--accent);
 }
 
 .hero-title {
@@ -294,7 +296,7 @@ section.education .education-grid {
   font-size: 0.85rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: #38bdf8;
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -395,7 +397,7 @@ section.education .education-grid {
 }
 
 .contact-link:hover {
-  color: #38bdf8;
+  color: var(--accent);
 }
 
 .contact-sep {
@@ -489,7 +491,7 @@ section.education .education-grid {
 
 .project-meta {
   font-family: var(--font-body);
-  color: #38bdf8;
+  color: var(--accent);
   font-size: 0.9rem;
   margin-bottom: 10px;
   display: block;
@@ -525,7 +527,7 @@ section.education .education-grid {
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: #38bdf8;
+  background: var(--accent);
   box-shadow:
     0 0 6px rgba(56, 189, 248, 0.55),
     0 0 0 1px rgba(56, 189, 248, 0.2);
@@ -542,13 +544,13 @@ section.education .education-grid {
   border: 1px solid rgba(56, 189, 248, 0.3);
   border-radius: 100px;
   font-size: 0.8rem;
-  color: #38bdf8;
+  color: var(--accent);
   transition: all 0.2s;
 }
 
 .tag-pill:hover {
   background: rgba(56, 189, 248, 0.1);
-  border-color: #38bdf8;
+  border-color: var(--accent);
 }
 
 /* --- Experience Section (Magazine Style) --- */
@@ -562,7 +564,7 @@ section.experience {
 }
 
 .experience-inner {
-  max-width: 1100px;
+  max-width: var(--content-max);
   margin: 0 auto;
   padding: 0 var(--page-pad);
   width: 100%;
@@ -589,7 +591,7 @@ section.experience {
 section.education .project-meta,
 section.experience .project-meta,
 section.skills-section .project-meta {
-  color: #38bdf8;
+  color: var(--accent);
 }
 
 section.education .section-title {
@@ -706,7 +708,7 @@ section.education .education-info h3 {
   padding: 20px 22px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
-  background: rgba(15, 23, 42, 0.45);
+  background: var(--glass-bg);
   width: min(760px, 86vw);
   flex: 1;
   display: flex;
@@ -789,7 +791,7 @@ section.education .education-info h3 {
 
 .exp-company {
   font-family: var(--font-heading);
-  color: #38bdf8;
+  color: var(--accent);
   font-weight: 500;
   margin-bottom: 20px;
   display: block;
@@ -816,7 +818,7 @@ section.education .education-info h3 {
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: #38bdf8;
+  background: var(--accent);
   box-shadow:
     0 0 6px rgba(56, 189, 248, 0.55),
     0 0 0 1px rgba(56, 189, 248, 0.2);
@@ -912,7 +914,7 @@ section.education .education-info h3 {
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #38bdf8;
+  color: var(--accent);
   margin-bottom: 2px;
 }
 
@@ -937,7 +939,7 @@ section.education .education-info h3 {
   font-size: 0.95rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #38bdf8;
+  color: var(--accent);
 }
 
 /* --- Experience Subsections --- */
@@ -953,7 +955,7 @@ section.education .education-info h3 {
   font-family: var(--font-heading);
   font-size: 1.5rem;
   font-weight: 600;
-  color: #38bdf8;
+  color: var(--accent);
   margin-bottom: 40px;
   padding-bottom: 16px;
   border-bottom: 1px solid rgba(56, 189, 248, 0.2);
@@ -1177,7 +1179,7 @@ section.education .education-info h3 {
 .skills-section .section-title,
 .skills-section .bento-grid,
 .skills-section .skills-bento-grid {
-  max-width: 1100px;
+  max-width: var(--content-max);
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -1185,7 +1187,7 @@ section.education .education-info h3 {
 
 /* --- Leadership Section --- */
 .leadership-section {
-  max-width: 1100px;
+  max-width: var(--content-max);
   margin: 0 auto;
   padding: var(--section-pad) var(--page-pad);
 }
@@ -1229,7 +1231,7 @@ section.education .education-info h3 {
   background: rgba(56, 189, 248, 0.1);
   border-color: rgba(56, 189, 248, 0.4);
   transform: translateX(5px);
-  color: #38bdf8;
+  color: var(--accent);
 }
 
 .pill-arrow {
@@ -1248,7 +1250,7 @@ section.education .education-info h3 {
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: #38bdf8;
+  color: var(--accent);
   margin-bottom: 24px;
 }
 
@@ -1269,7 +1271,7 @@ section.education .education-info h3 {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: #38bdf8;
+  color: var(--accent);
   margin-bottom: 12px;
 }
 
@@ -1297,7 +1299,7 @@ section.education .education-info h3 {
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: #38bdf8;
+  background: var(--accent);
   box-shadow:
     0 0 6px rgba(56, 189, 248, 0.55),
     0 0 0 1px rgba(56, 189, 248, 0.2);
@@ -1312,7 +1314,7 @@ section.education .education-info h3 {
   border-radius: 0;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  max-width: 1100px;
+  max-width: var(--content-max);
   margin: 0 auto 28px;
   display: flex;
   align-items: center;
@@ -1333,7 +1335,7 @@ section.education .cloud-card {
 .cloud-card {
   position: relative;
   width: 100%;
-  max-width: 1100px;
+  max-width: var(--content-max);
   margin: 0 auto;
   padding: 40px 64px;
   border-radius: 40px;
@@ -1409,7 +1411,7 @@ section.education .cloud-card {
 }
 
 .social-link:hover {
-  color: #38bdf8;
+  color: var(--accent);
   border-color: rgba(56, 189, 248, 0.35);
   background: rgba(56, 189, 248, 0.08);
   transform: translateY(-1px);
@@ -1427,7 +1429,7 @@ section.education .cloud-card {
 }
 
 .social-link:hover .social-icon {
-  color: #38bdf8;
+  color: var(--accent);
   background: transparent;
 }
 

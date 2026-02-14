@@ -1,4 +1,3 @@
-import React from "react";
 import "./App.css";
 import { profile } from "./data/profile";
 import Background from "./components/Background";

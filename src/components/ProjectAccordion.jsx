@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { profile } from '../data/profile';
 import concierge1 from '../assets/concierge_1.png';
 import concierge2 from '../assets/concierge_2.png';
@@ -39,10 +39,40 @@ const ProjectBentoGrid = ({ images, imageMap, title, onImageClick }) => {
   );
 };
 
+const contentStaggerVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.22,
+      ease: [0.22, 1, 0.36, 1],
+      staggerChildren: 0.06,
+      delayChildren: 0.06,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: 4,
+    transition: { duration: 0.12, ease: [0.4, 0, 1, 1] },
+  },
+};
+
+const staggerItemVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: { opacity: 0, y: 4, transition: { duration: 0.12 } },
+};
+
 const ProjectAccordion = ({ items = profile.projects }) => {
 
   const [expandedItems, setExpandedItems] = useState(new Set([0]));
   const [activeImage, setActiveImage] = useState(null);
+  const reduceMotion = useReducedMotion();
 
   const imageMap = {
 
@@ -63,7 +93,7 @@ const ProjectAccordion = ({ items = profile.projects }) => {
         return parsed.pathname.replace(/^\//, "").replace(/\/$/, "");
       }
       return parsed.hostname + parsed.pathname.replace(/\/$/, "");
-    } catch (err) {
+    } catch {
       return url.replace(/^https?:\/\//, "");
     }
   };
@@ -80,22 +110,61 @@ const ProjectAccordion = ({ items = profile.projects }) => {
     });
   };
 
+  useEffect(() => {
+    if (!activeImage) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        setActiveImage(null);
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [activeImage]);
+
   return (
     <div className="project-accordion-list">
-      {activeImage && (
-        <div className="media-modal" onClick={() => setActiveImage(null)}>
-          <div className="media-modal-inner" onClick={(e) => e.stopPropagation()}>
-            <img src={activeImage.src} alt={activeImage.alt} />
-            <button
-              className="media-modal-close"
-              onClick={() => setActiveImage(null)}
-              aria-label="Close image"
+      <AnimatePresence>
+        {activeImage && (
+          <motion.div
+            className="media-modal"
+            onClick={() => setActiveImage(null)}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Project image preview"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          >
+            <motion.div
+              className="media-modal-inner"
+              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.96, y: 6 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.98, y: 4 }}
+              transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
             >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+              <img src={activeImage.src} alt={activeImage.alt} />
+              <button
+                type="button"
+                className="media-modal-close"
+                onClick={() => setActiveImage(null)}
+                aria-label="Close image"
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       {items.map((project, idx) => {
         const isExpanded = expandedItems.has(idx);
         const isExperience = Boolean(project.company || project.role);
@@ -105,13 +174,22 @@ const ProjectAccordion = ({ items = profile.projects }) => {
         const tags = project.technologies || project.skills || [];
 
         return (
-          <div
+          <motion.div
             key={idx}
+            layout
+            transition={
+              reduceMotion
+                ? { duration: 0 }
+                : { layout: { duration: 0.42, ease: [0.22, 1, 0.36, 1] } }
+            }
             className={`accordion-item ${isExpanded ? 'active' : ''}`}
           >
-            <button
+            <motion.button
               className="accordion-header"
               onClick={() => handleAccordionClick(idx)}
+              whileHover={reduceMotion ? undefined : { y: -2, x: 2 }}
+              whileTap={reduceMotion ? undefined : { y: 0, x: 0, scale: 0.997 }}
+              transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="header-left">
                 <span className="project-index">0{idx + 1}</span>
@@ -124,34 +202,46 @@ const ProjectAccordion = ({ items = profile.projects }) => {
                 <span className="project-year">{period}</span>
                 <span className={`toggle-icon ${isExpanded ? 'open' : ''}`}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <line className="toggle-line toggle-line-vertical" x1="12" y1="5" x2="12" y2="19"></line>
+                        <line className="toggle-line toggle-line-horizontal" x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
                 </span>
               </div>
-            </button>
+            </motion.button>
 
             <AnimatePresence>
               {isExpanded && (
                 <motion.div
+                  layout
                   className="accordion-content"
-                  initial={{ height: 0, y: -8 }}
-                  animate={{ height: 'auto', y: 0 }}
-                  exit={{ height: 0, y: -8 }}
-                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{
+                    height: { duration: 0.3, ease: [0.22, 1, 0.36, 1] },
+                    opacity: { duration: 0.16, ease: "easeOut" },
+                  }}
                 >
-                  <div className="content-inner-grid">
+                  <motion.div
+                    className="content-inner-grid"
+                    variants={contentStaggerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                  >
                     <div className="project-details">
                       {project.imageKeys && project.imageKeys.length > 0 && (
-                        <ProjectBentoGrid 
-                          images={project.imageKeys} 
-                          imageMap={imageMap} 
-                          title={title} 
-                          onImageClick={setActiveImage} 
-                        />
+                        <motion.div variants={staggerItemVariants}>
+                          <ProjectBentoGrid 
+                            images={project.imageKeys} 
+                            imageMap={imageMap} 
+                            title={title} 
+                            onImageClick={setActiveImage} 
+                          />
+                        </motion.div>
                       )}
                       {project.link && (
-                        <div className="project-links">
+                        <motion.div className="project-links" variants={staggerItemVariants}>
                           <a
                             className="project-github-pill"
                             href={project.link}
@@ -164,24 +254,28 @@ const ProjectAccordion = ({ items = profile.projects }) => {
                             <span className="pill-text">View Source</span>
                             <span className="pill-repo">{getRepoName(project.link)}</span>
                           </a>
-                        </div>
+                        </motion.div>
                       )}
-                      <ul className="accordion-bullets">
+                      <motion.ul className="accordion-bullets" variants={staggerItemVariants}>
                         {project.bullets.map((bullet, i) => (
-                          <li key={i}>{bullet}</li>
+                          <motion.li key={i} variants={staggerItemVariants}>
+                            {bullet}
+                          </motion.li>
                         ))}
-                      </ul>
-                      <div className="accordion-tags">
+                      </motion.ul>
+                      <motion.div className="accordion-tags" variants={staggerItemVariants}>
                         {tags.map(tech => (
-                          <span key={tech} className="simple-tag">{tech}</span>
+                          <motion.span key={tech} className="simple-tag" variants={staggerItemVariants}>
+                            {tech}
+                          </motion.span>
                         ))}
-                      </div>
+                      </motion.div>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
         );
       })}
     </div>

@@ -1,5 +1,5 @@
 :root {
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-family: "Nunito Sans", system-ui, -apple-system, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -14,7 +14,13 @@
 
   --bg-primary: #1e293b;
   --font-heading: "Manrope", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-body: "Nunito Sans", sans-serif;
+  --accent: #38bdf8;
+  --accent-secondary: #22d3ee;
+  --accent-tertiary: #a78bfa;
+  --accent-soft: rgba(56, 189, 248, 0.18);
+  --glass-bg: rgba(15, 23, 42, 0.62);
+  --glass-bg-strong: rgba(15, 23, 42, 0.84);
 }
 
 body {

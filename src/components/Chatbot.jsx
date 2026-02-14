@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { chatData } from "../data/chatData";
 import { motion, AnimatePresence } from "framer-motion";
 import { search, getQuickActions, getDefaultSuggestions } from "../utils/searchEngine";
@@ -37,10 +37,10 @@ const START_NODE = chatData.start;
 const MAX_VISIBLE_SUGGESTIONS = 4;
 
 const Typewriter = ({ text, speed = 15, onComplete }) => {
-  const [displayedText, setDisplayedText] = React.useState("");
-  const [isDone, setIsDone] = React.useState(false);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isDone, setIsDone] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setDisplayedText("");
     setIsDone(false);
     let i = 0;
@@ -92,7 +92,7 @@ const Chatbot = () => {
     const nextSuggestions = [...(responseNode.options || [])];
     const hasStart = nextSuggestions.some((opt) => opt.nextId === "start");
     if (!hasStart && responseNode.id !== "start") {
-      nextSuggestions.push({ label: "Back to menu", nextId: "start" });
+      nextSuggestions.push({ label: "Main menu", nextId: "start" });
     }
 
     return limitSuggestions(nextSuggestions);
@@ -125,7 +125,7 @@ const Chatbot = () => {
       return `${cleaned}?`;
     }
 
-    return `Can you tell me about ${cleaned}?`;
+    return `Tell me about ${cleaned}`;
   };
 
   // Live search as user types - with auto-navigation for high confidence matches
@@ -392,16 +392,15 @@ const Chatbot = () => {
       setActiveSuggestionIndex(-1);
   };
 
-  const handleCommandBarFocus = () => {
-      setCurrentResponse(START_NODE);
-      setInputValue("");
-      setIsSearching(false);
-      setHasNoResults(false);
-      setSuggestions(limitSuggestions(buildSuggestionsFromResponse(START_NODE)));
-      setShowSections(false);
-      setActiveSuggestionIndex(-1);
+  const handleCommandBarActivate = () => {
       setIsFocused(true);
-      inputRef.current?.focus();
+      if (document.activeElement !== inputRef.current) {
+        inputRef.current?.focus();
+      }
+  };
+
+  const handleInputFocus = () => {
+      setIsFocused(true);
   };
 
   const handleRecoveryReset = () => {
@@ -435,12 +434,12 @@ const Chatbot = () => {
           className="chatbot-launcher"
           type="button"
           onClick={() => handleCollapse(false)}
-          aria-label="Open Dubey A.I."
+          aria-label="Open Dubey AI"
         >
           <span className="launcher-icon">
             <BrainIcon />
           </span>
-          <span className="launcher-text">Dubey A.I.</span>
+          <span className="launcher-text">Dubey AI</span>
         </button>
       ) : (
         <>
@@ -469,7 +468,7 @@ const Chatbot = () => {
                     <div className="response-icon">
                       <BrainIcon />
                     </div>
-                    <span className="response-title">Dubey A.I.</span>
+                    <span className="response-title">Dubey AI</span>
                     {isMobile && (
                       <button
                         className="collapse-button"
@@ -516,7 +515,7 @@ const Chatbot = () => {
                   exit={{ y: 5 }}
                   transition={{ duration: 0.15, ease: "easeOut" }}
                 >
-                  <div className="chatbot-state-title">No direct match found</div>
+                  <div className="chatbot-state-title">No exact result found</div>
                   <div className="chatbot-state-text">Try broader keywords, or jump back to the main menu.</div>
                   <div className="chatbot-state-actions">
                     <button type="button" className="chatbot-state-action" onClick={handleRecoveryReset}>
@@ -584,7 +583,7 @@ const Chatbot = () => {
                   exit={{ y: 5 }}
                   transition={{ duration: 0.15, ease: "easeOut" }}
                 >
-                  <div className="chatbot-state-title">No prompts available yet</div>
+                  <div className="chatbot-state-title">No suggestions available</div>
                   <div className="chatbot-state-text">Reset to the main menu to continue exploring.</div>
                   <div className="chatbot-state-actions">
                     <button type="button" className="chatbot-state-action" onClick={handleRecoveryReset}>
@@ -599,7 +598,7 @@ const Chatbot = () => {
           {/* Command Bar */}
           <div
             className={`command-bar ${isFocused || inputValue ? 'focused' : ''} ${isTyping ? 'thinking' : ''}`}
-            onClick={handleCommandBarFocus}
+            onClick={handleCommandBarActivate}
           >
             <div className="command-icon">
               <SearchIcon />
@@ -608,7 +607,7 @@ const Chatbot = () => {
               ref={inputRef}
               type="text"
               className="command-input"
-              placeholder="Search projects, skills, experience..."
+              placeholder="Ask about projects, skills, or experience..."
               value={inputValue}
               onChange={(e) => {
                 setInputValue(e.target.value);
@@ -616,7 +615,7 @@ const Chatbot = () => {
                 setActiveSuggestionIndex(-1);
               }}
               onKeyDown={handleKeyDown}
-              onFocus={handleCommandBarFocus}
+              onFocus={handleInputFocus}
               onBlur={() => setTimeout(() => setIsFocused(false), 200)}
             />
             {suggestions.length > 0 && inputValue && (
