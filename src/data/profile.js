@@ -6,9 +6,13 @@ export const profile = {
     title: `AI/ML and Full-Stack | Graduating in May 2026`,
     tagline: `AI and Full-Stack | Graduating ${GRADUATION_DATE}`,
     summary:
-      "I am a Computer Science student focused on applied AI, agentic systems, and computer vision, building multimodal pipelines and production-ready ML systems. I am also a recognized environmental activist advancing air-quality policy, plastic-reduction advocacy, and community-led climate action.",
+      "Computer Science student focused on applied AI, agentic systems, and computer vision - building multimodal pipelines and production-ready ML systems. Also a recognized environmental activist advancing air-quality policy, plastic-reduction advocacy, and community-led climate action.",
     email: "adityadubeyms@gmail.com",
     location: "Madison, WI",
+    status: "International Student",
+    hobbies: "I enjoy watching Formula 1, keeping up with the latest AI models and tech gadgets, and have a soft spot for good design.",
+    origin: "I was born and grew up in Noida, India and I'm currently studying Computer Science at the University of Wisconsin–Madison in the US.",
+    focus: "I enjoy working in machine learning, frontend development, and software engineering. I work across the full stack - from model training to the interface people actually see and interact with.",
     github: "https://github.com/AdiDubbs",
     linkedin: "https://www.linkedin.com/in/adityadubey2003/",
     wikipedia: "https://en.wikipedia.org/wiki/Aditya_Dubey",
@@ -143,12 +147,16 @@ export const profile = {
     {
       title: "Drift Shield",
       period: "2026",
+      link: "https://github.com/AdiDubbs/Drift-Shield.git",
+      imageKeys: ["drift_1", "drift_2", "drift_3"],
+      imageLabels: ["Overview Screen", "Monitoring Screen", "About Screen"],
       bullets: [
         "Built a FastAPI-based production-grade fraud detection service using XGBoost with calibrated probabilities and conformal prediction sets to expose uncertainty-aware outputs.",
         "Implemented online data-drift detection via PSI and KS rolling windows.",
         "Orchestrated a full observability stack with Prometheus metrics and Grafana dashboards to track real-time model health and drift signals.",
         "Utilized a pointer-based deployment strategy (Active/Shadow/Rollback) to ensure zero-downtime updates.",
       ],
+      category: "MLOps / Fraud Detection",
       technologies: [
         "FastAPI",
         "React",
@@ -167,11 +175,13 @@ export const profile = {
       period: "2025",
       link: "https://github.com/AdiDubbs/Vitalis",
       imageKeys: ["vitalis_1", "vitalis_2", "vitalis_3"],
+      imageLabels: ["Patient Intake", "Diagnostic Insights", "Clinical Summary"],
       bullets: [
         "Architected a multi-model diagnostic engine that fuses clinical notes, labs, medical imaging, and ECG signals into ranked differential diagnoses using Bayesian reasoning.",
         "Implemented computer vision inference pipelines for X-ray and MRI analysis using PyTorch (DenseNet121, EfficientNet) and integrated ECG ischemia detection workflows.",
         "Developed a full-stack Flask and React application featuring NLP symptom extraction with negation handling.",
       ],
+      category: "Applied AI / Healthcare",
       technologies: [
         "PyTorch",
         "Flask",
@@ -187,12 +197,14 @@ export const profile = {
       period: "2025",
       link: "https://github.com/AdiDubbs/Concierge",
       imageKeys: ["concierge_1", "concierge_2", "concierge_3"],
+      imageLabels: ["Shopping Request", "Agent Plan", "Checkout Flow"],
       bullets: [
         "Engineered an agentic commerce engine capable of autonomously navigating login, product search, selection and checkout flows using Playwright and Llama 3.1 via Groq.",
         "Implemented a hybrid selection mechanism combining semantic UI action selection with LLM reasoning for dynamic checkout flows.",
         "Implemented safety guardrails including OTP-aware handling, dry-run mode, and explicit confirmation gates for spend control.",
         "Built supporting infrastructure with a FastAPI backend and React dashboard to visualize real-time order status.",
       ],
+      category: "Agentic AI / Automation",
       technologies: [
         "Playwright",
         "Llama",
@@ -206,14 +218,40 @@ export const profile = {
       ],
     },
     {
+      title: "Square Saga",
+      period: "2023",
+      link: "https://github.com/AdiDubbs/Square_Saga.git",
+      imageKeys: ["square_sage_1", "square_sage_2", "square_sage_3"],
+      imageLabels: ["Main Menu", "Gameplay", "End Screen"],
+      bullets: [
+        "Built Square Saga, a browser-based Tetris-style game using HTML5 Canvas, CSS3, and vanilla JavaScript, implementing core systems like piece spawning, rotation, collision checks, line clears, and score tracking.",
+        "Developed a polished player experience with responsive keyboard controls, animated menu and state transitions, and dynamic end-of-run feedback to create a complete gameplay loop from mode selection to results screen.",
+        "Designed and shipped 3 distinct game modes (Classic, Light, Dark) with unique themes, lore, and win conditions, plus a custom hold system with a tradeoff cost to add strategic depth.",
+        "Integrated an original mode-driven narrative by turning gameplay into a light-vs-dark conflict with lore-rich role framing, enemy context (Vortax and Aura-Giving Tree), and dynamic victory/defeat messaging tied to player performance.",
+      ],
+      category: "Computer Graphics / Game Development",
+      technologies: [
+        "HTML5 Canvas",
+        "CSS3",
+        "JavaScript",
+        "Vanilla JavaScript",
+        "Game Development",
+        "Gameplay Systems",
+        "UI Animation",
+      ],
+    },
+    {
       title: "Carbon",
       period: "2021",
       link: "https://github.com/AdiDubbs/Carbon",
+      imageKeys: ["carbon_1", "carbon_2", "carbon_3"],
+      imageLabels: ["Welcome Screen", "Home Screen", "Calculation Screen"],
       bullets: [
         "Developed a native Android application with emissions calculations and history tracking to estimate user carbon footprints.",
         "Integrated Firebase Auth and Realtime Database for profile management and timestamped history tracking.",
         "Achieved 500+ downloads across more than 8 countries.",
       ],
+      category: "Android / App Development",
       technologies: [
         "Java",
         "Google Firebase",
@@ -315,17 +353,17 @@ export const profile = {
   ],
   leadership: [
     {
-      label: "Policy & Litigation",
-      items: [
-        "Filed a Public Interest Litigation (PIL) in the Supreme Court of India addressing severe air pollution, leading to the creation of the Commission for Air Quality Management (CAQM).",
-        "Successfully petitioned the National Green Tribunal against excessive single-use plastic packaging by e-commerce giants, contributing to the enforcement of Extended Producer Responsibility (EPR) regulations.",
-      ],
-    },
-    {
       label: "Community Campaigns",
       items: [
         "Led tree-plantation efforts and seed-orb distribution drives that resulted in 100,000+ trees planted, engaging local communities in climate action.",
         "Led grassroots social initiatives supporting street children and underprivileged communities through education access, resource drives, and local outreach.",
+      ],
+    },
+    {
+      label: "Policy & Litigation",
+      items: [
+        "Filed a Public Interest Litigation (PIL) in the Supreme Court of India addressing severe air pollution, leading to the creation of the Commission for Air Quality Management (CAQM).",
+        "Successfully petitioned the National Green Tribunal against excessive single-use plastic packaging by e-commerce giants, contributing to the enforcement of Extended Producer Responsibility (EPR) regulations.",
       ],
     },
     {
@@ -338,34 +376,13 @@ export const profile = {
     },
   ],
   advocacyLinks: [
-    { name: "Wikipedia", url: "https://en.wikipedia.org/wiki/Aditya_Dubey" },
-    {
-      name: "Diana Award",
-      url: "https://diana-award.org.uk/stories/aditya-dubey",
-    },
-    {
-      name: "CNN",
-      url: "https://www.cnn.com/2021/11/23/india/air-pollution-delhi-residents-intl-hnk-dst",
-    },
-    {
-      name: "National Geographic",
-      url: "https://www.nationalgeographic.com/environment/article/new-delhi-burning-season-makes-air-even-more-dangerous-can-anything-be-done",
-    },
-    {
-      name: "Vice",
-      url: "https://www.vice.com/en/article/16-year-old-indian-activist-files-petition-against-amazon-and-flipkart-for-ridiculous-amounts-of-packaging/",
-    },
-    {
-      name: "NDTV",
-      url: "https://www.ndtv.com/video/meet-student-17-whose-petition-led-to-centre-s-anti-pollution-ordinance-564862/",
-    },
-    {
-      name: "Earth Day Network",
-      url: "https://www.earthday.org/my-future-my-voice/",
-    },
-    {
-      name: "Verve Magazine",
-      url: "https://www.vervemagazine.in/people/rebels-with-a-cause",
-    },
+    { name: "Wikipedia", url: "https://en.wikipedia.org/wiki/Aditya_Dubey", description: "Wikipedia article on Aditya Dubey" },
+    { name: "Diana Award", url: "https://diana-award.org.uk/stories/aditya-dubey", description: "Diana Legacy Award 2021 recipient" },
+    { name: "CNN", url: "https://www.cnn.com/2021/11/23/india/air-pollution-delhi-residents-intl-hnk-dst", description: "Delhi air pollution crisis coverage" },
+    { name: "National Geographic", url: "https://www.nationalgeographic.com/environment/article/new-delhi-burning-season-makes-air-even-more-dangerous-can-anything-be-done", description: "New Delhi's air quality emergency" },
+    { name: "Vice", url: "https://www.vice.com/en/article/16-year-old-indian-activist-files-petition-against-amazon-and-flipkart-for-ridiculous-amounts-of-packaging/", description: "Petition against Amazon & Flipkart packaging" },
+    { name: "NDTV", url: "https://www.ndtv.com/video/meet-student-17-whose-petition-led-to-centre-s-anti-pollution-ordinance-564862/", description: "Student petition leads to anti-pollution ordinance" },
+    { name: "Earth Day Network", url: "https://www.earthday.org/my-future-my-voice/", description: "My Future My Voice Youth Ambassador" },
+    { name: "Verve Magazine", url: "https://www.vervemagazine.in/people/rebels-with-a-cause", description: "Rebels with a Cause — featured activist" },
   ],
 };

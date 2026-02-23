@@ -1,0 +1,554 @@
+/* ============================================
+   About — Adaptive Bento Grid
+   ============================================ */
+
+.ab-neural-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 10px 0 24px;
+}
+
+.ab-bento {
+  display: grid;
+  grid-template-columns: 1.3fr 0.9fr 1.1fr 1.1fr;
+  grid-template-rows: 280px 280px;
+  gap: 16px;
+  width: 100%;
+  transition: grid-template-columns 0.55s cubic-bezier(0.35, 0.15, 0.2, 1);
+}
+
+/* ── Shared tile base ────────────────────── */
+.ab-tile {
+  border-radius: 20px;
+  border: 1px solid rgba(186, 230, 253, 0.3);
+  background: rgba(15, 23, 42, 0.2);
+  padding: 20px 22px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+  transition:
+    border-color var(--dur-base) ease,
+    box-shadow var(--dur-base) ease,
+    opacity 0.4s ease,
+    filter 0.4s ease,
+    transform 0.4s cubic-bezier(0.34, 1.3, 0.64, 1),
+    background 0.3s ease;
+}
+
+/* Content layers above base */
+.ab-tile-title,
+.ab-tile-body {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Photo tile ──────────────────────────── */
+.ab-tile--photo {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  padding: 0;
+  overflow: hidden;
+  border-color: rgba(56, 189, 248, 0.35);
+  cursor: default;
+  border-radius: 22px;
+  min-width: 160px;
+}
+
+.ab-photo-full {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: 17px;
+  filter: saturate(0.94) contrast(0.98) brightness(0.97);
+  transition:
+    filter 0.5s ease,
+    transform 0.5s ease;
+}
+
+.ab-tile--photo:hover .ab-photo-full {
+  filter: saturate(1) contrast(1) brightness(1.02);
+  transform: scaleX(1.05) scaleY(1.03);
+}
+
+.ab-tile--recede .ab-photo-full {
+  filter: saturate(0.8) brightness(0.85);
+}
+
+/* Permanent subtle bottom vignette */
+.ab-tile--photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 17px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.18),
+    inset 0 -20px 34px rgba(255, 255, 255, 0.08);
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.ab-tile--photo:hover::before {
+  opacity: 1;
+}
+
+.ab-tile--photo::after {
+  content: none;
+}
+
+/* Cinematic gradient overlay */
+.ab-photo-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 17px;
+  background: linear-gradient(
+    to top,
+    rgba(8, 14, 28, 0.92) 0%,
+    rgba(8, 14, 28, 0.58) 22%,
+    rgba(8, 14, 28, 0.14) 42%,
+    transparent 58%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 22px 24px;
+}
+
+.ab-photo-overlay--visible {
+  opacity: 1;
+}
+
+.ab-photo-overlay-text {
+  transform: translateY(6px);
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.35s ease;
+  opacity: 0;
+}
+
+.ab-photo-overlay--visible .ab-photo-overlay-text {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: 0.08s;
+}
+
+.ab-overlay-status {
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin: 0 0 6px;
+}
+
+.ab-overlay-name {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: #f8fafc;
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+  text-shadow: 0 1px 3px rgba(2, 6, 23, 0.3);
+}
+
+.ab-overlay-location {
+  font-family: var(--font-body);
+  font-size: var(--text-meta);
+  color: rgba(203, 213, 225, 0.7);
+  margin: 0;
+}
+
+/* --- Colored Glass Refinement --- */
+
+/* ── Per-tile tints (Colored Glass) ──────── */
+.ab-tile--activism {
+  background: rgba(74, 222, 128, 0.03);
+  border-color: rgba(74, 222, 128, 0.2);
+}
+.ab-tile--focus {
+  background: rgba(34, 211, 238, 0.03);
+  border-color: rgba(34, 211, 238, 0.2);
+}
+.ab-tile--origin {
+  background: rgba(99, 102, 241, 0.03);
+  border-color: rgba(99, 102, 241, 0.2);
+}
+.ab-tile--hobbies {
+  background: rgba(239, 68, 68, 0.03);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+/* Tint intensities on hover */
+.ab-tile--active.ab-tile--activism {
+  border-color: rgba(74, 222, 128, 0.3);
+  background: rgba(74, 222, 128, 0.05);
+  box-shadow: 0 0 15px rgba(74, 222, 128, 0.08), 0 24px 48px rgba(0, 0, 0, 0.4);
+}
+.ab-tile--active.ab-tile--focus {
+  border-color: rgba(34, 211, 238, 0.3);
+  background: rgba(34, 211, 238, 0.05);
+  box-shadow: 0 0 15px rgba(34, 211, 238, 0.08), 0 24px 48px rgba(0, 0, 0, 0.4);
+}
+.ab-tile--active.ab-tile--origin {
+  border-color: rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.05);
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.08), 0 24px 48px rgba(0, 0, 0, 0.4);
+}
+.ab-tile--active.ab-tile--hobbies {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.08), 0 24px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Grid placements ─────────────────────── */
+.ab-tile--activism {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.ab-tile--focus {
+  grid-column: 3 / 5;
+  grid-row: 1;
+}
+
+.ab-tile--origin {
+  grid-column: 2 / 4;
+  grid-row: 2;
+}
+
+.ab-tile--hobbies {
+  grid-column: 4;
+  grid-row: 2;
+}
+
+
+
+/* ── Hover states ────────────────────────── */
+.ab-tile--active {
+  box-shadow:
+    0 32px 64px rgba(2, 6, 23, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px) scale(1.008);
+}
+
+.ab-tile--dim {
+  opacity: 0.75;
+  filter: saturate(0.8) brightness(0.9);
+}
+
+.ab-tile--recede {
+  opacity: 0.85;
+}
+
+/* ── Tile icon ───────────────────────────── */
+.ab-tile-icon {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  opacity: 0.12;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1);
+  z-index: 1;
+}
+
+.ab-tile--active .ab-tile-icon {
+  opacity: 0.55;
+  transform: scale(1.12) rotate(-6deg);
+}
+
+.ab-tile--activism .ab-tile-icon {
+  color: #4ade80;
+}
+.ab-tile--focus .ab-tile-icon {
+  color: #22d3ee;
+}
+.ab-tile--origin .ab-tile-icon {
+  color: #6366f1;
+}
+.ab-tile--hobbies .ab-tile-icon {
+  color: #ef4444;
+}
+
+/* ── Typography ──────────────────────────── */
+.ab-tile-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(1.2rem, 3vw, 1.9rem);
+  color: #f1f5f9;
+  margin: 0 0 8px 0;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  text-transform: capitalize;
+}
+
+.ab-tile-content {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: rgba(226, 232, 240, 0.95);
+  letter-spacing: 0.015em;
+  line-height: 1.75;
+  margin: 0 0 4px;
+  padding-left: 12px;
+  border-left: 2px solid rgba(56, 189, 248, 0.45);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.ab-tile-content--muted {
+  color: rgba(148, 163, 184, 0.7);
+  font-size: var(--text-meta);
+  border-left-color: rgba(56, 189, 248, 0.2);
+}
+
+/* ── Expand body ─────────────────────────── */
+.ab-tile-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition:
+    grid-template-rows 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    margin-top 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-top: 0;
+}
+
+.ab-tile--active .ab-tile-body {
+  grid-template-rows: 1fr;
+  margin-top: 14px;
+}
+
+/* On touch devices, always show content on mobile */
+@media (hover: none) and (max-width: 1100px) {
+  .ab-tile-body {
+    grid-template-rows: 1fr;
+    margin-top: 14px;
+  }
+}
+
+.ab-tile-inner {
+  overflow: hidden;
+}
+
+/* Staggered content fade-in */
+.ab-tile-inner > * {
+  opacity: 0;
+  transform: translateY(5px);
+  transition:
+    opacity 0.28s ease 0.12s,
+    transform 0.28s ease 0.12s;
+}
+
+.ab-tile--active .ab-tile-inner > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 1100px) {
+  .ab-bento.ab-bento {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+
+  .ab-bento .ab-tile--photo {
+    grid-column: 1;
+    grid-row: auto;
+    height: 340px;
+    border-radius: 18px;
+  }
+
+  .ab-bento .ab-tile--photo .ab-photo-full {
+    object-position: center 65%;
+  }
+
+  .ab-bento .ab-tile--activism,
+  .ab-bento .ab-tile--focus,
+  .ab-bento .ab-tile--origin,
+  .ab-bento .ab-tile--hobbies {
+    grid-column: 1;
+    grid-row: auto;
+    min-height: 100px;
+  }
+
+  .ab-tile {
+    justify-content: flex-start;
+  }
+
+  .ab-photo-overlay {
+    display: none;
+  }
+
+  /* Always show content */
+  .ab-tile-body {
+    grid-template-rows: 1fr;
+    margin-top: 10px;
+  }
+
+  .ab-tile-inner > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Tablet layout - simplified single column */
+@media (max-width: 768px) and (min-width: 481px) {
+  .ab-neural-wrapper {
+    padding: 0;
+    gap: 12px;
+  }
+
+  .ab-bento.ab-bento {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+
+  .ab-bento .ab-tile--photo {
+    display: block;
+    grid-column: 1;
+    grid-row: auto;
+    height: 300px;
+    border-radius: 18px;
+  }
+
+  .ab-bento .ab-tile--photo .ab-photo-full {
+    object-position: center 65%;
+  }
+
+  .ab-tile {
+    padding: 18px 20px;
+    min-height: 100px;
+    justify-content: flex-start;
+  }
+
+  .ab-tile-title {
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+  }
+
+  .ab-tile-content {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  /* Always show content on tablet single-column */
+  .ab-tile-body {
+    grid-template-rows: 1fr;
+    margin-top: 10px;
+  }
+
+  .ab-tile-inner > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile layout - simplified card stack */
+@media (max-width: 480px) {
+  .ab-neural-wrapper {
+    padding: 0;
+    gap: 12px;
+    max-width: 100%;
+  }
+
+  .ab-bento.ab-bento {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 12px;
+  }
+
+  .ab-bento .ab-tile--photo {
+    display: block;
+    grid-column: 1;
+    grid-row: auto;
+    height: 260px;
+    border-radius: 16px;
+    padding: 0;
+  }
+
+  .ab-bento .ab-tile--photo .ab-photo-full {
+    object-position: center 65%;
+  }
+
+  .ab-tile {
+    padding: 14px 16px;
+    min-height: auto;
+    border-radius: 14px;
+    justify-content: flex-start;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(125, 211, 252, 0.04));
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    box-shadow: none;
+    backdrop-filter: blur(6px);
+  }
+
+  .ab-tile--active {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(125, 211, 252, 0.06));
+    box-shadow: 0 2px 8px rgba(56, 189, 248, 0.08);
+    transform: none;
+  }
+
+  .ab-tile-title {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+    font-weight: 700;
+  }
+
+  .ab-tile-content {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: rgba(203, 213, 225, 0.75);
+    padding-left: 8px;
+  }
+
+  .ab-tile-icon {
+    width: 16px;
+    height: 16px;
+    opacity: 0.2;
+  }
+
+  /* Show compact content bodies on mobile instead of hiding */
+  .ab-tile-body {
+    display: grid;
+    grid-template-rows: 1fr;
+    margin-top: 6px;
+  }
+
+  .ab-tile-inner > * {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Restore colored glass tints on mobile */
+  .ab-tile--activism {
+    background: rgba(74, 222, 128, 0.04);
+    border-color: rgba(74, 222, 128, 0.18);
+  }
+  .ab-tile--focus {
+    background: rgba(34, 211, 238, 0.04);
+    border-color: rgba(34, 211, 238, 0.18);
+  }
+  .ab-tile--origin {
+    background: rgba(99, 102, 241, 0.04);
+    border-color: rgba(99, 102, 241, 0.18);
+  }
+  .ab-tile--hobbies {
+    background: rgba(239, 68, 68, 0.04);
+    border-color: rgba(239, 68, 68, 0.18);
+  }
+}

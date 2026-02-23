@@ -4,12 +4,12 @@ import rsystemsLogo from "../assets/r_systems_watermark.jpeg";
 import uwLogo from "../assets/uw_madison.png";
 
 const ExperienceGallery = ({ items }) => {
-  const getWatermark = (company) => {
+  const getWatermarkInfo = (company) => {
     if (!company) return null;
     const co = company.toLowerCase();
-    if (co.includes("aionos")) return aionosLogo;
-    if (co.includes("r systems")) return rsystemsLogo;
-    if (co.includes("university of wisconsin") || co.includes("madcse") || co.includes("speech processing") || co.includes("auditory neuroscience")) return uwLogo;
+    if (co.includes("aionos")) return { src: aionosLogo, cls: "aionos-logo-fit" };
+    if (co.includes("r systems")) return { src: rsystemsLogo, cls: "rsystems-logo-fit" };
+    if (co.includes("university of wisconsin") || co.includes("madcse") || co.includes("speech processing") || co.includes("auditory neuroscience")) return { src: uwLogo, cls: "uw-logo-fit" };
     return null;
   };
 
@@ -29,11 +29,13 @@ const ExperienceGallery = ({ items }) => {
       {items.map((item, idx) => {
         const title = item.title || item.role;
         const tags = item.technologies || item.skills || [];
-        
+
+        const watermark = getWatermarkInfo(item.company);
+        const visualBgClass = watermark ? `visual-bg-${watermark.cls.split('-')[0]}` : '';
         return (
           <div key={idx} className="project-card">
             <div className="timeline-dot"></div>
-            
+
             <div className="project-visual-column">
               {item.company && (
                 <div className="experience-company-header">
@@ -41,25 +43,18 @@ const ExperienceGallery = ({ items }) => {
                     <span className="exp-company-name">{item.company}</span>
                     {item.type === 'research' && <span className="exp-location-label">University of Wisconsin–Madison</span>}
                   </div>
-                  {item.type === 'research' && <span className="exp-type-label">Academic Research</span>}
+                  {item.type && <span className="exp-type-tag">{item.type}</span>}
                 </div>
               )}
-              <div className={`project-visual project-card-visual ${item.type === 'research' ? 'visual-research' : ''}`}>
+              <div className={`project-visual project-card-visual ${visualBgClass}`}>
                 <div className="visual-media-wrap">
-                  {getWatermark(item.company) && (
-                    <img 
-                      src={getWatermark(item.company)} 
-                      alt={`${item.company} watermark`} 
-                      className={`experience-watermark 
-                        ${item.company.toLowerCase().includes('aionos') ? 'aionos-logo-fit' : ''}
-                        ${item.company.toLowerCase().includes('r systems') ? 'rsystems-logo-fit' : ''}
-                        ${item.company.toLowerCase().includes('university') ? 'uw-logo-fit' : ''}
-                        ${item.company.toLowerCase().includes('madcse') ? 'uw-logo-fit' : ''}
-                        ${item.company.toLowerCase().includes('speech') ? 'uw-logo-fit' : ''}
-                      `} 
+                  {watermark && (
+                    <img
+                      src={watermark.src}
+                      alt={`${item.company} logo`}
+                      className={`experience-watermark ${watermark.cls}`}
                     />
                   )}
-                  <div className="project-number">0{idx + 1}</div>
                 </div>
               </div>
 
@@ -72,7 +67,7 @@ const ExperienceGallery = ({ items }) => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <span className="exp-link-label">{item.linkLabel || "Company"}</span>
+                      <span className="exp-link-label">{item.linkLabel || "Company"} ↗</span>
                       <span className="exp-link-url">{formatUrl(item.link)}</span>
                     </a>
                   )}
@@ -83,7 +78,7 @@ const ExperienceGallery = ({ items }) => {
                       target="_blank"
                       rel="noreferrer"
                     >
-                      <span className="exp-link-label">{item.projectLinkLabel || "Project"}</span>
+                      <span className="exp-link-label">{item.projectLinkLabel || "Project"} ↗</span>
                       <span className="exp-link-url">{formatUrl(item.projectLink)}</span>
                     </a>
                   )}
@@ -92,10 +87,14 @@ const ExperienceGallery = ({ items }) => {
             </div>
 
             <div className="project-content">
-              <span className="project-meta">{item.period}</span>
+              <div className="exp-meta-row">
+                <span className="project-meta">{item.period}</span>
+                {item.location && (
+                  <span className="exp-location-meta">• {item.location}</span>
+                )}
+              </div>
               <h3>{title}</h3>
-              {item.type && <span className="exp-type-tag">{item.type}</span>}
-              
+
               <ul className="project-bullets">
                 {item.bullets.map((bullet, i) => (
                   <li key={i}>{bullet}</li>

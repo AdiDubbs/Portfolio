@@ -1,17 +1,42 @@
 import "./App.css";
+import { useEffect } from "react";
 import { profile } from "./data/profile";
 import Background from "./components/Background";
-import Chatbot from "./components/Chatbot";
+// import Chatbot from "./components/Chatbot";
 import ExperienceGallery from "./components/ExperienceGallery";
 import Navbar from "./components/Navbar";
+import AboutSection from "./components/AboutSection";
 import SkillsBento from "./components/SkillsBento";
 import ProjectAccordion from "./components/ProjectAccordion";
+import Magnetic from "./components/Magnetic";
+import { motion } from "framer-motion";
 import uwMadisonLogo from "./assets/uw_madison.png";
 
 function App() {
+  useEffect(() => {
+    const titles = document.querySelectorAll(".section-title");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    titles.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   const fullName = profile.personal.name.split(" ");
   const firstName = fullName[0];
   const lastName = fullName[1];
+
+  const internshipCount = profile.experiences.filter(e => e.type === "internship").length;
+  const researchCount = profile.experiences.filter(e => e.type === "research").length;
+  const projectCount = profile.projects.length;
 
   return (
     <div className="app-container">
@@ -36,24 +61,26 @@ function App() {
           {/* Stats Row */}
           <div className="hero-stats">
             <div className="stat-block">
-              <span className="stat-num">4</span>
+              <span className="stat-num">{projectCount}</span>
               <span className="stat-txt">Projects</span>
             </div>
             <span className="stat-divider" aria-hidden="true" />
             <div className="stat-block">
-              <span className="stat-num">2</span>
+              <span className="stat-num">{internshipCount}</span>
               <span className="stat-txt">Internships</span>
             </div>
             <span className="stat-divider" aria-hidden="true" />
             <div className="stat-block">
-              <span className="stat-num">2</span>
+              <span className="stat-num">{researchCount}</span>
               <span className="stat-txt">Research Roles</span>
             </div>
           </div>
 
           {/* Footer */}
           <div className="hero-footer">
-            <p className="hero-summary">{profile.personal.summary}</p>
+            <p className="hero-summary">
+              {profile.personal.summary}
+            </p>
             <div className="hero-contact">
               <span className="location-text">
                 Currently in {profile.personal.location}
@@ -98,40 +125,53 @@ function App() {
         </div>
       </section>
 
-      {/* 2. Education Section */}
+      {/* About Section */}
+      <AboutSection />
+
+      {/* 1. Education Section */}
       <section className="education" id="education">
-        <div className="cloud-card cloud-card--soft">
-          <div className="education-grid">
-            <div className="education-item">
-              <div className="education-crest-wrap">
-                <img
-                  src={uwMadisonLogo}
-                  alt="University of Wisconsin–Madison crest"
-                  className="education-crest"
-                />
+        <h2 className="section-title">Education</h2>
+
+        <div className="cloud-card">
+          <div className="edu-diploma-doc">
+            {/* Left: Logo */}
+            <div className="edu-logo-col">
+              <img src={uwMadisonLogo} alt="University of Wisconsin–Madison seal" className="diploma-seal" />
+            </div>
+
+            {/* Right: Text */}
+            <div className="edu-info-col">
+              <div className="edu-info-top">
+                <h3 className="diploma-univ-name">{profile.education.university}</h3>
+                <h4 className="diploma-degree-name">{profile.education.degree}</h4>
+                <div className="diploma-date">
+                  <span>{profile.education.location}</span>
+                  <span className="date-sep">·</span>
+                  <span>{profile.education.graduation}</span>
+                </div>
               </div>
-              <div className="education-info">
-                <h2 className="section-title">Education</h2>
-                <span className="project-meta">{profile.education.degree}</span>
-                <h3>{profile.education.university}</h3>
-                <span className="education-submeta">
-                  {profile.education.location} • {profile.education.graduation}
-                </span>
-                <p className="project-description education-coursework">
-                  <span className="education-label">Coursework</span>
-                  {profile.education.coursework.join(", ")}.
-                </p>
-                <p className="project-description education-involvement">
-                  <span className="education-label">Extracurricular</span>
-                  {profile.education.involvement}
-                </p>
+
+              <div className="diploma-footer">
+                <div className="diploma-coursework-shelf">
+                  <span className="shelf-label">Coursework</span>
+                  <div className="edu-course-scatter">
+                    {profile.education.coursework.map((course, i) => (
+                      <span key={i} className="simple-tag">{course}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="diploma-involvement">
+                  <span className="shelf-label">Extracurriculars & Clubs</span>
+                  <p className="edu-involvement-text">{profile.education.involvement}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. Projects Section */}
+      {/* 2. Projects Section */}
       <section className="projects" id="projects">
         <div className="projects-inner">
           <h2 className="section-title">Projects</h2>
@@ -139,7 +179,7 @@ function App() {
         </div>
       </section>
 
-      {/* 6. Experience Section */}
+      {/* 3. Experience Section */}
       <section className="experience" id="experience">
         <div className="experience-inner">
           <h2 className="section-title">Experience</h2>
@@ -147,17 +187,17 @@ function App() {
         </div>
       </section>
 
-      {/* 7. Skills Section */}
+      {/* 4. Skills Section */}
       <section className="skills-section" id="skills">
-        <div className="cloud-card cloud-card--soft">
+        <div className="cloud-card">
           <h2 className="section-title">Technical Skills</h2>
           <SkillsBento />
         </div>
       </section>
 
-      {/* 8. Volunteer Work & Impact Section */}
+      {/* 5. Activism & Impact Section */}
       <section className="leadership-section" id="leadership">
-        <h2 className="section-title">Volunteer Work</h2>
+        <h2 className="section-title">Activism</h2>
         <div className="leadership-content">
           <div className="advocacy-grid">
             <div className="advocacy-main">
@@ -174,22 +214,39 @@ function App() {
                 ))}
               </div>
             </div>
-            
+
             <div className="advocacy-sidebar">
               <h3 className="subsection-label">Featured In</h3>
               <div className="media-links">
-                {profile.advocacyLinks.map((link, i) => (
-                  <a
-                    key={i}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="media-link-pill"
-                  >
-                    {link.name}
-                    <span className="pill-arrow">↗</span>
-                  </a>
-                ))}
+                {profile.advocacyLinks.map((link, i) => {
+                  const domain = new URL(link.url).hostname;
+                  const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+                  return (
+                    <a
+                      key={i}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="media-link-pill"
+                    >
+                      <div className="media-pill-left">
+                        <img
+                          src={faviconUrl}
+                          alt=""
+                          className="media-link-favicon"
+                          aria-hidden="true"
+                        />
+                        <div className="media-pill-text">
+                          <span className="media-pill-name">{link.name}</span>
+                          {link.description && (
+                            <span className="media-pill-desc">{link.description}</span>
+                          )}
+                        </div>
+                      </div>
+                      <span className="pill-arrow">↗</span>
+                    </a>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -198,48 +255,56 @@ function App() {
 
       <footer className="footer" id="contact">
         <div className="social-links">
-          <a
-            href={profile.personal.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link"
-          >
-            <span className="social-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.5 2.87 8.3 6.84 9.65.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.39-3.37-1.39-.46-1.2-1.12-1.52-1.12-1.52-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.67.35-1.12.64-1.38-2.22-.26-4.56-1.14-4.56-5.05 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.2 9.2 0 0 1 5 0c1.9-1.32 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.92-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.05 10.05 0 0 0 22 12.26C22 6.58 17.52 2 12 2z" />
-              </svg>
-            </span>
-            <span className="social-text">GitHub</span>
-          </a>
-          <a
-            href={profile.personal.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="social-link"
-          >
-            <span className="social-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.98 1.83-2.02 3.77-2.02 4.03 0 4.78 2.66 4.78 6.12V21h-4v-5.2c0-1.24-.02-2.83-1.73-2.83-1.73 0-2 1.35-2 2.74V21H9z" />
-              </svg>
-            </span>
-            <span className="social-text">LinkedIn</span>
-          </a>
-          <a href={`mailto:${profile.personal.email}`} className="social-link">
-            <span className="social-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v.2l8 5 8-5V6H4zm16 12V9.5l-7.47 4.67a1 1 0 0 1-1.06 0L4 9.5V18h16z" />
-              </svg>
-            </span>
-            <span className="social-text">Email</span>
-          </a>
+          <Magnetic>
+            <a
+              href={profile.personal.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link"
+            >
+              <span className="social-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.5 2.87 8.3 6.84 9.65.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.39-3.37-1.39-.46-1.2-1.12-1.52-1.12-1.52-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.58 2.36 1.12 2.94.86.09-.67.35-1.12.64-1.38-2.22-.26-4.56-1.14-4.56-5.05 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05a9.2 9.2 0 0 1 5 0c1.9-1.32 2.75-1.05 2.75-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.92-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.05 10.05 0 0 0 22 12.26C22 6.58 17.52 2 12 2z" />
+                </svg>
+              </span>
+              <span className="social-text">GitHub</span>
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <a
+              href={profile.personal.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="social-link"
+            >
+              <span className="social-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.98 1.83-2.02 3.77-2.02 4.03 0 4.78 2.66 4.78 6.12V21h-4v-5.2c0-1.24-.02-2.83-1.73-2.83-1.73 0-2 1.35-2 2.74V21H9z" />
+                </svg>
+              </span>
+              <span className="social-text">LinkedIn</span>
+            </a>
+          </Magnetic>
+          <Magnetic>
+            <a href={`mailto:${profile.personal.email}`} className="social-link">
+              <span className="social-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v.2l8 5 8-5V6H4zm16 12V9.5l-7.47 4.67a1 1 0 0 1-1.06 0L4 9.5V18h16z" />
+                </svg>
+              </span>
+              <span className="social-text">Email</span>
+            </a>
+          </Magnetic>
         </div>
-        <div className="micro-context" aria-label="Location details">
-          <span className="social-link micro-badge">Currently in Madison, WI, USA</span>
-          <span className="social-link micro-badge">Originally from Noida, India</span>
+
+        <div className="footer-availability">
+          <span className="avail-dot" />
+          <span className="avail-text">Open to new grad roles · May 2026</span>
         </div>
+
       </footer>
 
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 }

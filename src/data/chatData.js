@@ -30,6 +30,7 @@ export const chatData = {
           "Drift Shield: ML reliability loop with conformal prediction and automated lifecycle",
           "Vitalis: Multimodal Bayesian diagnostic engine fusing clinical data",
           "Concierge: Agentic commerce automation using Playwright + Llama 3.1",
+          "Square Saga: Browser-based Tetris-style game with custom modes and narrative mechanics",
           "IntelliVision: Multi-task CV platform with 8+ production pipelines (AionOS)",
         ],
       },
@@ -193,7 +194,7 @@ export const chatData = {
 
   projects_overview: {
     id: "projects_overview",
-    text: "Aditya has built production-grade projects spanning fraud detection, healthcare diagnostics, agentic automation, and computer vision. Each demonstrates end-to-end ML engineering and systems design.",
+    text: "Aditya has built production-grade projects spanning fraud detection, healthcare diagnostics, agentic automation, game development, and computer vision. Each demonstrates end-to-end engineering and system design.",
     sections: [
       {
         title: "Featured Projects",
@@ -201,6 +202,7 @@ export const chatData = {
           "Drift Shield (2026): ML reliability loop with conformal prediction",
           "Vitalis (2025): Multimodal Bayesian diagnostic engine",
           "Concierge (2025): Agentic Amazon automation with LLMs",
+          "Square Saga (2023): Browser-based Tetris-style game with 3 game modes and narrative outcomes",
           "IntelliVision (2025): Multi-task CV platform at AionOS",
           "Carbon (2021): Android carbon footprint tracker (500+ downloads)",
         ],
@@ -210,6 +212,7 @@ export const chatData = {
       { label: "Tell me about Drift Shield", nextId: "drift_shield" },
       { label: "What is Vitalis?", nextId: "vitalis" },
       { label: "How does Concierge work?", nextId: "concierge" },
+      { label: "What is Square Saga?", nextId: "square_saga" },
       { label: "Tell me about IntelliVision", nextId: "intellivision" },
       { label: "What's the Carbon app?", nextId: "carbon" },
       { label: "Back to start", nextId: "start" },
@@ -1002,6 +1005,43 @@ export const chatData = {
       { label: "How does he approach mobile development?", nextId: "skills_overview" },
       { label: "What other projects has he built?", nextId: "projects_overview" },
       { label: "Tell me about his advocacy work", nextId: "leadership" },
+      { label: "Back to start", nextId: "start" },
+    ],
+  },
+
+  square_saga: {
+    id: "square_saga",
+    text: "Square Saga (2023) is a browser-based Tetris-style game built with HTML5 Canvas, CSS3, and vanilla JavaScript. It includes custom game systems, polished interactions, and mode-driven narrative outcomes. Source: github.com/AdiDubbs/Square_Saga.",
+    sections: [
+      {
+        title: "Gameplay Systems",
+        bullets: [
+          "Core mechanics: piece spawning, rotation, collision checks, line clears, and score tracking",
+          "Responsive keyboard controls with a complete gameplay loop from mode select to results",
+          "Custom hold system with a strategic tradeoff cost",
+        ],
+      },
+      {
+        title: "Modes and Narrative",
+        bullets: [
+          "Three game modes: Classic, Light, and Dark",
+          "Unique themes, lore framing, and mode-specific win conditions",
+          "Dynamic end-of-run victory/defeat messaging tied to player performance",
+          "Story context includes the Vortax conflict and the Aura-Giving Tree",
+        ],
+      },
+      {
+        title: "Tech Stack",
+        bullets: [
+          "HTML5 Canvas for rendering and game loop visuals",
+          "Vanilla JavaScript for input, state, and gameplay logic",
+          "CSS3 for UI theming and animated menu/state transitions",
+        ],
+      },
+    ],
+    options: [
+      { label: "Show me other projects", nextId: "projects_overview" },
+      { label: "What full-stack work has he done?", nextId: "skills_fullstack" },
       { label: "Back to start", nextId: "start" },
     ],
   },

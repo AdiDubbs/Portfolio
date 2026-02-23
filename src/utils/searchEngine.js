@@ -136,6 +136,15 @@ export const searchIndex = [
     description: 'Technical stack for Concierge'
   },
 
+  // Square Saga Project
+  {
+    id: 'square_saga',
+    category: 'projects',
+    title: 'Square Saga - Browser Game',
+    keywords: ['square', 'saga', 'square saga', 'tetris', 'game', 'canvas', 'html5', 'vanilla', 'javascript', 'css3', 'arcade', 'lore', 'vortax'],
+    description: 'Browser-based Tetris-style game with custom modes and narrative outcomes'
+  },
+
   // IntelliVision Project
   {
     id: 'intellivision',
@@ -413,6 +422,9 @@ export const getQuickActions = (query) => {
   }
   if (/concierge|agent|automation/.test(normalized)) {
     return [{ id: 'concierge', label: 'Concierge Agent', nextId: 'concierge' }];
+  }
+  if (/square saga|square|tetris|canvas game|arcade/.test(normalized)) {
+    return [{ id: 'square_saga', label: 'Square Saga', nextId: 'square_saga' }];
   }
   if (/intellivision|video|tracking/.test(normalized)) {
     return [{ id: 'intellivision', label: 'IntelliVision', nextId: 'intellivision' }];
