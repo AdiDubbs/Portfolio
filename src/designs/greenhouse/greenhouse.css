@@ -1,0 +1,564 @@
+/* Layout: garden journal; soft Fraunces display, seed packets in a wrapped row, beds and stakes as the repeating objects */
+.gh {
+  --g-bg: #dfe7d5;
+  --g-moss: #22382a;
+  --g-leaf: #4e7a4f;
+  --g-sprout: #7fb069;
+  --g-paper: #f8f5e9;
+  --g-marigold: #e9a93a;
+  --g-plum: #6b3e5e;
+  --g-muted: #55685a;
+  --g-display: "Fraunces", "Georgia", serif;
+  --g-body: "Figtree", system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  background: var(--g-bg);
+  background-image: radial-gradient(rgba(34, 56, 42, 0.07) 1px, transparent 1px);
+  background-size: 16px 16px;
+  color: var(--g-moss);
+  font-family: var(--g-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 130px;
+}
+.gh a {
+  color: inherit;
+}
+.gh-nav,
+.gh-hero,
+.gh-section,
+.gh-foot {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+.gh-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.gh-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--g-display);
+  font-weight: 600;
+  font-size: 1.15rem;
+  font-variation-settings: "SOFT" 100;
+}
+.gh-logo i {
+  width: 18px;
+  height: 18px;
+  background: var(--g-leaf);
+  border-radius: 0 60% 0 60%;
+}
+.gh-nav nav {
+  display: flex;
+  gap: 6px;
+}
+.gh-nav nav a {
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.gh-nav nav a:hover {
+  background: rgba(78, 122, 79, 0.15);
+}
+.gh a:focus-visible,
+.gh button:focus-visible {
+  outline: 2px solid var(--g-plum);
+  outline-offset: 3px;
+}
+
+.gh-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: center;
+  padding-block: 60px 40px;
+}
+.gh-eyebrow {
+  margin: 0;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--g-leaf);
+}
+.gh-name {
+  margin: 12px 0 24px;
+  font-family: var(--g-display);
+  font-weight: 700;
+  font-size: clamp(4rem, 12vw, 9.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+}
+.gh-name em {
+  font-weight: 400;
+  color: var(--g-leaf);
+}
+.gh-lede {
+  margin: 0 0 14px;
+  max-width: 54ch;
+  font-size: 1.12rem;
+  line-height: 1.6;
+}
+.gh-origin {
+  margin: 0;
+  max-width: 54ch;
+  color: var(--g-muted);
+  line-height: 1.6;
+}
+.gh-hero-art {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+.gh-sprout {
+  width: min(100%, 320px);
+  height: auto;
+  overflow: visible;
+}
+.gh-stem {
+  fill: none;
+  stroke: var(--g-leaf);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 260;
+  animation: gh-grow 1.6s ease-out both 0.2s;
+}
+@keyframes gh-grow {
+  from {
+    stroke-dashoffset: 260;
+  }
+}
+.gh-leaf {
+  fill: var(--g-sprout);
+  stroke: var(--g-leaf);
+  stroke-width: 3;
+  transform-box: fill-box;
+  animation: gh-unfurl 0.9s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+}
+.gh-leaf-1 {
+  transform-origin: 100% 100%;
+  animation-delay: 1s;
+}
+.gh-leaf-2 {
+  transform-origin: 0% 100%;
+  animation-delay: 1.3s;
+  fill: #93c47d;
+}
+.gh-leaf-3 {
+  transform-origin: 50% 100%;
+  animation-delay: 1.6s;
+}
+@keyframes gh-unfurl {
+  from {
+    transform: scale(0.15) rotate(-20deg);
+  }
+}
+.gh-sprout:hover .gh-leaf-2 {
+  animation: gh-sway 2s ease-in-out infinite;
+}
+@keyframes gh-sway {
+  50% {
+    transform: rotate(-6deg);
+  }
+}
+.gh-hero-trees {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+.gh-count {
+  font-family: var(--g-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: "SOFT" 100;
+  color: var(--g-plum);
+}
+.gh-hero-trees span:last-child {
+  color: var(--g-muted);
+  font-size: 0.92rem;
+}
+
+.gh-section {
+  padding-block: 90px 0;
+}
+.gh-h2 {
+  margin: 0 0 10px;
+  font-family: var(--g-display);
+  font-weight: 600;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  letter-spacing: -0.02em;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+.gh-sub {
+  margin: 0 0 34px;
+  max-width: 60ch;
+  color: var(--g-muted);
+  line-height: 1.55;
+}
+
+.gh-packets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  gap: 26px;
+}
+.gh-packet {
+  position: relative;
+  display: grid;
+  perspective: 1400px;
+}
+.gh-face {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 18px 18px;
+  border-radius: 6px 6px 14px 14px;
+  backface-visibility: hidden;
+  transition: transform 0.7s cubic-bezier(0.3, 0.9, 0.3, 1);
+  box-shadow: 0 2px 0 rgba(34, 56, 42, 0.2), 0 24px 40px -24px rgba(34, 56, 42, 0.6);
+}
+.gh-front {
+  background: var(--pk);
+  background-image:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0 14px, transparent 14px),
+    repeating-linear-gradient(90deg, transparent 0 6px, rgba(34, 56, 42, 0.04) 6px 7px);
+}
+.gh-front::before {
+  content: "";
+  height: 8px;
+  margin: -12px -6px 0;
+  background: radial-gradient(circle at 4px 4px, rgba(34, 56, 42, 0.3) 1.5px, transparent 2px) 0 0 / 10px 8px;
+}
+.gh-back {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  background: var(--g-paper);
+  transform: rotateY(180deg);
+  border: 2px dashed rgba(34, 56, 42, 0.25);
+}
+.gh-packet.is-back .gh-front {
+  transform: rotateY(-180deg);
+}
+.gh-packet.is-back .gh-back {
+  transform: rotateY(0);
+}
+.gh-variety {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.gh-front h3 {
+  margin: 0;
+  font-family: var(--g-display);
+  font-weight: 800;
+  font-size: 2.1rem;
+  line-height: 0.95;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+.gh-window {
+  border-radius: 999px 999px 10px 10px;
+  overflow: hidden;
+  border: 3px solid var(--g-moss);
+  background: var(--g-paper);
+  aspect-ratio: 4 / 3.4;
+}
+.gh-window img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top;
+}
+.gh-fine {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 16px;
+  font-size: 0.84rem;
+}
+.gh-fine div {
+  display: contents;
+}
+.gh-fine dt {
+  font-weight: 700;
+}
+.gh-fine dd {
+  margin: 0;
+}
+.gh-flip {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 8px 14px;
+  border: 2px solid var(--g-moss);
+  border-radius: 999px;
+  background: var(--g-paper);
+  color: var(--g-moss);
+  font: 700 0.85rem var(--g-body);
+  cursor: pointer;
+}
+.gh-flip:hover {
+  background: var(--g-moss);
+  color: var(--g-paper);
+}
+.gh-back ol {
+  margin: 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 8px;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+.gh-companions {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--g-muted);
+}
+.gh-companions b {
+  display: block;
+  color: var(--g-moss);
+}
+.gh-back-actions {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.gh-seasons {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+}
+.gh-seasons > li {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  padding: 22px;
+  background: var(--g-paper);
+  border-radius: 18px;
+}
+.gh-stake {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 14px 16px 26px;
+  background: #d9b98a;
+  color: #4a3420;
+  border-radius: 6px 6px 0 0;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+  font-size: 0.82rem;
+}
+.gh-stake b {
+  font-family: var(--g-display);
+  font-size: 1.1rem;
+  font-variation-settings: "SOFT" 100;
+}
+.gh-season-body h3 {
+  margin: 0;
+  font-family: var(--g-display);
+  font-weight: 600;
+  font-size: 1.7rem;
+  font-variation-settings: "SOFT" 100;
+}
+.gh-season-co {
+  margin: 4px 0 12px;
+  font-weight: 600;
+  color: var(--g-leaf);
+}
+.gh-season-body ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  line-height: 1.55;
+  color: var(--g-muted);
+}
+.gh-season-body li::marker {
+  content: "❀  ";
+  color: var(--g-marigold);
+}
+
+.gh-beds {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin-top: 24px;
+}
+.gh-bed {
+  padding: 18px;
+  background: linear-gradient(180deg, #6f4e37 0 6px, #5d3f2b 6px);
+  border-radius: 14px;
+  box-shadow: inset 0 0 0 6px #7a5840;
+}
+.gh-bed h3 {
+  margin: 0 0 12px;
+  padding: 4px 4px 0;
+  color: var(--g-paper);
+  font-family: var(--g-display);
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+.gh-bed ul {
+  margin: 0;
+  padding: 12px;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: #3e2a1d;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1.5px);
+  background-size: 7px 7px;
+  border-radius: 8px;
+}
+.gh-bed li {
+  padding: 5px 10px 5px 18px;
+  background: var(--g-paper);
+  border-radius: 3px 999px 999px 3px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  position: relative;
+}
+.gh-bed li::before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--g-sprout);
+}
+
+.gh-forest {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+.gh-trees {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  max-width: 440px;
+}
+.gh-trees i {
+  aspect-ratio: 1 / 1.2;
+  background: var(--g-leaf);
+  clip-path: polygon(50% 0, 88% 62%, 60% 62%, 60% 100%, 40% 100%, 40% 62%, 12% 62%);
+  animation: gh-pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+.gh-trees i:nth-child(3n) {
+  background: var(--g-sprout);
+}
+.gh-trees i:nth-child(7n) {
+  background: var(--g-moss);
+}
+@keyframes gh-pop {
+  from {
+    transform: scale(0);
+  }
+}
+.gh-forest-notes {
+  display: grid;
+  gap: 22px;
+}
+.gh-forest-notes h3 {
+  margin: 0 0 8px;
+  font-family: var(--g-display);
+  font-weight: 600;
+  font-size: 1.35rem;
+  color: var(--g-plum);
+}
+.gh-forest-notes ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 8px;
+  line-height: 1.55;
+}
+.gh-press {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.gh-press a {
+  padding: 6px 12px;
+  background: var(--g-paper);
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.gh-press a:hover {
+  background: var(--g-marigold);
+}
+
+.gh-foot {
+  padding-block: 110px 0;
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+}
+.gh-say {
+  margin: 0;
+  font-family: var(--g-display);
+  font-weight: 700;
+  font-size: clamp(3rem, 10vw, 7rem);
+  line-height: 0.9;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+.gh-say em {
+  color: var(--g-leaf);
+  font-weight: 400;
+}
+.gh-mail {
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.gh-links {
+  display: flex;
+  gap: 20px;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .gh-hero,
+  .gh-forest {
+    grid-template-columns: 1fr;
+  }
+  .gh-beds {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .gh-beds {
+    grid-template-columns: 1fr;
+  }
+  .gh-seasons > li {
+    grid-template-columns: 1fr;
+  }
+  .gh-stake {
+    max-width: 220px;
+  }
+  .gh-nav nav a:nth-child(n + 2) {
+    display: none;
+  }
+}

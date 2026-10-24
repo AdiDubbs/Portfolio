@@ -1,0 +1,299 @@
+/* Shell: gallery index + floating design switcher. Neutral so it never competes with a design. */
+:root {
+  --sh-bg: #f3f3f0;
+  --sh-surface: #ffffff;
+  --sh-fg: #18181a;
+  --sh-muted: #62625e;
+  --sh-line: rgba(24, 24, 26, 0.12);
+  --sh-elegant: #4b4fc2;
+  --sh-fun: #d4471f;
+  --sh-cozy: #8a6a1a;
+  --sh-cool: #1d7f8c;
+  --sh-serif: "Instrument Serif", "Times New Roman", serif;
+  --sh-sans: "Instrument Sans", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sh-bg: #141413;
+    --sh-surface: #1d1d1b;
+    --sh-fg: #efeee9;
+    --sh-muted: #a3a29b;
+    --sh-line: rgba(239, 238, 233, 0.12);
+    --sh-elegant: #9da1ff;
+    --sh-fun: #ff8a65;
+    --sh-cozy: #e3c069;
+    --sh-cool: #6fd3df;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --sh-bg: #141413;
+  --sh-surface: #1d1d1b;
+  --sh-fg: #efeee9;
+  --sh-muted: #a3a29b;
+  --sh-line: rgba(239, 238, 233, 0.12);
+  --sh-elegant: #9da1ff;
+  --sh-fun: #ff8a65;
+  --sh-cozy: #e3c069;
+  --sh-cool: #6fd3df;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  overflow-x: clip;
+}
+body {
+  background: var(--sh-bg);
+}
+
+.gallery {
+  min-height: 100vh;
+  background: var(--sh-bg);
+  color: var(--sh-fg);
+  font-family: var(--sh-sans);
+  padding-block: clamp(40px, 7vw, 96px) 80px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.gallery-head,
+.gallery-grid {
+  max-width: 1240px;
+  margin-inline: auto;
+}
+.gallery-head {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 44px;
+}
+.gallery-eyebrow {
+  margin: 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sh-muted);
+}
+.gallery-title {
+  margin: 0;
+  font-family: var(--sh-serif);
+  font-weight: 400;
+  font-size: clamp(2.6rem, 7vw, 5.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.gallery-title em {
+  color: var(--sh-muted);
+}
+.gallery-lede {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--sh-muted);
+}
+.gallery-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.gallery-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--sh-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--sh-fg);
+  font: 500 0.9rem var(--sh-sans);
+  cursor: pointer;
+}
+.gallery-chip.is-on {
+  background: var(--sh-fg);
+  color: var(--sh-bg);
+  border-color: var(--sh-fg);
+}
+.gallery-chip-count {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+  font-size: 0.8rem;
+}
+.gallery-chip:focus-visible,
+.gallery-card:focus-visible {
+  outline: 2px solid var(--sh-elegant);
+  outline-offset: 3px;
+}
+.gallery-grid {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 20px;
+}
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--sh-line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--sh-surface);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.gallery-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -20px rgba(0, 0, 0, 0.35);
+}
+.gallery-poster {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  max-width: 100%;
+  padding: 22px;
+  display: flex;
+  align-items: flex-end;
+}
+.gallery-poster-name {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  line-height: 1.02;
+}
+.gallery-poster-dots {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  gap: 6px;
+}
+.gallery-poster-dots i {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+}
+.gallery-meta {
+  padding: 18px 20px 20px;
+  display: grid;
+  gap: 8px;
+  flex: 1;
+  align-content: start;
+}
+.gallery-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+.gallery-name {
+  margin: 0;
+  font-family: var(--sh-serif);
+  font-weight: 400;
+  font-size: 1.7rem;
+}
+.gallery-mood {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.mood-elegant { color: var(--sh-elegant); }
+.mood-fun { color: var(--sh-fun); }
+.mood-cozy { color: var(--sh-cozy); }
+.mood-cool { color: var(--sh-cool); }
+.gallery-blurb {
+  margin: 0;
+  color: var(--sh-muted);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+.gallery-open {
+  margin-top: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Floating switcher shown on every design */
+.switcher {
+  position: fixed;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 2147483000;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(20, 20, 22, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
+  color: #f4f4f0;
+  max-width: calc(100vw - 32px);
+}
+.switcher a {
+  color: inherit;
+  text-decoration: none;
+}
+.switcher-btn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  border-radius: 999px;
+  font-size: 1.05rem;
+}
+.switcher-home {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
+  min-width: 0;
+}
+.switcher-btn:hover,
+.switcher-home:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+.switcher a:focus-visible {
+  outline: 2px solid #f4f4f0;
+  outline-offset: -2px;
+}
+.switcher-count {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.6;
+  font-size: 0.8rem;
+}
+.switcher-name {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.switcher-mood {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+@media (max-width: 420px) {
+  .switcher-mood {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
