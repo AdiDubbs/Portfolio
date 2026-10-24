@@ -26,7 +26,11 @@ function Root() {
   const design = designs[index];
 
   useEffect(() => {
-    const onHash = () => setId(currentId());
+    // Section anchors inside a design also change the hash; only design ids (or "all") switch pages
+    const onHash = () => {
+      const next = currentId();
+      if (next === "" || next === "all" || designs.some((d) => d.id === next)) setId(next);
+    };
     window.addEventListener("hashchange", onHash);
     return () => window.removeEventListener("hashchange", onHash);
   }, []);
@@ -34,7 +38,7 @@ function Root() {
   useEffect(() => {
     window.scrollTo(0, 0);
     document.body.style.background = design ? design.bg : "";
-    document.title = design ? `${design.name} · Portfolio Directions` : "Ten Portfolio Directions";
+    document.title = design ? `${design.name} · Portfolio Directions` : "Portfolio Directions";
   }, [design]);
 
   // The gallery previews every direction's display face, so it loads them all

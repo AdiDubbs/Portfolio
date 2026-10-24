@@ -1,0 +1,657 @@
+/* Layout: a recipe tin on a gingham tablecloth; index cards, a chalkboard and pantry jars are the repeating objects */
+.rb {
+  --k-wall: #f8e7a2;
+  --k-gingham: #4f74b8;
+  --k-card: #fffdf8;
+  --k-ink: #2b2a33;
+  --k-red: #d9534f;
+  --k-blue: #a8c4e5;
+  --k-tin: #6fb7a8;
+  --k-chalk: #2f3b33;
+  --k-display: "Shrikhand", "Cooper Black", Georgia, serif;
+  --k-body: "Karla", system-ui, sans-serif;
+  --k-hand: "Gochi Hand", "Segoe Print", "Comic Sans MS", cursive;
+  --lb-bg: rgba(43, 42, 51, 0.94);
+  --lb-fg: #fffdf8;
+  --lb-accent: #f7c873;
+  --lb-font: "Karla", sans-serif;
+  --lb-radius: 4px;
+  min-height: 100vh;
+  background-color: #e9eef8;
+  background-image:
+    linear-gradient(90deg, rgba(79, 116, 184, 0.35) 50%, transparent 50%),
+    linear-gradient(rgba(79, 116, 184, 0.35) 50%, transparent 50%);
+  background-size: 44px 44px;
+  color: var(--k-ink);
+  font-family: var(--k-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 130px;
+  overflow: hidden;
+}
+.rb a {
+  color: var(--k-red);
+}
+.rb a:focus-visible,
+.rb button:focus-visible,
+.rb input:focus-visible {
+  outline: 3px solid var(--k-gingham);
+  outline-offset: 2px;
+}
+.rb-hand {
+  font-family: var(--k-hand);
+}
+.rb-hero,
+.rb-section,
+.rb-foot {
+  max-width: 1120px;
+  margin-inline: auto;
+}
+.rb-hero {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  padding-block: 50px 20px;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+  max-width: none;
+  background: var(--k-wall);
+  border-bottom: 10px solid #e0c96f;
+}
+.rb-box {
+  position: relative;
+  width: min(100%, 520px);
+  padding-top: 70px;
+}
+.rb-cards {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 120px;
+}
+.rb-cards span {
+  position: absolute;
+  bottom: 0;
+  left: calc(var(--i) * 15%);
+  width: 32%;
+  height: calc(80px + var(--i) * 6px);
+  background: var(--k-card);
+  border-top: 14px solid var(--c);
+  border-radius: 8px 8px 0 0;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
+  transform: rotate(calc((var(--i) - 2.5) * 2deg));
+  animation: rb-peek 0.8s cubic-bezier(0.3, 1.5, 0.5, 1) both;
+  animation-delay: calc(var(--i) * 80ms);
+}
+@keyframes rb-peek {
+  from {
+    transform: translateY(60px);
+  }
+}
+.rb-tin {
+  position: relative;
+  padding: 40px 30px 34px;
+  background: linear-gradient(180deg, #7fc4b5, var(--k-tin));
+  border-radius: 18px 18px 26px 26px;
+  box-shadow: inset 0 6px 0 rgba(255, 255, 255, 0.35), inset 0 -10px 0 rgba(0, 0, 0, 0.12), 0 24px 40px -20px rgba(0, 0, 0, 0.45);
+}
+.rb-tin::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.12);
+}
+.rb-label {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 14px 18px;
+  background: var(--k-card);
+  border-radius: 999px;
+  border: 3px solid #e7d9b9;
+  text-align: center;
+}
+.rb-label span {
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.rb-label b {
+  font-size: clamp(2rem, 7vw, 3.2rem);
+  line-height: 1;
+  color: var(--k-red);
+  font-weight: 400;
+}
+.rb-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.rb-tabs a {
+  padding: 8px 14px 6px;
+  background: var(--c);
+  color: var(--k-ink);
+  border-radius: 10px 10px 2px 2px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+  transition: transform 0.15s;
+}
+.rb-tabs a:hover {
+  transform: translateY(-3px);
+}
+.rb-card {
+  --c: var(--k-red);
+  background: var(--k-card);
+  border-radius: 4px;
+  box-shadow: 0 16px 30px -18px rgba(0, 0, 0, 0.55);
+  padding: 0 22px 18px;
+}
+.rb-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0 -22px 0;
+  padding: 12px 22px 8px;
+  border-bottom: 2px solid var(--c);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rb-lined {
+  margin: 0;
+  padding-top: 4px;
+  font-size: 1.3rem;
+  line-height: 32px;
+  background-image: repeating-linear-gradient(180deg, transparent 0 31px, var(--k-blue) 31px 32px);
+}
+.rb-intro {
+  width: min(100%, 720px);
+  transform: rotate(-0.6deg);
+}
+
+.rb-section {
+  padding-block: 80px 0;
+}
+.rb-h2 {
+  display: inline-block;
+  margin: 0 0 24px;
+  padding: 10px 22px;
+  background: var(--k-card);
+  border-radius: 999px;
+  font-family: var(--k-display);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4.6vw, 3rem);
+  color: var(--k-red);
+  box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.5);
+}
+.rb-cook-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr);
+  gap: 30px;
+  align-items: start;
+}
+.rb-photo {
+  margin: 0;
+  padding: 12px 12px 6px;
+  background: var(--k-card);
+  box-shadow: 0 16px 30px -16px rgba(0, 0, 0, 0.55);
+  transform: rotate(-3deg);
+}
+.rb-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.rb-photo figcaption {
+  padding-top: 6px;
+  text-align: center;
+  font-size: 1.4rem;
+}
+.rb-notes {
+  display: grid;
+  gap: 18px;
+}
+.rb-notes .rb-card:nth-child(even) {
+  transform: rotate(0.6deg);
+}
+
+.rb-dividers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-left: 10px;
+}
+.rb-dividers button {
+  padding: 10px 16px 8px;
+  border: 0;
+  border-radius: 12px 12px 0 0;
+  background: var(--c);
+  color: var(--k-ink);
+  font: 700 0.95rem var(--k-body);
+  cursor: pointer;
+  transform: translateY(6px);
+  transition: transform 0.15s;
+}
+.rb-dividers button.is-on {
+  transform: translateY(0);
+  padding-bottom: 14px;
+}
+.rb-recipe {
+  position: relative;
+  padding: 26px clamp(18px, 4vw, 40px) 30px;
+  background: var(--k-card);
+  border-radius: 6px;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
+  animation: rb-in 0.4s ease both;
+}
+@keyframes rb-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) rotate(-0.5deg);
+  }
+}
+.rb-recipe-head {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px 30px;
+  padding-bottom: 14px;
+  border-bottom: 3px double var(--k-red);
+}
+.rb-recipe-head p {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  border-bottom: 1px solid var(--k-blue);
+}
+.rb-recipe-head span {
+  flex: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rb-recipe-head b {
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: var(--k-gingham);
+}
+.rb-recipe-head p:first-child b {
+  font-size: 2.2rem;
+  color: var(--k-red);
+}
+.rb-recipe-body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  gap: 36px;
+  margin-top: 22px;
+}
+.rb h3 {
+  margin: 0 0 12px;
+  font-family: var(--k-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+}
+.rb h3 small {
+  font-family: var(--k-body);
+  font-size: 0.78rem;
+  color: #6b6a72;
+}
+.rb-ingredients {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.rb-ingredients label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--k-blue);
+  cursor: pointer;
+}
+.rb-ingredients input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--k-red);
+}
+.rb-ingredients span {
+  font-size: 1.3rem;
+}
+.rb-ingredients input:checked + span {
+  text-decoration: line-through;
+  text-decoration-color: var(--k-red);
+  opacity: 0.6;
+}
+.rb-method {
+  margin: 0;
+  padding-left: 30px;
+  display: grid;
+  gap: 10px;
+}
+.rb-method li {
+  font-size: 1.25rem;
+  line-height: 1.4;
+}
+.rb-method li::marker {
+  font-family: var(--k-display);
+  color: var(--k-red);
+}
+.rb-plating {
+  margin-top: 26px;
+}
+.rb-plates {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+.rb-plates button {
+  padding: 10px 10px 4px;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.45);
+  transform: rotate(var(--tilt));
+  cursor: zoom-in;
+  transition: transform 0.2s;
+}
+.rb-plates button:hover {
+  transform: rotate(0) scale(1.03);
+}
+.rb-plates img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: top;
+}
+.rb-plates span {
+  display: block;
+  padding-top: 4px;
+  font-size: 1.15rem;
+}
+.rb-tip {
+  margin: 20px 0 0;
+  font-size: 1rem;
+}
+.rb-tip b {
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: var(--k-red);
+}
+
+.rb-board {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px 40px;
+  padding: clamp(22px, 4vw, 40px);
+  background: var(--k-chalk);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 2px);
+  background-size: 6px 6px;
+  border: 14px solid #8b5a2b;
+  border-radius: 6px;
+  color: #f2efe6;
+  box-shadow: 0 30px 50px -24px rgba(0, 0, 0, 0.7);
+}
+.rb-menu-item header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.rb-chalk {
+  font-family: var(--k-hand);
+  font-weight: 400;
+}
+.rb-menu-item h3 {
+  margin: 0;
+  font-size: 1.7rem;
+  color: #fff6c9;
+}
+.rb-dots {
+  flex: 1;
+  border-bottom: 3px dotted rgba(242, 239, 230, 0.45);
+  min-width: 20px;
+}
+.rb-when {
+  font-size: 1.1rem;
+  color: #f6a6c8;
+  white-space: nowrap;
+}
+.rb-venue {
+  margin: 4px 0 10px;
+  font-style: italic;
+  opacity: 0.85;
+}
+.rb-menu-item ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.93rem;
+  line-height: 1.5;
+}
+.rb-served {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+.rb-chalk-links {
+  display: flex;
+  gap: 16px;
+  margin: 8px 0 0;
+}
+.rb-chalk-links a {
+  color: #9fd6a8;
+  font-family: var(--k-hand);
+  font-size: 1.2rem;
+}
+
+.rb-jars {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 30px 26px;
+}
+.rb-jar {
+  position: relative;
+  padding: 30px 18px 22px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.85) 30%, rgba(255, 255, 255, 0.6));
+  border: 3px solid rgba(43, 42, 51, 0.25);
+  border-radius: 26px 26px 34px 34px;
+  box-shadow: inset 0 -40px 0 color-mix(in srgb, var(--c) 45%, transparent);
+}
+.rb-lid {
+  position: absolute;
+  left: 14%;
+  right: 14%;
+  top: -16px;
+  height: 22px;
+  background: repeating-conic-gradient(var(--c) 0 25%, #fff 0 50%) 0 0 / 14px 14px;
+  border: 3px solid rgba(43, 42, 51, 0.35);
+  border-radius: 8px;
+}
+.rb-jar h3 {
+  margin: 0 auto 12px;
+  width: fit-content;
+  padding: 4px 14px;
+  background: var(--k-card);
+  border: 2px solid var(--k-ink);
+  border-radius: 6px;
+  font-family: var(--k-hand);
+  font-size: 1.35rem;
+  text-align: center;
+  transform: rotate(-2deg);
+}
+.rb-jar ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.rb-jar li {
+  padding: 3px 9px;
+  background: var(--c);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.rb-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 36px;
+  align-items: start;
+}
+.rb-school {
+  transform: rotate(-1deg);
+}
+.rb-school h3 {
+  margin: 14px 0 4px;
+  font-size: 1.7rem;
+}
+.rb-big {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  color: var(--k-gingham);
+}
+.rb-classes-title {
+  margin: 0 0 6px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rb-classes {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+}
+.rb-classes li {
+  font-size: 1.25rem;
+}
+.rb-classes li::before {
+  content: "✓ ";
+  color: var(--k-red);
+}
+.rb-ribbons {
+  display: grid;
+  gap: 18px;
+}
+.rb-ribbon-card {
+  isolation: isolate;
+  position: relative;
+  padding: 18px 20px 18px 92px;
+  background: var(--k-card);
+  border-radius: 6px;
+  box-shadow: 0 14px 26px -16px rgba(0, 0, 0, 0.5);
+}
+.rb-rosette {
+  position: absolute;
+  left: 20px;
+  top: 18px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 30%, var(--c) 31% 60%, transparent 61%), repeating-conic-gradient(var(--c) 0 10deg, color-mix(in srgb, var(--c) 60%, #fff) 10deg 20deg);
+}
+.rb-rosette::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 44px;
+  width: 24px;
+  height: 30px;
+  background: var(--c);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  z-index: -1;
+}
+.rb-ribbon-card h3 {
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+}
+.rb-ribbon-card ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.93rem;
+  line-height: 1.5;
+}
+.rb-press {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 18px 0 0;
+  padding: 14px 18px;
+  background: var(--k-card);
+  border-radius: 6px;
+}
+.rb-press span {
+  font-size: 1.3rem;
+}
+
+.rb-foot {
+  padding-block: 100px 0;
+  display: grid;
+  place-items: center;
+}
+.rb-invite {
+  width: min(100%, 560px);
+  text-align: center;
+  transform: rotate(1deg);
+}
+.rb-mail {
+  display: block;
+  margin: 18px 0 8px;
+  font-size: clamp(1.6rem, 5vw, 2.4rem);
+  overflow-wrap: anywhere;
+}
+.rb-links {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin: 0;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .rb-cook-grid,
+  .rb-recipe-body,
+  .rb-board,
+  .rb-split {
+    grid-template-columns: 1fr;
+  }
+  .rb-photo {
+    max-width: 280px;
+  }
+  .rb-jars {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .rb-recipe-head,
+  .rb-plates,
+  .rb-jars {
+    grid-template-columns: 1fr;
+  }
+  .rb-menu-item header {
+    flex-wrap: wrap;
+  }
+  .rb-dots {
+    display: none;
+  }
+}

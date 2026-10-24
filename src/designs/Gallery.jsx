@@ -12,12 +12,12 @@ export default function Gallery({ designs }) {
       <header className="gallery-head">
         <p className="gallery-eyebrow">{person.name} · portfolio redesign</p>
         <h1 className="gallery-title">
-          Ten directions, <em>one portfolio</em>
+          Eighteen directions, <em>one portfolio</em>
         </h1>
         <p className="gallery-lede">
           Each prototype is a full, working site built from the same profile data as the live
-          portfolio. Open one, scroll it, play with it, then use the bar at the bottom or the arrow
-          keys to move to the next.
+          portfolio: every project, role, skill, course and press link. Most have something to play
+          with. Open one, then use the bar at the bottom or the arrow keys to move to the next.
         </p>
         <div className="gallery-filters" role="group" aria-label="Filter by mood">
           {moods.map((m) => (

@@ -15,6 +15,11 @@
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 0 120px;
   min-height: 100vh;
+  --lb-bg: rgba(242, 243, 239, 0.97);
+  --lb-fg: #0e0f12;
+  --lb-accent: #1f3bd6;
+  --lb-font: "Jost", system-ui, sans-serif;
+  --lb-radius: 0;
 }
 .mono a {
   color: inherit;
@@ -553,6 +558,121 @@
   }
   .mono-skills,
   .mono-recog {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mono-foreword {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  padding-bottom: 48px;
+}
+.mono-foreword > div {
+  border-top: 1px solid var(--m-ink);
+  padding-top: 14px;
+}
+.mono-foreword-no {
+  font-family: var(--m-display);
+  font-style: italic;
+  color: var(--m-cobalt);
+  font-size: 1.2rem;
+}
+.mono-foreword h3 {
+  margin: 6px 0 10px;
+  font-family: var(--m-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+}
+.mono-foreword p {
+  margin: 0;
+  line-height: 1.7;
+  max-width: 40ch;
+}
+.mono-plate-btn {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+.mono-entry-plates figure:first-child .mono-plate-btn {
+  height: calc(100% - 26px);
+}
+.mono-entry-plates figure:first-child .mono-plate-btn img {
+  height: 100%;
+}
+.mono-plate-btn:focus-visible,
+.mono-more:focus-visible {
+  outline: 2px solid var(--m-cobalt);
+  outline-offset: 3px;
+}
+.mono-more {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: none;
+  font: 500 0.78rem var(--m-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--m-cobalt);
+  cursor: pointer;
+}
+.mono-chrono-links {
+  display: flex;
+  gap: 18px;
+}
+.mono-training {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 48px;
+  padding-bottom: 48px;
+}
+.mono-training-uni {
+  margin: 0;
+  font-family: var(--m-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.mono-training-deg {
+  margin: 12px 0 24px;
+  font-style: italic;
+  font-family: var(--m-display);
+  font-size: 1.3rem;
+  color: var(--m-cobalt);
+}
+.mono-training-inv {
+  margin: 0;
+  line-height: 1.7;
+  color: var(--m-muted);
+  max-width: 52ch;
+}
+.mono-courses {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.mono-courses li {
+  display: flex;
+  gap: 18px;
+  align-items: baseline;
+  padding: 12px 0;
+  border-top: 1px solid var(--m-rule);
+  font-family: var(--m-display);
+  font-size: 1.3rem;
+}
+.mono-courses span {
+  font-family: var(--m-body);
+  font-size: 0.75rem;
+  color: var(--m-muted);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 860px) {
+  .mono-foreword,
+  .mono-training {
     grid-template-columns: 1fr;
   }
 }

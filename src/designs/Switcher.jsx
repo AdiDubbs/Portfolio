@@ -9,6 +9,7 @@ export default function Switcher({ designs, index }) {
     const onKey = (e) => {
       const el = document.activeElement;
       if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
+      if (document.body.dataset.keys === "captured") return;
       if (e.key === "ArrowRight") window.location.hash = next.id;
       if (e.key === "ArrowLeft") window.location.hash = prev.id;
     };

@@ -1,12 +1,15 @@
 import { useRef, useState } from "react";
 import "./monograph.css";
-import { education, experiences, ext, firstName, lastName, leadership, links, person, photo, press, projects, skills, stats } from "../data";
+import { about, education, experiences, ext, firstName, lastName, leadership, links, person, photo, press, projects, skills, stats } from "../data";
+import { useLightbox } from "../shared/Lightbox";
 
 const roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
 export default function Monograph() {
   const [open, setOpen] = useState(projects[0].slug);
   const [plate, setPlate] = useState(null);
+  const [role, setRole] = useState(null);
+  const [lb, openLb] = useLightbox();
   const plateRef = useRef(null);
 
   const movePlate = (e) => {
@@ -20,9 +23,11 @@ export default function Monograph() {
         <span className="mono-bar-mark">A.&nbsp;Dubey</span>
         <span className="mono-bar-title">Catalogue of Works, 2021–2026</span>
         <nav className="mono-bar-nav">
+          <a href="#mono-foreword">Foreword</a>
           <a href="#mono-works">Works</a>
           <a href="#mono-chronology">Chronology</a>
           <a href="#mono-practice">Practice</a>
+          <a href="#mono-training">Training</a>
           <a href="#mono-recognition">Recognition</a>
         </nav>
       </header>
@@ -45,6 +50,22 @@ export default function Monograph() {
             <div><dt>Research posts</dt><dd>{stats.research}</dd></div>
             <div><dt>Based in</dt><dd className="mono-facts-place">{person.location}</dd></div>
           </dl>
+        </div>
+      </section>
+
+      <section className="mono-section" id="mono-foreword">
+        <div className="mono-section-head">
+          <h2>Foreword</h2>
+          <p>A short note on the person behind the works.</p>
+        </div>
+        <div className="mono-foreword">
+          {about.map((a, i) => (
+            <div key={a.label}>
+              <span className="mono-foreword-no">{["i", "ii", "iii"][i]}.</span>
+              <h3>{a.label}</h3>
+              <p>{a.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -76,7 +97,9 @@ export default function Monograph() {
                     <div className="mono-entry-plates">
                       {p.images.map((src, j) => (
                         <figure key={src}>
-                          <img src={src} alt={`${p.title}: ${p.imageLabels[j]}`} loading="lazy" />
+                          <button type="button" className="mono-plate-btn" onClick={() => openLb(p, j)} aria-label={`Enlarge ${p.imageLabels[j]}`}>
+                            <img src={src} alt={`${p.title}: ${p.imageLabels[j]}`} loading="lazy" />
+                          </button>
                           <figcaption>
                             Pl. {roman[i]}.{j + 1} &nbsp;{p.imageLabels[j]}
                           </figcaption>
@@ -90,7 +113,7 @@ export default function Monograph() {
                         ))}
                       </ul>
                       <p className="mono-entry-medium">
-                        <span>Medium</span> {p.technologies.slice(0, 7).join(", ")}.
+                        <span>Medium</span> {p.technologies.join(", ")}.
                       </p>
                       <a className="mono-link" href={p.link} {...ext}>
                         View source on GitHub ↗
@@ -121,8 +144,29 @@ export default function Monograph() {
                   {e.role}, <em>{e.company}</em>
                 </h3>
                 <p className="mono-chrono-place">{e.location}</p>
-                <p>{e.bullets[0]}</p>
-                <p className="mono-chrono-skills">{e.skills.slice(0, 6).join(" · ")}</p>
+                {(role === e.company ? e.bullets : e.bullets.slice(0, 1)).map((b) => (
+                  <p key={b}>{b}</p>
+                ))}
+                {role === e.company && (
+                  <p className="mono-chrono-links">
+                    {e.link && (
+                      <a className="mono-link" href={e.link} {...ext}>
+                        {e.linkLabel} ↗
+                      </a>
+                    )}
+                    {e.projectLink && (
+                      <a className="mono-link" href={e.projectLink} {...ext}>
+                        {e.projectLinkLabel} ↗
+                      </a>
+                    )}
+                  </p>
+                )}
+                <p className="mono-chrono-skills">{(role === e.company ? e.skills : e.skills.slice(0, 6)).join(" · ")}</p>
+                {e.bullets.length > 1 && (
+                  <button type="button" className="mono-more" aria-expanded={role === e.company} onClick={() => setRole(role === e.company ? null : e.company)}>
+                    {role === e.company ? "Close entry" : `Read full entry (${e.bullets.length} notes)`}
+                  </button>
+                )}
               </div>
             </li>
           ))}
@@ -143,6 +187,28 @@ export default function Monograph() {
               <p>{s.items.slice(0, 9).join(", ")}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="mono-section" id="mono-training">
+        <div className="mono-section-head">
+          <h2>Training</h2>
+          <p>{education.location} · conferred {education.graduation}</p>
+        </div>
+        <div className="mono-training">
+          <div>
+            <h3 className="mono-training-uni">{education.university}</h3>
+            <p className="mono-training-deg">{education.degree}</p>
+            <p className="mono-training-inv">{education.involvement}</p>
+          </div>
+          <ol className="mono-courses">
+            {education.coursework.map((c, i) => (
+              <li key={c}>
+                <span>{String(i + 1).padStart(2, "0")}</span>
+                {c}
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
@@ -190,6 +256,7 @@ export default function Monograph() {
           <span>Open to new grad roles · {education.graduation}</span>
         </div>
       </footer>
+      {lb}
     </div>
   );
 }

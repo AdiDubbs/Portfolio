@@ -39,3 +39,15 @@ export const stats = {
 };
 
 export const ext = { target: "_blank", rel: "noopener noreferrer" };
+
+export const about = [
+  { label: "Where I’m from", text: person.origin },
+  { label: "What I work on", text: person.focus },
+  { label: "Off the clock", text: person.hobbies },
+];
+
+// Designs set this while a game or lightbox owns the arrow keys, so the switcher stands down
+export function captureKeys(on) {
+  if (on) document.body.dataset.keys = "captured";
+  else delete document.body.dataset.keys;
+}

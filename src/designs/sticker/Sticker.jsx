@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import "./sticker.css";
-import { education, experiences, ext, firstName, lastName, leadership, links, person, photo, projects, skills, splitPeriod } from "../data";
+import { about, education, experiences, ext, firstName, lastName, leadership, links, person, photo, press, projects, skills, splitPeriod } from "../data";
+import { useLightbox } from "../shared/Lightbox";
 
 const palette = ["#ff5a36", "#ffe14d", "#5be3b0", "#6cc4ff", "#ff9fd1"];
 
@@ -13,8 +14,8 @@ const stickers = [
   { text: "Noida → Madison", shape: "pill", color: "#fff", x: 84, y: 40, r: 14, wide: true },
 ];
 
-function Draggable({ s }) {
-  const [pos, setPos] = useState({ x: s.x, y: s.y });
+function Draggable({ s, scatter }) {
+  const [pos, setPos] = useState(() => (scatter ? { x: Math.random() * 84, y: Math.random() * 88 } : { x: s.x, y: s.y }));
   const [lift, setLift] = useState(false);
   const start = useRef(null);
   const onDown = (e) => {
@@ -69,11 +70,15 @@ function CopyEmail() {
 
 export default function Sticker() {
   const [flipped, setFlipped] = useState({});
+  const [shuffle, setShuffle] = useState(0);
+  const [job, setJob] = useState(null);
+  const [lb, openLb] = useLightbox();
   return (
     <div className="stk">
       <header className="stk-nav">
         <span className="stk-logo">adi.dubey</span>
         <nav>
+          <a href="#stk-me">Me</a>
           <a href="#stk-work">Work</a>
           <a href="#stk-jobs">Jobs</a>
           <a href="#stk-hi">Say hi</a>
@@ -82,7 +87,7 @@ export default function Sticker() {
 
       <section className="stk-hero">
         {stickers.map((s) => (
-          <Draggable key={s.text} s={s} />
+          <Draggable key={s.text + shuffle} s={s} scatter={shuffle > 0} />
         ))}
         <div className="stk-hero-copy">
           <p className="stk-hello">Hey, I’m</p>
@@ -95,7 +100,10 @@ export default function Sticker() {
             <a className="stk-btn" href="#stk-work">
               See the work
             </a>
-            <span className="stk-psst">psst, the stickers move →</span>
+            <button type="button" className="stk-btn stk-btn-sm stk-btn-mint" onClick={() => setShuffle((n) => n + 1)}>
+              Shuffle stickers
+            </button>
+            <span className="stk-psst">psst, you can drag them too</span>
           </div>
         </div>
         <figure className="stk-photo">
@@ -114,6 +122,38 @@ export default function Sticker() {
           ))}
         </div>
       </div>
+
+      <section className="stk-section" id="stk-me">
+        <h2 className="stk-h2">
+          A bit about <mark className="stk-mark-lemon">me</mark>
+        </h2>
+        <div className="stk-bubbles">
+          {about.map((a, i) => (
+            <div key={a.label} className="stk-bubble" style={{ "--bg": palette[(i + 3) % palette.length], "--r": `${[-1.5, 1, -0.5][i]}deg` }}>
+              <h3>{a.label}</h3>
+              <p>{a.text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="stk-school">
+          <div className="stk-school-head">
+            <span className="stk-chip">Class of {education.graduation}</span>
+            <h3>{education.university}</h3>
+            <p>{education.degree}</p>
+          </div>
+          <div className="stk-schedule">
+            <p className="stk-schedule-title">Classes I took</p>
+            <ul>
+              {education.coursework.map((c, i) => (
+                <li key={c} style={{ "--bg": palette[i % palette.length] }}>
+                  {c}
+                </li>
+              ))}
+            </ul>
+            <p className="stk-school-club">{education.involvement}</p>
+          </div>
+        </div>
+      </section>
 
       <section className="stk-section" id="stk-work">
         <h2 className="stk-h2">
@@ -138,10 +178,16 @@ export default function Sticker() {
                   ))}
                 </ul>
               ) : (
-                <img src={p.images[0]} alt={`${p.title}: ${p.imageLabels[0]}`} loading="lazy" />
+                <div className="stk-shots">
+                  {p.images.map((src, j) => (
+                    <button key={src} type="button" onClick={() => openLb(p, j)} aria-label={`Enlarge ${p.imageLabels[j]}`}>
+                      <img src={src} alt={`${p.title}: ${p.imageLabels[j]}`} loading="lazy" />
+                    </button>
+                  ))}
+                </div>
               )}
               <div className="stk-tags">
-                {p.technologies.slice(0, 4).map((t) => (
+                {(flipped[p.slug] ? p.technologies : p.technologies.slice(0, 4)).map((t) => (
                   <span key={t}>{t}</span>
                 ))}
               </div>
@@ -178,9 +224,32 @@ export default function Sticker() {
                   <p className="stk-ticket-co">
                     {e.company} · {e.location}
                   </p>
-                  <p>{e.bullets[0]}</p>
+                  {job === e.company ? (
+                    <ul className="stk-ticket-list">
+                      {e.bullets.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>{e.bullets[0]}</p>
+                  )}
+                  <div className="stk-ticket-actions">
+                    <button type="button" className="stk-btn stk-btn-sm" onClick={() => setJob(job === e.company ? null : e.company)} aria-expanded={job === e.company}>
+                      {job === e.company ? "Less" : "Everything I did"}
+                    </button>
+                    {e.link && (
+                      <a className="stk-btn stk-btn-sm stk-btn-ink" href={e.link} {...ext}>
+                        {e.linkLabel} ↗
+                      </a>
+                    )}
+                    {e.projectLink && (
+                      <a className="stk-btn stk-btn-sm stk-btn-ink" href={e.projectLink} {...ext}>
+                        {e.projectLinkLabel} ↗
+                      </a>
+                    )}
+                  </div>
                   <div className="stk-tags">
-                    {e.skills.slice(0, 5).map((t) => (
+                    {(job === e.company ? e.skills : e.skills.slice(0, 5)).map((t) => (
                       <span key={t}>{t}</span>
                     ))}
                   </div>
@@ -224,10 +293,18 @@ export default function Sticker() {
           </div>
         </div>
         <ul className="stk-press">
-          {leadership[2].items.map((it) => (
+          {leadership.flatMap((g) => g.items).map((it) => (
             <li key={it}>{it}</li>
           ))}
         </ul>
+        <div className="stk-pressbar">
+          <span>As seen in</span>
+          {press.map((l, i) => (
+            <a key={l.url} href={l.url} {...ext} style={{ "--bg": palette[i % palette.length] }}>
+              {l.name}
+            </a>
+          ))}
+        </div>
       </section>
 
       <footer className="stk-foot" id="stk-hi">
@@ -244,6 +321,7 @@ export default function Sticker() {
           ))}
         </div>
       </footer>
+      {lb}
     </div>
   );
 }

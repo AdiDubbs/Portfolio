@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import "./nocturne.css";
-import { education, experiences, ext, firstName, lastName, leadership, links, person, press, projects, skills } from "../data";
+import { about, education, experiences, ext, firstName, lastName, leadership, links, person, press, projects, skills } from "../data";
+import { useLightbox } from "../shared/Lightbox";
 
 function Starfield() {
   const ref = useRef(null);
@@ -127,12 +128,15 @@ function Constellation({ group, index }) {
   );
 }
 
-function Observation({ p, i }) {
+function Observation({ p, i, onZoom }) {
   const [shot, setShot] = useState(0);
   return (
     <article className={`noc-obs${i % 2 ? " is-flip" : ""}`}>
       <div className="noc-obs-view">
-        <img src={p.images[shot]} alt={`${p.title}: ${p.imageLabels[shot]}`} loading="lazy" />
+        <button type="button" className="noc-zoom" onClick={() => onZoom(p, shot)} aria-label={`Enlarge ${p.imageLabels[shot]}`}>
+          <img src={p.images[shot]} alt={`${p.title}: ${p.imageLabels[shot]}`} loading="lazy" />
+          <span className="noc-zoom-hint" aria-hidden="true">Enlarge</span>
+        </button>
         <div className="noc-obs-thumbs">
           {p.images.map((src, j) => (
             <button
@@ -158,6 +162,7 @@ function Observation({ p, i }) {
             <li key={b}>{b}</li>
           ))}
         </ul>
+        <p className="noc-obs-tech">{p.technologies.join(" · ")}</p>
         <a className="noc-link" href={p.link} {...ext}>
           Source on GitHub
         </a>
@@ -167,6 +172,7 @@ function Observation({ p, i }) {
 }
 
 export default function Nocturne() {
+  const [lb, openLb] = useLightbox();
   return (
     <div className="noc">
       <Starfield />
@@ -174,6 +180,7 @@ export default function Nocturne() {
       <header className="noc-top">
         <span className="noc-mono">AD</span>
         <nav>
+          <a href="#noc-notes">About</a>
           <a href="#noc-work">Work</a>
           <a href="#noc-orbits">Experience</a>
           <a href="#noc-sky">Skills</a>
@@ -205,12 +212,29 @@ export default function Nocturne() {
         </div>
       </section>
 
+      <section className="noc-section" id="noc-notes">
+        <h2 className="noc-h2">
+          Field <em>notes</em>
+        </h2>
+        <div className="noc-notes">
+          {about.map((a, i) => (
+            <article key={a.label}>
+              <span className="noc-note-mag" aria-hidden="true">
+                {["✦", "✧", "☾"][i]}
+              </span>
+              <h3>{a.label}</h3>
+              <p>{a.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section className="noc-section" id="noc-work">
         <h2 className="noc-h2">
           Selected <em>observations</em>
         </h2>
         {projects.map((p, i) => (
-          <Observation key={p.slug} p={p} i={i} />
+          <Observation key={p.slug} p={p} i={i} onZoom={openLb} />
         ))}
       </section>
 
@@ -226,10 +250,49 @@ export default function Nocturne() {
               <h3>
                 {e.role} <span>· {e.company}</span>
               </h3>
-              <p>{e.bullets[0]}</p>
+              <p className="noc-orbit-loc">{e.location}</p>
+              <ul>
+                {e.bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+              <p className="noc-orbit-skills">{e.skills.join(" · ")}</p>
+              {(e.link || e.projectLink) && (
+                <p className="noc-orbit-links">
+                  {e.link && (
+                    <a className="noc-link" href={e.link} {...ext}>
+                      {e.linkLabel}
+                    </a>
+                  )}
+                  {e.projectLink && (
+                    <a className="noc-link" href={e.projectLink} {...ext}>
+                      {e.projectLinkLabel}
+                    </a>
+                  )}
+                </p>
+              )}
             </li>
           ))}
         </ol>
+      </section>
+
+      <section className="noc-section" id="noc-academy">
+        <h2 className="noc-h2">
+          Where I <em>trained</em>
+        </h2>
+        <div className="noc-academy">
+          <div>
+            <p className="noc-eyebrow">{education.location} · {education.graduation}</p>
+            <h3>{education.university}</h3>
+            <p className="noc-academy-deg">{education.degree}</p>
+            <p className="noc-academy-inv">{education.involvement}</p>
+          </div>
+          <ul className="noc-courses">
+            {education.coursework.map((c) => (
+              <li key={c}>{c}</li>
+            ))}
+          </ul>
+        </div>
       </section>
 
       <section className="noc-section" id="noc-sky">
@@ -283,6 +346,7 @@ export default function Nocturne() {
           ))}
         </div>
       </footer>
+      {lb}
     </div>
   );
 }

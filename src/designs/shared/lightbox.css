@@ -1,0 +1,125 @@
+/* Shared lightbox; designs restyle it with --lb-bg, --lb-fg, --lb-accent, --lb-font, --lb-radius */
+.lb {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483600;
+  display: grid;
+  place-items: center;
+  padding: calc(56px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(24px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  background: var(--lb-bg, rgba(8, 8, 10, 0.92));
+  color: var(--lb-fg, #f4f4f0);
+  font-family: var(--lb-font, system-ui, sans-serif);
+  animation: lb-in 0.25s ease both;
+}
+@keyframes lb-in {
+  from {
+    opacity: 0;
+  }
+}
+.lb-figure {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+  max-width: min(1200px, 100%);
+  max-height: 100%;
+  min-height: 0;
+}
+.lb-figure > img {
+  max-width: 100%;
+  max-height: calc(100vh - 220px);
+  object-fit: contain;
+  justify-self: center;
+  border-radius: var(--lb-radius, 6px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  animation: lb-pop 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.1) both;
+}
+@keyframes lb-pop {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+}
+.lb-figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+}
+.lb-title {
+  font-weight: 700;
+}
+.lb-label {
+  opacity: 0.7;
+  font-variant-numeric: tabular-nums;
+}
+.lb-thumbs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+.lb-thumbs button {
+  width: 76px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  opacity: 0.55;
+}
+.lb-thumbs button.is-on {
+  border-color: var(--lb-accent, #fff);
+  opacity: 1;
+}
+.lb-thumbs img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 2px;
+}
+.lb-nav,
+.lb-close {
+  position: fixed;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid color-mix(in srgb, var(--lb-fg, #fff) 30%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--lb-bg, #000) 60%, transparent);
+  color: var(--lb-fg, #f4f4f0);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.lb-nav:hover,
+.lb-close:hover {
+  background: var(--lb-accent, #fff);
+  color: var(--lb-bg, #000);
+}
+.lb button:focus-visible {
+  outline: 2px solid var(--lb-accent, #fff);
+  outline-offset: 3px;
+}
+.lb-prev {
+  left: max(12px, env(safe-area-inset-left, 0px));
+  top: 50%;
+}
+.lb-next {
+  right: max(12px, env(safe-area-inset-right, 0px));
+  top: 50%;
+}
+.lb-close {
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  right: max(12px, env(safe-area-inset-right, 0px));
+}
+@media (max-width: 600px) {
+  .lb-prev,
+  .lb-next {
+    top: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .lb-thumbs button {
+    width: 56px;
+  }
+}

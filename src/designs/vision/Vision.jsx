@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./vision.css";
-import { education, experiences, ext, firstName, lastName, leadership, links, person, photo, press, projects, skills, stats } from "../data";
+import { about, education, experiences, ext, firstName, lastName, leadership, links, person, photo, press, projects, skills, stats } from "../data";
+import { useLightbox } from "../shared/Lightbox";
 
 // Hand-placed boxes over the portrait, in percent of the image
 const detections = [
@@ -12,16 +13,28 @@ const detections = [
   { label: "cloud", conf: 0.82, c: "#ff9f1c", box: [47, 3, 44, 20] },
 ];
 
+// Stages taken from the AionOS internship bullets in profile.js
+const pipeline = [
+  { stage: "ingest", name: "Video jobs", tech: "Django REST · Celery · Redis" },
+  { stage: "detect", name: "Detection", tech: "YOLO · RT-DETR" },
+  { stage: "track", name: "Tracking", tech: "BoTSORT · ByteTrack" },
+  { stage: "re-id", name: "Re-ID + depth", tech: "OSNet · MiDaS" },
+  { stage: "logic", name: "Zone logic", tech: "8+ pipelines" },
+  { stage: "serve", name: "Dashboard", tech: "React · TypeScript · InsightFace" },
+];
+
 const classColor = { project: "#ff9f1c", internship: "#ffd166", research: "#06d6a0", skill: "#f72585", impact: "#9b5de5" };
 
 function Frame() {
   const [hover, setHover] = useState(null);
+  const [thresh, setThresh] = useState(0.7);
+  const shown = detections.filter((d) => d.conf >= thresh);
   return (
     <figure className="vz-frame">
       <div className="vz-frame-img">
         <img src={photo} alt={`${person.name} at Tunnel View, Yosemite`} />
         <span className="vz-scan" aria-hidden="true" />
-        {detections.map((d, i) => (
+        {shown.map((d, i) => (
           <span
             key={d.label}
             className={`vz-det${hover === i ? " is-hover" : ""}${hover !== null && hover !== i ? " is-dim" : ""}`}
@@ -44,8 +57,12 @@ function Frame() {
       </div>
       <figcaption>
         <span>frame_0001.webp · 700×649</span>
-        <span>{detections.length} detections · illustrative overlay</span>
+        <span>{shown.length} detections · illustrative overlay</span>
       </figcaption>
+      <label className="vz-thresh" htmlFor="vz-thresh">
+        <span>conf ≥ {thresh.toFixed(2)}</span>
+        <input id="vz-thresh" type="range" min="0.6" max="0.99" step="0.01" value={thresh} onChange={(e) => setThresh(Number(e.target.value))} />
+      </label>
     </figure>
   );
 }
@@ -60,6 +77,7 @@ function Label({ cls, id, extra }) {
 }
 
 export default function Vision() {
+  const [lb, openLb] = useLightbox();
   const maxSkills = Math.max(...skills.map((s) => s.items.length));
   return (
     <div className="vz">
@@ -100,24 +118,69 @@ export default function Vision() {
 
       <section className="vz-section">
         <h2 className="vz-h2">
+          <span className="vz-mono vz-dim">model</span> card
+        </h2>
+        <div className="vz-card">
+          <div className="vz-card-head">
+            <span className="vz-mono">adi-dubey · v{education.graduation.slice(-4)}</span>
+            <span className="vz-mono vz-dim">license: open to new grad roles</span>
+          </div>
+          <dl className="vz-card-grid">
+            <div>
+              <dt>Provenance</dt>
+              <dd>{about[0].text}</dd>
+            </div>
+            <div>
+              <dt>Intended use</dt>
+              <dd>{about[1].text}</dd>
+            </div>
+            <div>
+              <dt>Training data</dt>
+              <dd>
+                {education.degree}, {education.university}, {education.graduation}.
+                <span className="vz-chips vz-card-chips">
+                  {education.coursework.map((c) => (
+                    <span key={c}>{c}</span>
+                  ))}
+                </span>
+              </dd>
+            </div>
+            <div>
+              <dt>Alignment</dt>
+              <dd>{education.involvement}</dd>
+            </div>
+            <div>
+              <dt>Side effects</dt>
+              <dd>{about[2].text}</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section className="vz-section">
+        <h2 className="vz-h2">
           <span className="vz-mono vz-dim">class</span> project
         </h2>
         <div className="vz-projects">
           {projects.map((p, i) => (
             <article key={p.slug} className="vz-box vz-project" style={{ "--c": classColor.project }}>
               <Label cls="project" id={i + 1} extra={p.period} />
-              <div className="vz-project-img">
-                <img src={p.images[0]} alt={`${p.title}: ${p.imageLabels[0]}`} loading="lazy" />
+              <div className="vz-project-imgs">
+                {p.images.map((src, j) => (
+                  <button key={src} type="button" className="vz-project-img" onClick={() => openLb(p, j)} aria-label={`Enlarge ${p.imageLabels[j]}`}>
+                    <img src={src} alt={`${p.title}: ${p.imageLabels[j]}`} loading="lazy" />
+                  </button>
+                ))}
               </div>
               <h3>{p.title}</h3>
               <p className="vz-mono vz-dim">{p.category}</p>
               <ul>
-                {p.bullets.slice(0, 2).map((b) => (
+                {p.bullets.map((b) => (
                   <li key={b}>{b}</li>
                 ))}
               </ul>
               <div className="vz-chips">
-                {p.technologies.slice(0, 5).map((t) => (
+                {p.technologies.map((t) => (
                   <span key={t}>{t}</span>
                 ))}
               </div>
@@ -149,9 +212,44 @@ export default function Vision() {
                   <li key={b}>{b}</li>
                 ))}
               </ul>
+              <div className="vz-chips vz-track-chips">
+                {e.skills.map((t) => (
+                  <span key={t}>{t}</span>
+                ))}
+              </div>
+              {(e.link || e.projectLink) && (
+                <p className="vz-track-links">
+                  {e.link && (
+                    <a className="vz-link" href={e.link} {...ext}>
+                      {e.linkLabel} →
+                    </a>
+                  )}
+                  {e.projectLink && (
+                    <a className="vz-link" href={e.projectLink} {...ext}>
+                      {e.projectLinkLabel} →
+                    </a>
+                  )}
+                </p>
+              )}
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="vz-section">
+        <h2 className="vz-h2">
+          <span className="vz-mono vz-dim">graph</span> IntelliVision
+        </h2>
+        <p className="vz-mono vz-dim vz-chart-title vz-pipe-note">The production CV platform I architected at AionOS, May to August 2025.</p>
+        <ol className="vz-pipe">
+          {pipeline.map((st, i) => (
+            <li key={st.stage} style={{ animationDelay: `${i * 0.12}s` }}>
+              <span className="vz-mono vz-pipe-stage">{String(i + 1).padStart(2, "0")} · {st.stage}</span>
+              <b>{st.name}</b>
+              <span className="vz-mono vz-dim">{st.tech}</span>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section className="vz-section vz-split">
@@ -228,6 +326,7 @@ export default function Vision() {
           ))}
         </div>
       </footer>
+      {lb}
     </div>
   );
 }

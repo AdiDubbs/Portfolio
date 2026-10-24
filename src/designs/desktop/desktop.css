@@ -1,0 +1,658 @@
+/* Layout: a 1998 desktop; taskbar on top so it never meets the design switcher, windows float over a teal desk */
+.dt,
+.dt-off {
+  --w-teal: #008080;
+  --w-chrome: #c0c0c0;
+  --w-navy: #000080;
+  --w-blue: #1084d0;
+  --w-white: #ffffff;
+  --w-grey: #808080;
+  --w-black: #0a0a0a;
+  --w-chrome-font: "Pixelify Sans", "Tahoma", system-ui, sans-serif;
+  --w-body: "Atkinson Hyperlegible", "Tahoma", "Verdana", system-ui, sans-serif;
+  --lb-bg: rgba(0, 128, 128, 0.96);
+  --lb-fg: #fff;
+  --lb-accent: #ffd400;
+  --lb-font: "Atkinson Hyperlegible", sans-serif;
+  --lb-radius: 0;
+}
+.dt {
+  position: relative;
+  min-height: 100vh;
+  background: var(--w-teal);
+  color: var(--w-black);
+  font-family: var(--w-body);
+  font-size: 0.95rem;
+  padding-bottom: 100px;
+}
+.dt a {
+  color: var(--w-navy);
+}
+.w98-raised {
+  background: var(--w-chrome);
+  box-shadow: inset -1px -1px var(--w-black), inset 1px 1px var(--w-white), inset -2px -2px var(--w-grey), inset 2px 2px #dfdfdf;
+}
+.w98-sunken {
+  background: var(--w-white);
+  box-shadow: inset -1px -1px var(--w-white), inset 1px 1px var(--w-grey), inset -2px -2px #dfdfdf, inset 2px 2px var(--w-black);
+}
+.dt button,
+.dt-off {
+  font: inherit;
+  color: inherit;
+}
+.dt button:focus-visible,
+.dt a:focus-visible,
+.dt tr:focus-visible {
+  outline: 1px dotted var(--w-black);
+  outline-offset: -4px;
+}
+.dt-ico {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  shape-rendering: crispEdges;
+}
+
+.dt-taskbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  padding: 4px max(4px, env(safe-area-inset-right, 0px)) 4px max(4px, env(safe-area-inset-left, 0px));
+}
+.dt-start {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 10px;
+  border: 0;
+  font-family: var(--w-chrome-font) !important;
+  font-weight: 700;
+  cursor: pointer;
+}
+.dt-flag {
+  width: 16px;
+  height: 14px;
+  background: conic-gradient(#e03c31 0 25%, #3aa845 0 50%, #ffd400 0 75%, #1d5bbf 0);
+  transform: skewX(-8deg);
+}
+.dt .is-down {
+  box-shadow: inset -1px -1px var(--w-white), inset 1px 1px var(--w-black), inset -2px -2px #dfdfdf, inset 2px 2px var(--w-grey);
+  background-image: repeating-conic-gradient(#fff 0 25%, var(--w-chrome) 0 50%) 0 0 / 2px 2px;
+}
+.dt-tasks {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+.dt-task {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  min-width: 0;
+  max-width: 180px;
+  padding: 0 8px;
+  border: 0;
+  cursor: pointer;
+  font-family: var(--w-chrome-font) !important;
+  font-size: 0.85rem !important;
+}
+.dt-task span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dt-tray {
+  flex: none;
+  padding: 6px 10px;
+  font-family: var(--w-chrome-font);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  background: var(--w-chrome);
+}
+.dt-startmenu {
+  position: absolute;
+  top: 40px;
+  left: max(4px, env(safe-area-inset-left, 0px));
+  z-index: 1001;
+  display: flex;
+  min-width: 230px;
+  padding: 3px;
+}
+.dt-startband {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  padding: 8px 4px;
+  background: linear-gradient(0deg, var(--w-navy), var(--w-blue));
+  color: var(--w-white);
+  font-family: var(--w-chrome-font);
+  font-size: 1.3rem;
+  letter-spacing: 0.04em;
+}
+.dt-startband b {
+  color: var(--w-white);
+}
+.dt-startmenu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+.dt-startmenu li button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 14px 8px 10px;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+.dt-startmenu li button:hover,
+.dt-startmenu li button:focus-visible {
+  background: var(--w-navy);
+  color: var(--w-white);
+}
+.dt-startmenu .dt-ico {
+  width: 24px;
+  height: 24px;
+}
+.dt-sep {
+  height: 2px;
+  margin: 4px 2px;
+  border-top: 1px solid var(--w-grey);
+  border-bottom: 1px solid var(--w-white);
+}
+
+.dt-desk {
+  position: relative;
+  min-height: max(760px, calc(100vh - 40px));
+}
+.dt-icons {
+  list-style: none;
+  margin: 0;
+  padding: 16px max(10px, env(safe-area-inset-left, 0px));
+  display: grid;
+  grid-template-rows: repeat(9, auto);
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 10px 6px;
+  width: max-content;
+}
+.dt-icons button {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 86px;
+  padding: 6px 2px;
+  border: 1px dotted transparent;
+  background: none;
+  color: var(--w-white);
+  cursor: pointer;
+  text-align: center;
+}
+.dt-icons .dt-ico {
+  width: 38px;
+  height: 38px;
+}
+.dt-icons span {
+  font-size: 0.8rem;
+  line-height: 1.2;
+  text-shadow: 1px 1px 0 var(--w-black);
+}
+.dt-icons button.is-sel span {
+  background: var(--w-navy);
+  text-shadow: none;
+}
+.dt-icons button.is-sel {
+  border-color: var(--w-white);
+}
+.dt-icons button.is-sel .dt-ico {
+  filter: sepia(1) hue-rotate(190deg) saturate(3) brightness(0.8);
+}
+
+.dt-win {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100vw - 20px);
+  max-height: calc(100vh - 70px);
+  padding: 3px;
+}
+.dt-win.is-max {
+  left: 0 !important;
+  top: 0 !important;
+  width: 100% !important;
+  max-width: none;
+  height: calc(100vh - 44px);
+  max-height: none;
+}
+.dt-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  padding: 0 3px 0 6px;
+  background: linear-gradient(90deg, var(--w-navy), var(--w-blue));
+  color: var(--w-white);
+  font-family: var(--w-chrome-font);
+  font-size: 0.9rem;
+  cursor: move;
+  user-select: none;
+  touch-action: none;
+}
+.dt-title.is-idle {
+  background: linear-gradient(90deg, var(--w-grey), #b5b5b5);
+  color: #d4d4d4;
+}
+.dt-title > span:nth-child(2) {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dt-title-btns {
+  display: flex;
+  gap: 2px;
+}
+.dt-title-btns button {
+  width: 20px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--w-chrome-font) !important;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--w-black) !important;
+}
+.dt-title-btns button:active {
+  box-shadow: inset -1px -1px var(--w-white), inset 1px 1px var(--w-black);
+}
+.dt-body {
+  padding: 10px;
+  overflow: auto;
+  min-height: 0;
+  line-height: 1.5;
+}
+.dt-welcome {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 14px;
+}
+.dt-welcome img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: 50% 30%;
+  box-shadow: inset 0 0 0 2px var(--w-black);
+  border: 2px solid var(--w-white);
+  outline: 1px solid var(--w-grey);
+}
+.dt-welcome h1 {
+  margin: 0 0 4px;
+  font-family: var(--w-chrome-font);
+  font-weight: 700;
+  font-size: 1.6rem;
+  line-height: 1.1;
+}
+.dt-welcome p {
+  margin: 0 0 10px;
+}
+.dt-tag {
+  color: var(--w-navy);
+  font-weight: 700;
+}
+.dt-tip {
+  padding: 8px;
+  background: #ffffe1;
+  border: 1px solid var(--w-black);
+}
+.dt-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.dt-btn {
+  display: inline-block;
+  min-width: 80px;
+  padding: 6px 12px;
+  border: 0;
+  color: var(--w-black) !important;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+.dt-btn:active {
+  box-shadow: inset -1px -1px var(--w-white), inset 1px 1px var(--w-black), inset -2px -2px #dfdfdf, inset 2px 2px var(--w-grey);
+}
+.dt-notepad {
+  padding: 0 10px 10px;
+  font-family: "Courier New", monospace;
+  font-size: 0.9rem;
+  max-height: 420px;
+  overflow: auto;
+}
+.dt-menu {
+  margin: 0 -10px 8px !important;
+  padding: 4px 10px;
+  background: var(--w-chrome);
+  font-family: var(--w-body);
+  font-size: 0.85rem;
+}
+.dt-notepad p {
+  margin: 0 0 12px;
+}
+.dt-address {
+  margin: 0 0 8px;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+}
+.dt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.dt-table th {
+  position: sticky;
+  top: 0;
+  padding: 4px 8px;
+  text-align: left;
+  font-weight: 400;
+  background: var(--w-chrome);
+  box-shadow: inset -1px -1px var(--w-grey), inset 1px 1px var(--w-white);
+}
+.dt-table td {
+  padding: 5px 8px;
+  cursor: default;
+}
+.dt-table td:first-child {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.dt-table tr:hover td,
+.dt-table tr:focus td {
+  background: var(--w-navy);
+  color: var(--w-white);
+}
+.dt-status {
+  margin: 8px 0 0;
+  padding: 3px 6px;
+  font-size: 0.8rem;
+  box-shadow: inset -1px -1px var(--w-white), inset 1px 1px var(--w-grey);
+}
+.dt-viewer {
+  display: grid;
+  gap: 10px;
+}
+.dt-shots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.dt-shots button {
+  padding: 4px;
+  border: 0;
+  cursor: zoom-in;
+  text-align: center;
+}
+.dt-shots img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: top;
+}
+.dt-shots span {
+  display: block;
+  font-size: 0.72rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.dt-field {
+  margin: 0 0 10px;
+  padding: 8px 12px 10px;
+  border: 0;
+  box-shadow: inset -1px -1px var(--w-white), inset 1px 1px var(--w-grey), inset -2px -2px var(--w-grey), inset 2px 2px var(--w-white);
+}
+.dt-field legend {
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.dt-field p {
+  margin: 0 0 4px;
+}
+.dt-field ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 4px;
+}
+.dt-cols {
+  grid-template-columns: 1fr 1fr;
+  column-gap: 24px;
+}
+.dt-doc {
+  padding: 18px 22px;
+  max-height: 460px;
+  overflow: auto;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1rem;
+}
+.dt-doc-entry + .dt-doc-entry {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #ccc;
+}
+.dt-doc h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+.dt-doc-meta {
+  margin: 2px 0 8px;
+  color: #555;
+  font-style: italic;
+}
+.dt-doc ul {
+  margin: 0 0 8px;
+  padding-left: 22px;
+  display: grid;
+  gap: 4px;
+}
+.dt-installer {
+  max-height: 460px;
+  overflow: auto;
+}
+.dt-installer > p:first-child {
+  margin: 0 0 10px;
+}
+.dt-progress {
+  height: 22px;
+  padding: 3px;
+}
+.dt-progress i {
+  display: block;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--w-navy) 0 12px, transparent 12px 14px);
+  animation: dt-fill 2.4s steps(24) both;
+}
+@keyframes dt-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+.dt-contact p {
+  margin: 0 0 8px;
+}
+.dt-compose {
+  min-height: 90px;
+  padding: 8px;
+  font-family: "Courier New", monospace;
+}
+.dt-bin {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.dt-bin li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ms {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+}
+.ms-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 4px 6px;
+  background: var(--w-chrome);
+}
+.ms-led {
+  padding: 2px 4px;
+  background: #000;
+  color: #ff2a2a;
+  font: 700 1.2rem "Courier New", monospace;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+}
+.ms-face {
+  width: 34px;
+  height: 30px;
+  border: 0;
+  font-family: "Courier New", monospace !important;
+  font-weight: 700;
+  font-size: 0.8rem !important;
+  cursor: pointer;
+}
+.ms-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 24px);
+  padding: 3px;
+  background: var(--w-chrome);
+}
+.ms-cell {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  font: 700 0.85rem "Courier New", monospace !important;
+  cursor: pointer;
+  user-select: none;
+}
+.ms-cell.is-open {
+  background: var(--w-chrome);
+  box-shadow: inset 1px 1px var(--w-grey);
+  cursor: default;
+}
+.ms-cell.is-boom {
+  background: #ff2a2a;
+}
+.ms-n1 { color: #0000ff !important; }
+.ms-n2 { color: #008000 !important; }
+.ms-n3 { color: #ff0000 !important; }
+.ms-n4 { color: #000080 !important; }
+.ms-n5 { color: #800000 !important; }
+.ms-n6 { color: #008080 !important; }
+.ms-foot {
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  font-size: 0.78rem;
+}
+.ms-foot label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dt-off {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  min-height: 100vh;
+  padding: 24px;
+  background: #000;
+  color: #ff9a00;
+  text-align: center;
+  cursor: pointer;
+}
+.dt-off p {
+  margin: 0;
+  font-family: var(--w-chrome-font);
+  font-size: clamp(1.4rem, 4vw, 2.4rem);
+}
+.dt-off span {
+  color: #888;
+  font-family: var(--w-body);
+}
+
+@media (max-width: 760px) {
+  .dt-desk {
+    min-height: 0;
+    display: grid;
+    gap: 14px;
+    padding: 0 max(10px, env(safe-area-inset-right, 0px)) 0 max(10px, env(safe-area-inset-left, 0px));
+  }
+  .dt-icons {
+    grid-template-rows: none;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    width: auto;
+    padding-inline: 0;
+  }
+  .dt-icons button {
+    width: 100%;
+  }
+  .dt-win {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 100%;
+    max-height: none;
+  }
+  .dt-win.is-max {
+    height: auto;
+  }
+  .dt-title {
+    cursor: default;
+  }
+  .dt-welcome {
+    grid-template-columns: 90px minmax(0, 1fr);
+  }
+  .dt-cols {
+    grid-template-columns: 1fr;
+  }
+  .dt-doc,
+  .dt-installer,
+  .dt-notepad {
+    max-height: none;
+  }
+}

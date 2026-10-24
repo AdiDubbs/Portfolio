@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./terminal.css";
-import { education, experiences, leadership, links, person, press, projects, skills, stats } from "../data";
+import { about, education, experiences, leadership, links, person, photo, press, projects, skills, stats } from "../data";
 
 const LOGO = String.raw`    ___    ____
    /   |  / __ \
@@ -9,8 +9,51 @@ const LOGO = String.raw`    ___    ____
 /_/  |_/_____/`;
 
 const PROMPT = "adi@madison:~$";
-const commands = ["help", "about", "projects", "open", "experience", "skills", "activism", "press", "education", "contact", "neofetch", "ls", "history", "clear", "sudo"];
-const chips = ["help", "projects", "open drift-shield", "experience", "skills", "activism", "contact", "clear"];
+const commands = ["help", "about", "projects", "open", "experience", "skills", "activism", "press", "education", "contact", "neofetch", "photo", "theme", "man", "tree", "cat", "f1", "date", "echo", "ls", "history", "clear", "sudo"];
+const chips = ["help", "projects", "open drift-shield", "experience", "photo", "theme green", "contact", "clear"];
+const themes = {
+  amber: { "--t-amber": "#ffb000", "--t-bright": "#ffd27a", "--t-dim": "#a7741c", "--t-line": "rgba(255, 176, 0, 0.22)", "--t-glow": "255, 176, 0", "--t-bg": "#110b04", "--t-screen": "#160e05" },
+  green: { "--t-amber": "#33ff66", "--t-bright": "#b6ffc8", "--t-dim": "#1f9a45", "--t-line": "rgba(51, 255, 102, 0.22)", "--t-glow": "51, 255, 102", "--t-bg": "#03100a", "--t-screen": "#04140b" },
+  ice: { "--t-amber": "#8fd3ff", "--t-bright": "#e2f4ff", "--t-dim": "#4f86ad", "--t-line": "rgba(143, 211, 255, 0.22)", "--t-glow": "143, 211, 255", "--t-bg": "#040a12", "--t-screen": "#060e18" },
+};
+
+// Renders the portrait as text, brighter pixels get denser glyphs
+function AsciiPhoto() {
+  const [art, setArt] = useState("loading frame…");
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      const cols = window.innerWidth < 600 ? 48 : 78;
+      const rows = Math.round(((cols * img.height) / img.width) * 0.5);
+      const c = document.createElement("canvas");
+      c.width = cols;
+      c.height = rows;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(img, 0, 0, cols, rows);
+      const d = ctx.getImageData(0, 0, cols, rows).data;
+      const ramp = " .:-=+*#%@";
+      let out = "";
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const i = (y * cols + x) * 4;
+          const l = (0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2]) / 255;
+          out += ramp[Math.min(ramp.length - 1, Math.floor(l * ramp.length))];
+        }
+        out += "\n";
+      }
+      setArt(out);
+    };
+    img.src = photo;
+  }, []);
+  return (
+    <div>
+      <pre className="tm-ascii" role="img" aria-label={`ASCII portrait of ${person.name}`}>
+        {art}
+      </pre>
+      <p className="tm-dim">adi.webp · Tunnel View, Yosemite · rendered in {" .:-=+*#%@".length} glyphs</p>
+    </div>
+  );
+}
 const totalSkills = skills.reduce((n, s) => n + s.items.length, 0);
 
 const Ext = ({ href, children }) => (
@@ -63,6 +106,10 @@ function run(raw, ctx) {
             ["press", "coverage links"],
             ["education", "degree and coursework"],
             ["contact", "how to reach me"],
+            ["photo", "portrait, rendered as text"],
+            ["theme <name>", "amber, green or ice"],
+            ["man adi", "the manual page"],
+            ["tree", "everything on this site"],
             ["neofetch", "system summary"],
             ["clear", "clear the screen"],
           ].map(([c, d]) => (
@@ -74,13 +121,19 @@ function run(raw, ctx) {
           <p className="tm-dim">Tab completes, ↑ ↓ walk history.</p>
         </div>
       );
-    case "about":
     case "whoami":
+      return <p>{person.name.toLowerCase().replace(" ", "")} · {person.tagline}</p>;
+    case "about":
       return (
         <div>
           <p>{person.summary}</p>
-          <p className="tm-dim">{person.origin}</p>
-          <p className="tm-dim">{person.focus}</p>
+          {about.map((a) => (
+            <p key={a.label} className="tm-block">
+              <b>## {a.label}</b>
+              {"\n"}
+              <span className="tm-dim">{a.text}</span>
+            </p>
+          ))}
         </div>
       );
     case "ls":
@@ -89,8 +142,10 @@ function run(raw, ctx) {
           {projects.map((p) => (
             <b key={p.slug}>{p.slug}/</b>
           ))}
+          <span>about.txt</span>
           <span>resume.txt</span>
           <span>contact.txt</span>
+          <span>adi.webp</span>
         </p>
       );
     case "projects":
@@ -109,6 +164,8 @@ function run(raw, ctx) {
     case "cat":
     case "cd": {
       if (arg === "contact.txt") return run("contact", ctx);
+      if (arg === "about.txt") return run("about", ctx);
+      if (arg === "adi.webp") return <AsciiPhoto />;
       if (arg === "resume.txt") return run("experience", ctx);
       const n = Number(arg);
       const p = n ? projects[n - 1] : projects.find((x) => x.slug.startsWith(arg.replace(/\/$/, "")) || x.title.toLowerCase() === arg);
@@ -218,6 +275,53 @@ function run(raw, ctx) {
       );
     case "neofetch":
       return <Neofetch />;
+    case "photo":
+      return <AsciiPhoto />;
+    case "theme":
+      if (!themes[arg]) return <p className="tm-err">theme: pick one of {Object.keys(themes).join(", ")}</p>;
+      ctx.setTheme(arg);
+      return <p>Phosphor set to {arg}.</p>;
+    case "man":
+      if (arg !== "adi") return <p className="tm-err">No manual entry for {arg || "nothing"}. Try: man adi</p>;
+      return (
+        <div className="tm-man">
+          <p><b>ADI(1)</b>                    User Commands                    <b>ADI(1)</b></p>
+          <p><b>NAME</b></p>
+          <p className="tm-indent">adi - {person.tagline.toLowerCase()}</p>
+          <p><b>SYNOPSIS</b></p>
+          <p className="tm-indent">adi [--ml] [--full-stack] [--computer-vision] [--activism]</p>
+          <p><b>DESCRIPTION</b></p>
+          <p className="tm-indent">{person.summary}</p>
+          <p><b>OPTIONS</b></p>
+          {skills.slice(0, 4).map((s) => (
+            <p key={s.category} className="tm-indent">
+              <b>--{s.category.toLowerCase().replace(/[^a-z]+/g, "-").replace(/-$/, "")}</b>   {s.items.slice(0, 5).join(", ")}
+            </p>
+          ))}
+          <p><b>FILES</b></p>
+          <p className="tm-indent">{projects.map((p) => `~/${p.slug}`).join("  ")}</p>
+          <p><b>SEE ALSO</b></p>
+          <p className="tm-indent">contact(1), projects(1), press(1)</p>
+          <p><b>BUGS</b></p>
+          <p className="tm-indent">Will talk about Formula 1 if prompted.</p>
+        </div>
+      );
+    case "tree":
+      return (
+        <pre className="tm-tree">
+          {["~", ...projects.map((p, i) => `${i === projects.length - 1 ? "├──" : "├──"} ${p.slug}/  (${p.period})`), "├── experience/", ...experiences.map((e, i) => `│   ${i === experiences.length - 1 ? "└──" : "├──"} ${e.company}`), "├── skills/  (" + totalSkills + " files)", "├── about.txt", "├── resume.txt", "└── contact.txt"].join("\n")}
+        </pre>
+      );
+    case "f1":
+      return (
+        <pre className="tm-f1">
+          {`  ● ● ● ● ●\n\n  lights out and away we go\n\n       __\n  _.--'  '--._\n ='-(o)----(o)-'=   ${person.hobbies}`}
+        </pre>
+      );
+    case "date":
+      return <p>{new Date().toString()}</p>;
+    case "echo":
+      return <p>{args.join(" ")}</p>;
     case "history":
       return (
         <div>
@@ -253,6 +357,7 @@ export default function Terminal() {
   const [value, setValue] = useState("");
   const [past, setPast] = useState(["neofetch"]);
   const [cursor, setCursor] = useState(-1);
+  const [theme, setTheme] = useState("amber");
   const body = useRef(null);
   const input = useRef(null);
 
@@ -269,7 +374,7 @@ export default function Terminal() {
     if (cmd === "clear") {
       setLines([]);
     } else {
-      const out = run(cmd, { past: [...past, cmd] });
+      const out = run(cmd, { past: [...past, cmd], setTheme });
       setLines((ls) => [...ls, { id: Date.now() + Math.random(), cmd: raw, out }]);
     }
     if (cmd) setPast((p) => [...p, cmd]);
@@ -310,7 +415,7 @@ export default function Terminal() {
   };
 
   return (
-    <div className="tm">
+    <div className="tm" style={themes[theme]}>
       <div className="tm-crt" aria-hidden="true" />
       <div className="tm-window">
         <div className="tm-titlebar">

@@ -19,6 +19,11 @@
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 20px 130px;
+  --lb-bg: rgba(223, 231, 213, 0.97);
+  --lb-fg: #22382a;
+  --lb-accent: #4e7a4f;
+  --lb-font: "Figtree", sans-serif;
+  --lb-radius: 12px;
 }
 .gh a {
   color: inherit;
@@ -560,5 +565,206 @@
   }
   .gh-nav nav a:nth-child(n + 2) {
     display: none;
+  }
+}
+
+.gh-pot-wrap {
+  position: relative;
+  width: min(100%, 320px);
+}
+.gh-sprout {
+  transform-origin: 50% 95%;
+  transition: transform 0.8s cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+.gh-w1 { transform: scale(1.04); }
+.gh-w2 { transform: scale(1.08); }
+.gh-w3 { transform: scale(1.12); }
+.gh-leaf-4,
+.gh-flower {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transform: scale(0);
+  transition: transform 0.8s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.gh-leaf-4 {
+  fill: #93c47d;
+  stroke: var(--g-leaf);
+  stroke-width: 3;
+  transform-origin: 0% 100%;
+  animation: none;
+}
+.gh-w2 .gh-leaf-4,
+.gh-w3 .gh-leaf-4 {
+  transform: scale(1);
+}
+.gh-flower {
+  transform-origin: 50% 50%;
+}
+.gh-w3 .gh-flower {
+  transform: scale(1);
+}
+.gh-drops {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  pointer-events: none;
+}
+.gh-drops i {
+  position: absolute;
+  width: 8px;
+  height: 12px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: #6aa7c9;
+  animation: gh-drop 0.9s ease-in both;
+}
+.gh-drops i:nth-child(2) { left: -22px; animation-delay: 0.12s; }
+.gh-drops i:nth-child(3) { left: 20px; animation-delay: 0.24s; }
+@keyframes gh-drop {
+  from { transform: translateY(-20px); opacity: 0; }
+  20% { opacity: 1; }
+  to { transform: translateY(220px); opacity: 0; }
+}
+.gh-water {
+  margin-top: 4px;
+  align-self: center;
+}
+.gh-water:disabled {
+  background: var(--g-marigold);
+  cursor: default;
+}
+.gh-gardener {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr);
+  gap: 44px;
+  align-items: center;
+}
+.gh-portrait {
+  margin: 0;
+}
+.gh-portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 30%;
+  border-radius: 999px 999px 24px 24px;
+  border: 4px solid var(--g-moss);
+}
+.gh-portrait figcaption {
+  margin-top: 10px;
+  text-align: center;
+  font-family: var(--g-display);
+  font-style: italic;
+  color: var(--g-muted);
+}
+.gh-notes {
+  display: grid;
+  gap: 14px;
+  margin-top: 20px;
+}
+.gh-note {
+  padding: 16px 20px;
+  background: var(--g-paper);
+  border-left: 8px solid var(--pk);
+  border-radius: 6px 16px 16px 6px;
+}
+.gh-note h3 {
+  margin: 0 0 6px;
+  font-family: var(--g-display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  font-variation-settings: "SOFT" 100;
+}
+.gh-note p {
+  margin: 0;
+  line-height: 1.6;
+}
+button.gh-window {
+  padding: 0;
+  cursor: zoom-in;
+}
+button.gh-window:focus-visible {
+  outline: 3px solid var(--g-plum);
+  outline-offset: 3px;
+}
+.gh-season-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+.gh-season-tags span {
+  padding: 3px 10px;
+  background: var(--g-bg);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.gh-season-links {
+  display: flex;
+  gap: 16px;
+  margin: 12px 0 0;
+  font-weight: 700;
+}
+.gh-roots {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 32px;
+  margin-top: 24px;
+  padding: 28px;
+  background: linear-gradient(180deg, var(--g-paper) 0 60%, #e9dfc7 60%);
+  border-radius: 22px;
+}
+.gh-roots-head h3 {
+  margin: 10px 0 6px;
+  font-family: var(--g-display);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 3.6vw, 2.6rem);
+  line-height: 1.05;
+  font-variation-settings: "SOFT" 100;
+}
+.gh-roots-head p {
+  margin: 0;
+}
+.gh-roots-club {
+  margin-top: 16px !important;
+  color: var(--g-muted);
+  line-height: 1.6;
+}
+.gh-seedlings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-content: start;
+}
+.gh-seedlings li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--g-bg);
+  border-radius: 12px;
+  font-weight: 600;
+}
+.gh-seedlings svg {
+  flex: none;
+  width: 22px;
+  height: 22px;
+}
+@media (max-width: 900px) {
+  .gh-gardener,
+  .gh-roots {
+    grid-template-columns: 1fr;
+  }
+  .gh-portrait {
+    max-width: 280px;
+  }
+}
+@media (max-width: 560px) {
+  .gh-seedlings {
+    grid-template-columns: 1fr;
   }
 }

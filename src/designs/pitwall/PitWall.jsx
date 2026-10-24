@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./pitwall.css";
-import { education, experiences, ext, firstName, lastName, leadership, links, person, projects, skills } from "../data";
+import { about, education, experiences, ext, firstName, lastName, leadership, links, person, photo, press, projects, skills } from "../data";
+import { useLightbox } from "../shared/Lightbox";
 
 // Tyre compound encodes how recent a project is, newest on softs
 const compound = (year) => (year >= 2026 ? "S" : year >= 2025 ? "M" : year >= 2023 ? "H" : "I");
@@ -54,6 +55,8 @@ function StartLights() {
 
 export default function PitWall() {
   const [sel, setSel] = useState(0);
+  const [stint, setStint] = useState(null);
+  const [lb, openLb] = useLightbox();
   const p = projects[sel];
   const stints = [...experiences].reverse().map((e) => {
     const [a, b] = e.period.split(" - ");
@@ -90,6 +93,49 @@ export default function PitWall() {
         </div>
       </section>
 
+      <section className="pw-section" id="pw-profile">
+        <div className="pw-head">
+          <h2>Driver profile</h2>
+          <p className="pw-legend">Academy · {education.university}</p>
+        </div>
+        <div className="pw-profile">
+          <figure className="pw-profile-photo">
+            <img src={photo} alt={`${person.name} at Yosemite`} />
+            <figcaption>
+              <span className="pw-number pw-number-sm">26</span>
+              <span>{person.name}</span>
+            </figcaption>
+          </figure>
+          <div className="pw-profile-body">
+            <dl className="pw-profile-facts">
+              <div><dt>Nationality</dt><dd>India</dd></div>
+              <div><dt>Base</dt><dd>{person.location}</dd></div>
+              <div><dt>Team</dt><dd>{education.university}</dd></div>
+              <div><dt>Licence</dt><dd>{education.degree}</dd></div>
+              <div><dt>Graduates</dt><dd>{education.graduation}</dd></div>
+              <div><dt>Status</dt><dd>{person.status}</dd></div>
+            </dl>
+            <div className="pw-profile-about">
+              {about.map((a) => (
+                <div key={a.label}>
+                  <p className="pw-label">{a.label}</p>
+                  <p>{a.text}</p>
+                </div>
+              ))}
+            </div>
+            <div>
+              <p className="pw-label">Junior series · coursework</p>
+              <div className="pw-courses">
+                {education.coursework.map((c) => (
+                  <span key={c}>{c}</span>
+                ))}
+              </div>
+              <p className="pw-profile-club">{education.involvement}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="pw-section" id="pw-timing">
         <div className="pw-head">
           <h2>Timing tower</h2>
@@ -117,14 +163,18 @@ export default function PitWall() {
           </ol>
           <article className="pw-onboard" key={p.slug}>
             <div className="pw-cam">
-              <img src={p.images[0]} alt={`${p.title}: ${p.imageLabels[0]}`} />
+              <button type="button" className="pw-zoom" onClick={() => openLb(p, 0)} aria-label={`Enlarge ${p.imageLabels[0]}`}>
+                <img src={p.images[0]} alt={`${p.title}: ${p.imageLabels[0]}`} />
+              </button>
               <div className="pw-cam-hud" aria-hidden="true">
                 <span>Onboard · {code(p.title)}</span>
                 <span className="pw-live">Live</span>
               </div>
               <div className="pw-cam-strip">
                 {p.images.slice(1).map((src, j) => (
-                  <img key={src} src={src} alt={`${p.title}: ${p.imageLabels[j + 1]}`} loading="lazy" />
+                  <button key={src} type="button" className="pw-zoom" onClick={() => openLb(p, j + 1)} aria-label={`Enlarge ${p.imageLabels[j + 1]}`}>
+                    <img src={src} alt={`${p.title}: ${p.imageLabels[j + 1]}`} loading="lazy" />
+                  </button>
                 ))}
               </div>
             </div>
@@ -140,7 +190,7 @@ export default function PitWall() {
                 ))}
               </ol>
               <p className="pw-pu">
-                <span className="pw-label">Power unit</span> {p.technologies.slice(0, 6).join(" · ")}
+                <span className="pw-label">Power unit</span> {p.technologies.join(" · ")}
               </p>
               <a className="pw-btn" href={p.link} {...ext}>
                 Telemetry on GitHub ↗
@@ -170,6 +220,7 @@ export default function PitWall() {
               <span className="pw-gantt-label">{s.company.replace("Speech Processing & Auditory Neuroscience Laboratory", "SPAN Lab")}</span>
               <div className="pw-gantt-track">
                 <i
+                  title={`${s.role}, ${s.period}`}
                   className={s.type === "research" ? "pw-key-res" : "pw-key-int"}
                   style={{ left: `${((s.from - minM) / span) * 100}%`, width: `${((s.to - s.from + 1) / span) * 100}%` }}
                 />
@@ -185,7 +236,29 @@ export default function PitWall() {
               </p>
               <h3>{s.role}</h3>
               <p className="pw-stint-co">{s.company}</p>
-              <p>{s.bullets[0]}</p>
+              {(stint === s.company ? s.bullets : s.bullets.slice(0, 1)).map((b) => (
+                <p key={b}>{b}</p>
+              ))}
+              {stint === s.company && (
+                <>
+                  <p className="pw-stint-skills">{s.skills.join(" · ")}</p>
+                  <div className="pw-links">
+                    {s.link && (
+                      <a className="pw-btn" href={s.link} {...ext}>
+                        {s.linkLabel}
+                      </a>
+                    )}
+                    {s.projectLink && (
+                      <a className="pw-btn" href={s.projectLink} {...ext}>
+                        {s.projectLinkLabel}
+                      </a>
+                    )}
+                  </div>
+                </>
+              )}
+              <button type="button" className="pw-replay pw-more" onClick={() => setStint(stint === s.company ? null : s.company)} aria-expanded={stint === s.company}>
+                {stint === s.company ? "Close debrief" : "Full debrief"}
+              </button>
             </article>
           ))}
         </div>
@@ -222,6 +295,20 @@ export default function PitWall() {
         </div>
       </section>
 
+      <section className="pw-section">
+        <div className="pw-head">
+          <h2>Paddock press</h2>
+        </div>
+        <div className="pw-press">
+          {press.map((l) => (
+            <a key={l.url} href={l.url} {...ext}>
+              <b>{l.name}</b>
+              <span>{l.description}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <footer className="pw-foot">
         <div className="pw-checker" aria-hidden="true" />
         <p className="pw-radio">
@@ -238,6 +325,7 @@ export default function PitWall() {
           ))}
         </div>
       </footer>
+      {lb}
     </div>
   );
 }

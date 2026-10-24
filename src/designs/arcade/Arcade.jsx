@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import "./arcade.css";
-import { experiences, ext, firstName, lastName, leadership, links, person, projects, skills } from "../data";
+import { about, education, experiences, ext, firstName, lastName, leadership, links, person, photo, projects, skills } from "../data";
+import { useLightbox } from "../shared/Lightbox";
+import Game from "./Game";
 
 const COLORS = ["#3be8ff", "#ffd23f", "#b45cff", "#4ff58a", "#ff4d6d", "#4d7cff", "#ff9a3c"];
 const SHAPES = [
@@ -103,6 +105,29 @@ function Well() {
   return <canvas ref={ref} className="arc-well" aria-hidden="true" />;
 }
 
+// Draws the portrait at 40px and scales it up, so the browser shows real pixels
+function PixelPortrait() {
+  const ref = useRef(null);
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => {
+      const c = ref.current;
+      if (!c) return;
+      const ctx = c.getContext("2d");
+      const crop = Math.min(img.width, img.height) * 0.72;
+      ctx.drawImage(img, img.width * 0.2, img.height * 0.22, crop, crop, 0, 0, 40, 40);
+      // Quantise to a small arcade palette
+      const d = ctx.getImageData(0, 0, 40, 40);
+      for (let i = 0; i < d.data.length; i += 4) {
+        for (let k = 0; k < 3; k++) d.data[i + k] = Math.round(d.data[i + k] / 51) * 51;
+      }
+      ctx.putImageData(d, 0, 0);
+    };
+    img.src = photo;
+  }, []);
+  return <canvas ref={ref} width={40} height={40} className="arc-portrait" role="img" aria-label={`Pixel portrait of ${person.name}`} />;
+}
+
 const scores = [
   { label: "Trees planted", value: "100000" },
   { label: "Movie reviews classified", value: "156000" },
@@ -149,6 +174,9 @@ function Continue() {
 export default function Arcade() {
   const [stage, setStage] = useState(0);
   const [bag, setBag] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const [level, setLevel] = useState(null);
+  const [lb, openLb] = useLightbox();
   const p = projects[stage];
   const levels = [...experiences].reverse();
 
@@ -169,6 +197,9 @@ export default function Arcade() {
 
       <section className="arc-title">
         <Well />
+        {playing ? (
+          <Game onExit={() => setPlaying(false)} />
+        ) : (
         <div className="arc-title-inner">
           <p className="arc-pixel arc-p1">Player 1</p>
           <h1 className="arc-name">
@@ -176,10 +207,50 @@ export default function Arcade() {
             <span>{lastName}</span>
           </h1>
           <p className="arc-tag">{person.tagline}</p>
-          <a className="arc-btn arc-blink-soft" href="#arc-stages">
-            ▶ Press start
-          </a>
+          <div className="arc-title-actions">
+            <button type="button" className="arc-btn arc-blink-soft" onClick={() => setPlaying(true)}>
+              ▶ Play a round
+            </button>
+            <a className="arc-btn arc-btn-alt" href="#arc-profile">
+              Skip to portfolio
+            </a>
+          </div>
           <p className="arc-hint">A tribute to Square Saga, the HTML5 Canvas game I built in 2023.</p>
+        </div>
+        )}
+      </section>
+
+      <section className="arc-section" id="arc-profile">
+        <h2 className="arc-h2">Player profile</h2>
+        <div className="arc-profile">
+          <div className="arc-profile-card">
+            <PixelPortrait />
+            <p className="arc-pixel arc-profile-name">{firstName}</p>
+            <dl className="arc-profile-stats">
+              <div><dt>Class</dt><dd>Computer Science</dd></div>
+              <div><dt>Guild</dt><dd>{education.university}</dd></div>
+              <div><dt>Spawn point</dt><dd>Noida, India</dd></div>
+              <div><dt>Base</dt><dd>{person.location}</dd></div>
+              <div><dt>Level up</dt><dd>{education.graduation}</dd></div>
+            </dl>
+          </div>
+          <div className="arc-profile-bio">
+            {about.map((a) => (
+              <div key={a.label} className="arc-dialog">
+                <p className="arc-pixel arc-small">{a.label}</p>
+                <p>{a.text}</p>
+              </div>
+            ))}
+            <div className="arc-dialog">
+              <p className="arc-pixel arc-small">Skill tree · coursework</p>
+              <ul className="arc-tree">
+                {education.coursework.map((c) => (
+                  <li key={c}>{c}</li>
+                ))}
+              </ul>
+              <p className="arc-dim">{education.involvement}</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -205,7 +276,9 @@ export default function Arcade() {
         <div className="arc-screen" role="tabpanel" style={{ "--c": COLORS[stage % 7] }}>
           <div className="arc-screen-shots">
             {p.images.map((src, j) => (
-              <img key={src} src={src} alt={`${p.title}: ${p.imageLabels[j]}`} loading="lazy" />
+              <button key={src} type="button" onClick={() => openLb(p, j)} aria-label={`Enlarge ${p.imageLabels[j]}`}>
+                <img src={src} alt={`${p.title}: ${p.imageLabels[j]}`} loading="lazy" />
+              </button>
             ))}
           </div>
           <div className="arc-screen-text">
@@ -217,7 +290,7 @@ export default function Arcade() {
               ))}
             </ul>
             <p className="arc-power">
-              <span className="arc-pixel arc-small">Power-ups</span> {p.technologies.slice(0, 6).join(" · ")}
+              <span className="arc-pixel arc-small">Power-ups</span> {p.technologies.join(" · ")}
             </p>
             <a className="arc-btn arc-btn-sm" href={p.link} {...ext}>
               View source
@@ -239,7 +312,13 @@ export default function Arcade() {
                 <h3>
                   {e.role} <span>@ {e.company}</span>
                 </h3>
-                <p>{e.bullets[0]}</p>
+                {(level === e.company ? e.bullets : e.bullets.slice(0, 1)).map((b) => (
+                  <p key={b}>▸ {b}</p>
+                ))}
+                {level === e.company && <p className="arc-dim">Loot: {e.skills.join(" · ")}</p>}
+                <button type="button" className="arc-more" onClick={() => setLevel(level === e.company ? null : e.company)} aria-expanded={level === e.company}>
+                  {level === e.company ? "▲ Less" : `▼ ${e.bullets.length - 1} more`}
+                </button>
                 <div className="arc-xp" aria-hidden="true">
                   <i style={{ width: `${Math.min(100, 35 + e.skills.length * 4)}%` }} />
                 </div>
@@ -297,6 +376,7 @@ export default function Arcade() {
       </section>
 
       <Continue />
+      {lb}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import "./desk.css";
-import { education, experiences, ext, firstName, leadership, links, person, photo, projects, skills } from "../data";
+import { about, education, experiences, ext, firstName, leadership, links, person, photo, press, projects, skills } from "../data";
+import { useLightbox } from "../shared/Lightbox";
 
 const notes = ["#ffe27a", "#ffb4a2", "#b8e0d2", "#cdb4db", "#ffd6a5", "#a0c4ff"];
 
@@ -29,7 +30,7 @@ function useDrag() {
   return { off, held, handlers };
 }
 
-function Polaroid({ p, i }) {
+function Polaroid({ p, i, onZoom }) {
   const { off, held, handlers } = useDrag();
   const [shot, setShot] = useState(0);
   const tilt = [-4, 3, -2, 5, -3][i % 5];
@@ -44,6 +45,9 @@ function Polaroid({ p, i }) {
       <figcaption>
         <span className="dk-hand">{p.title}</span>
         <span className="dk-shots">
+          <button type="button" className="dk-enlarge" onClick={() => onZoom(p, shot)} aria-label={`Enlarge ${p.imageLabels[shot]}`}>
+            ⤢
+          </button>
           {p.images.map((src, j) => (
             <button key={src} type="button" className={shot === j ? "is-on" : ""} onClick={() => setShot(j)} aria-label={`Show ${p.imageLabels[j]}`} />
           ))}
@@ -62,8 +66,37 @@ function Draggable({ className, style, children }) {
   );
 }
 
+function NameBadge() {
+  const [back, setBack] = useState(false);
+  return (
+    <button type="button" className={`dk-id${back ? " is-back" : ""}`} onClick={() => setBack((v) => !v)} aria-pressed={back} aria-label="Name badge, select to flip">
+      <span className="dk-id-face dk-id-front" aria-hidden={back}>
+        <span className="dk-id-band">
+          <b>Hello</b> my name is
+        </span>
+        <span className="dk-id-body">
+          <img src={photo} alt="" draggable="false" />
+          <span className="dk-id-info">
+            <b className="dk-hand dk-id-name">{firstName}</b>
+            <span>CS @ {education.university.replace("University of Wisconsin-Madison", "UW–Madison")}</span>
+            <span>{person.tagline.split(" | ")[0]}</span>
+          </span>
+        </span>
+        <span className="dk-id-hint">tap to flip</span>
+      </span>
+      <span className="dk-id-face dk-id-rear" aria-hidden={!back}>
+        <b>Courses I took</b>
+        <span className="dk-id-courses">{education.coursework.join(" · ")}</span>
+        <b>Clubs</b>
+        <span>{education.involvement}</span>
+      </span>
+    </button>
+  );
+}
+
 export default function Desk() {
   const [openEnv, setOpenEnv] = useState(false);
+  const [lb, openLb] = useLightbox();
   return (
     <div className="dk">
       <section className="dk-hero" aria-label="Introduction">
@@ -100,21 +133,39 @@ export default function Desk() {
         <p className="dk-hint dk-hand">psst: the paper on this desk moves</p>
       </section>
 
+      <section className="dk-section dk-pair dk-pair-flip">
+        <div className="dk-notebook">
+          <span className="dk-rings" aria-hidden="true" />
+          <h2 className="dk-hand">About me</h2>
+          {about.map((a) => (
+            <div key={a.label}>
+              <h3 className="dk-hand">{a.label}</h3>
+              <p>{a.text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="dk-id-wrap">
+          <NameBadge />
+          <p className="dk-hand dk-id-note">flip the name tag for my coursework</p>
+        </div>
+      </section>
+
       <section className="dk-section">
         <h2 className="dk-h2 dk-hand">Things I’ve made</h2>
         <div className="dk-projects">
           {projects.map((p, i) => (
             <div key={p.slug} className="dk-project">
-              <Polaroid p={p} i={i} />
+              <Polaroid p={p} i={i} onZoom={openLb} />
               <div className="dk-card">
                 <p className="dk-card-meta">
                   {p.period} · {p.category}
                 </p>
                 <ul>
-                  {p.bullets.slice(0, 3).map((b) => (
+                  {p.bullets.map((b) => (
                     <li key={b}>{b}</li>
                   ))}
                 </ul>
+                <p className="dk-card-tech">{p.technologies.join(", ")}</p>
                 <a href={p.link} {...ext}>
                   github ↗
                 </a>
@@ -134,18 +185,31 @@ export default function Desk() {
           <p>To whoever is reading this,</p>
           <p>Here is where I’ve worked so far, most recent first.</p>
           {experiences.map((e) => (
-            <p key={e.company}>
-              <b>
-                {e.role}, {e.company}
-              </b>{" "}
-              <i>
-                ({e.period}, {e.location}).
-              </i>{" "}
-              {e.bullets[0]}
-            </p>
+            <div key={e.company} className="dk-letter-role">
+              <p>
+                <b>
+                  {e.role}, {e.company}
+                </b>{" "}
+                <i>
+                  ({e.period}, {e.location})
+                </i>
+              </p>
+              <ul>
+                {e.bullets.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+            </div>
           ))}
           <p>I’m open to new grad roles. I’d love to hear from you.</p>
           <p className="dk-sign dk-hand">— {firstName}</p>
+          <p className="dk-ps">
+            P.S. You can see IntelliVision, the platform I built at AionOS, at{" "}
+            <a href={experiences.find((e) => e.projectLink).projectLink} {...ext}>
+              intellivision.aionos.co
+            </a>
+            .
+          </p>
         </article>
 
         <div className="dk-notes">
@@ -174,6 +238,14 @@ export default function Desk() {
               </div>
             ))}
           </div>
+          <div className="dk-clippings">
+            <span className="dk-hand">press clippings:</span>
+            {press.map((l) => (
+              <a key={l.url} href={l.url} {...ext}>
+                {l.name}
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -199,6 +271,7 @@ export default function Desk() {
           </div>
         </div>
       </footer>
+      {lb}
     </div>
   );
 }

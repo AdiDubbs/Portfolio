@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./library.css";
-import { education, experiences, ext, leadership, links, person, photo, press, projects, skills } from "../data";
+import { about, education, experiences, ext, leadership, links, person, photo, press, projects, skills } from "../data";
+import { useLightbox } from "../shared/Lightbox";
 
 const bindings = [
   { bg: "#6e1f24", h: 92 },
@@ -13,6 +14,9 @@ const bindings = [
 export default function Library() {
   const [book, setBook] = useState(0);
   const [drawer, setDrawer] = useState(1);
+  const [dark, setDark] = useState(false);
+  const [card, setCard] = useState(null);
+  const [lb, openLb] = useLightbox();
   const room = useRef(null);
   const p = projects[book];
 
@@ -27,8 +31,12 @@ export default function Library() {
   }, []);
 
   return (
-    <div className="lib" ref={room}>
+    <div className={`lib${dark ? " is-dark" : ""}`} ref={room}>
       <div className="lib-lamp" aria-hidden="true" />
+      <button type="button" className="lib-chain" onClick={() => setDark((d) => !d)} aria-pressed={dark}>
+        <span className="lib-chain-cord" aria-hidden="true" />
+        <span className="lib-chain-label">{dark ? "Lamp on" : "Lamp off"}</span>
+      </button>
 
       <section className="lib-hero">
         <div className="lib-plate">
@@ -41,6 +49,19 @@ export default function Library() {
           <p className="lib-sub">
             {education.university} · {person.location}
           </p>
+        </div>
+      </section>
+
+      <section className="lib-section">
+        <h2 className="lib-h2">Preface</h2>
+        <div className="lib-preface">
+          {about.map((a, i) => (
+            <div key={a.label}>
+              <p className="lib-running">{["I", "II", "III"][i]}</p>
+              <h3>{a.label}</h3>
+              <p className={i === 0 ? "lib-dropcap" : ""}>{a.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -70,13 +91,17 @@ export default function Library() {
           <div className="lib-page lib-page-left">
             <p className="lib-running">{p.category}</p>
             <figure>
-              <img src={p.images[0]} alt={`${p.title}: ${p.imageLabels[0]}`} />
+              <button type="button" className="lib-zoom" onClick={() => openLb(p, 0)} aria-label={`Enlarge ${p.imageLabels[0]}`}>
+                <img src={p.images[0]} alt={`${p.title}: ${p.imageLabels[0]}`} />
+              </button>
               <figcaption>Plate 1. {p.imageLabels[0]}</figcaption>
             </figure>
             <div className="lib-plates">
               {p.images.slice(1).map((src, j) => (
                 <figure key={src}>
-                  <img src={src} alt={`${p.title}: ${p.imageLabels[j + 1]}`} loading="lazy" />
+                  <button type="button" className="lib-zoom" onClick={() => openLb(p, j + 1)} aria-label={`Enlarge ${p.imageLabels[j + 1]}`}>
+                    <img src={src} alt={`${p.title}: ${p.imageLabels[j + 1]}`} loading="lazy" />
+                  </button>
                   <figcaption>Plate {j + 2}. {p.imageLabels[j + 1]}</figcaption>
                 </figure>
               ))}
@@ -91,13 +116,24 @@ export default function Library() {
                 {b}
               </p>
             ))}
-            <p className="lib-colophon">Set in {p.technologies.slice(0, 5).join(", ")}.</p>
+            <p className="lib-colophon">Set in {p.technologies.join(", ")}.</p>
             <a className="lib-link" href={p.link} {...ext}>
               Read the source on GitHub
             </a>
             <span className="lib-folio">{book * 2 + 2}</span>
           </div>
         </article>
+        <div className="lib-turn">
+          <button type="button" onClick={() => setBook((book - 1 + projects.length) % projects.length)}>
+            ← {projects[(book - 1 + projects.length) % projects.length].title}
+          </button>
+          <span>
+            Volume {book + 1} of {projects.length}
+          </span>
+          <button type="button" onClick={() => setBook((book + 1) % projects.length)}>
+            {projects[(book + 1) % projects.length].title} →
+          </button>
+        </div>
       </section>
 
       <section className="lib-section lib-pair">
@@ -116,7 +152,26 @@ export default function Library() {
                 <span className="lib-card-entry">
                   <b>{e.role}</b>
                   <i>{e.company}, {e.location}</i>
-                  <small>{e.bullets[0]}</small>
+                  {(card === e.company ? e.bullets : e.bullets.slice(0, 1)).map((b) => (
+                    <small key={b}>{b}</small>
+                  ))}
+                  {card === e.company && (e.link || e.projectLink) && (
+                    <span className="lib-card-links">
+                      {e.link && (
+                        <a href={e.link} {...ext}>
+                          {e.linkLabel}
+                        </a>
+                      )}
+                      {e.projectLink && (
+                        <a href={e.projectLink} {...ext}>
+                          {e.projectLinkLabel}
+                        </a>
+                      )}
+                    </span>
+                  )}
+                  <button type="button" className="lib-card-more" onClick={() => setCard(card === e.company ? null : e.company)} aria-expanded={card === e.company}>
+                    {card === e.company ? "Return to shelf" : "Read the full entry"}
+                  </button>
                 </span>
               </div>
             ))}
@@ -154,6 +209,23 @@ export default function Library() {
               ))}
             </ul>
           </div>
+        </div>
+      </section>
+
+      <section className="lib-section">
+        <h2 className="lib-h2">Syllabus</h2>
+        <div className="lib-syllabus">
+          <div className="lib-syl-head">
+            <p className="lib-running">{education.location} · {education.graduation}</p>
+            <h3>{education.university}</h3>
+            <p>{education.degree}</p>
+          </div>
+          <ol>
+            {education.coursework.map((c) => (
+              <li key={c}>{c}</li>
+            ))}
+          </ol>
+          <p className="lib-syl-note">{education.involvement}</p>
         </div>
       </section>
 
@@ -196,6 +268,7 @@ export default function Library() {
           </div>
         </div>
       </footer>
+      {lb}
     </div>
   );
 }
